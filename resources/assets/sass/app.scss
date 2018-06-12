@@ -1,0 +1,241 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://use.fontawesome.com/releases/v5.0.10/css/all.css");
+
+// Variables
+@import "variables";
+
+
+@import "~bulma/sass/utilities/_all";
+
+$variable-columns: false;
+$primary: #8c67ef;
+$primary-invert: findColorInvert($primary);
+$dark: #3a4651;
+$dark-invert: findColorInvert($dark);
+$twitter: #4099FF;
+$twitter-invert: findColorInvert($twitter);
+$dropdown-item-hover-background-color: #fff;
+
+$colors: (
+    "white": ($white, $black),
+    "black": ($black, $white),
+    "light": ($light, $light-invert),
+    "dark": ($dark, $dark-invert),
+    "primary": ($primary, $primary-invert),
+    "info": ($info, $info-invert),
+    "success": ($success, $success-invert),
+    "warning": ($warning, $warning-invert),
+    "danger": ($danger, $danger-invert),
+    "twitter": ($twitter, $twitter-invert)
+);
+
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+@import "~bulma/bulma";
+
+// bulma wrapper
+@media screen and (max-width: 768px) {
+  .section {
+    padding: 3rem .5rem;
+  }
+}
+
+.title {
+  font-size: 1.6rem;
+}
+
+.navbar {
+  &.is-border-top {
+    border-top: solid .1em $dark;
+  }
+}
+@media screen and (min-width: 768px) {
+  .hero {
+    &.is-dark {
+      &.is-desktop-border-left {
+        border-left: solid .01em $white;
+      }
+    }
+  }
+}
+.navbar-burger {
+  margin-left: 0;
+}
+
+.breadcrumb {
+  &.is-admin {
+    padding: 1rem;
+    background:$white;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+	.table.has-mobile-cards thead { display: none }
+	.table.has-mobile-cards tfoot th { border: 0; display: inherit }
+	.table.has-mobile-cards tr { box-shadow: 0 2px 3px hsla(0,0%,4%,.1),0 0 0 1px hsla(0,0%,4%,.1); max-width: 100%; position: relative; display: block }
+	.table.has-mobile-cards tr td { border: 0; display: inherit }
+	.table.has-mobile-cards tr td:last-child { border-bottom: 0 }
+	.table.has-mobile-cards tr:not(:last-child) { margin-bottom: 1rem }
+	.table.has-mobile-cards tr:not([class*=is-]) { background: inherit }
+	.table.has-mobile-cards tr:not([class*=is-]):hover { background-color: inherit }
+	.table.has-mobile-cards tr.detail { margin-top: -1rem }
+	.table.has-mobile-cards tr:not(.detail):not(.is-empty):not(.table-footer) td { display: -ms-flexbox; display: flex; width: auto; -ms-flex-pack: end; justify-content: flex-end; text-align: right; border-bottom: 1px solid #f5f5f5 }
+	.table.has-mobile-cards tr:not(.detail):not(.is-empty):not(.table-footer) td:before { content: attr(data-label); font-weight: 600; margin-right: auto; padding-right: .5em; text-align: left }
+}
+
+.tag:not(body) {
+  &.is-admin {
+    background-color: $danger;
+    color: $white;
+  }
+  &.is-user {
+    background-color: $info;
+    color: $white;
+  }
+
+  &.is-client__client-type__all {
+    background-color: $danger;
+    color: $white;
+  }
+  &.is-client__client-type__proposal_only {
+    background-color: $info;
+    color: $white;
+  }
+  &.is-client__client-type__personnel_only {
+    background-color: $success;
+    color: $white;
+  }
+
+
+  &.is-schedule-mail__target__condition {
+    background-color: $success;
+    color: $white;
+  }
+  &.is-schedule-mail__target__selection {
+    background-color: $info;
+    color: $white;
+  }
+
+  &.is-schedule-mail__status__waiting {
+    background-color: $warning;
+    color: $black;
+  }
+  &.is-schedule-mail__status__sending {
+    background-color: $info;
+    color: $white;
+  }
+  &.is-schedule-mail__status__completed {
+    background-color: $success;
+    color: $white;
+  }
+}
+.button {
+  background-color: $white;
+}
+
+.pagination {
+  .pagination-previous, .pagination-next, .pagination-link:not(.is-current) {
+    background-color: $white;
+  }
+}
+
+// util
+$spaceamounts: (0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 75, 100);
+$sides: (top, bottom, left, right);
+
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    .m-#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space}px !important;
+    }
+    .p-#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space}px !important;
+    }
+  }
+}
+
+// app
+.logo {
+  font-family: 'Lato', sans-serif;
+  font-size: 1.5rem;
+}
+
+body {
+  background: rgb(250, 253, 255);
+}
+
+
+.is-sidebar-menu {
+  background: $dark;
+  -webkit-box-flex: 0;
+  -ms-flex: none;
+  flex: none;
+  width: 16.66666667%;
+
+  &.is-active {
+    display: block !important;
+  }
+  &.is-active + .column > .is-main-content {
+    min-width: 400px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .is-sidebar-menu {
+    width: 66.66666667%;
+  }
+}
+
+
+.columns.is-fullheight {
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  margin-bottom: 0 !important;
+
+  .column {
+    overflow-y: auto;
+
+
+    .menu-title {
+      color: #fff;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 1rem;
+      border-bottom: solid 1px;
+      margin-bottom: 0;
+    }
+
+    .menu {
+      .menu-label {
+        padding: .5rem 1rem;
+        margin-bottom: 0;
+        color: lightgray;
+      }
+      ul.menu-list {
+        li {
+          &.is-active > a {
+            background-color: $primary;
+          }
+          & > a {
+            padding: .8rem .5rem .8rem 1.5rem;
+            color: whitesmoke;
+  
+            &:hover {
+              background-color: $primary;
+            }
+          }
+        }
+      }
+    }
+  }
+}

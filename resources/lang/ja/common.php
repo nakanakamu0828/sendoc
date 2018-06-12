@@ -1,0 +1,31 @@
+<?php
+
+return [
+
+    'admin' => '管理',
+    'choose_a_file' => 'ファイルを選択してください',
+    'upload_csv' => 'CSVアップロード',
+    'dashboard' => 'ダッシュボード',
+    'data_is_not_registered' => ':itemは登録されていません。',
+    'data_not_found' => ':itemは見つかりませんでした。',
+    'detail' => '詳細',
+    'delete_are_you_sure_you_want_to' => '削除してもよろしいですか？',
+    'delete_has_been_completed' => '削除が完了しました。',
+    'creater' => '作成者',
+    'edit' => '更新',
+    'email' => 'メールアドレス',
+    'forgot_your_password?' => 'パスワードを忘れた方はこちら',
+    'login' => 'ログイン',
+    'logout' => 'ログアウト',
+    'member' => 'メンバー',
+    'password' => 'パスワード',
+    'password_confirmation' => 'パスワード（確認用）',
+    'register' => '登録',
+    'registrationd_has_been_completed' => '登録が完了しました。',
+    'remember_me' => 'ログイン状態を保持する',
+    'reset' => 'リセット',
+    'search' => '検索',
+    'selection' => '選択',
+    'unknown' => '不明',
+    'update_has_been_completed' => '更新が完了しました。',
+];
