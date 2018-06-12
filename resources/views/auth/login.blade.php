@@ -52,11 +52,15 @@
                             </div>
                         </div>
 
-                        <div class="field">
+                        <div class="field m-t-30">
                             <div class="control">
-                                <button type="submit" class="button is-primary">
-                                    {{ __('common.login') }}
-                                </button>
+                                <div class="columns">
+                                    <div class="column is-offset-3 is-6">
+                                        <button type="submit" class="button is-primary" style="width: 100%;">
+                                            {{ __('common.login') }}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
