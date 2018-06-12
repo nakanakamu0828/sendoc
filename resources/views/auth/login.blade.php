@@ -6,11 +6,17 @@
         <div class="columns">
             <div class="column is-offset-3 is-6">
 
-                <h1 class="title has-text-centered is-size-4">{{ __('common.login') }}</h1>
                 <div class="box">
+                    <h1 class="title has-text-centered">
+                        <a href="{{ url('/dashboard') }}" class="has-text-black">
+                            <span class="logo">{{ config('app.name', 'Laravel') }}</span>
+                        </a>
+                    </h1>
+
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
                             <div class="control  has-icons-left">
                                 <input id="input" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email') }}" required autofocus>
                                 <span class="icon is-small is-left">
@@ -23,6 +29,7 @@
                         </div>
 
                         <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.password') }}</label>
                             <div class="control has-icons-left">
                                 <input id="password" type="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password" required>
                                 <span class="icon is-small is-left">
@@ -38,7 +45,7 @@
                         <div class="field">
                             <div class="control">
                                 <div class="checkbox">
-                                    <label>
+                                    <label class="is-size-7">
                                         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('common.remember_me') }}
                                     </label>
                                 </div>
@@ -54,7 +61,7 @@
                         </div>
 
 
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                        <a class="btn btn-link is-size-7" href="{{ route('password.request') }}">
                             {{ __('common.forgot_your_password?') }}
                         </a>
 

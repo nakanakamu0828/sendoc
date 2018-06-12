@@ -6,14 +6,19 @@
         <div class="columns">
             <div class="column is-offset-3 is-6">
 
-                <h1 class="title has-text-centered is-size-4">{{ __('common.register') }}</h1>
                 <div class="box">
+                    <h1 class="title has-text-centered">
+                        <a href="{{ url('/dashboard') }}" class="has-text-black">
+                            <span class="logo">{{ config('app.name', 'Laravel') }}</span>
+                        </a>
+                    </h1>
+
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user.name') }}</label>
                             <div class="control has-icons-left">
-                                <input id="input" type="text" class="input {{ $errors->has('organization_name') ? ' is-danger' : '' }}" name="organization_name" placeholder="" value="{{ old('organization_name') }}" autofocus>
+                                <input type="text" class="input {{ $errors->has('organization_name') ? ' is-danger' : '' }}" name="organization_name" placeholder="" value="{{ old('organization_name') }}" autofocus>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-building"></i>
                                 </span> 
@@ -26,7 +31,7 @@
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user.name') }}</label>
                             <div class="control has-icons-left">
-                                <input id="input" type="text" class="input {{ $errors->has('name') ? ' is-danger' : '' }}" name="name" placeholder="" value="{{ old('name') }}">
+                                <input type="text" class="input {{ $errors->has('name') ? ' is-danger' : '' }}" name="name" placeholder="" value="{{ old('name') }}">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-user"></i>
                                 </span> 
@@ -52,7 +57,7 @@
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user.password') }}</label>
                             <div class="control has-icons-left">
-                                <input id="password" type="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password">
+                                <input ype="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
@@ -65,7 +70,7 @@
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user.password_confirmation') }}</label>
                             <div class="control has-icons-left">
-                                <input id="password" type="password" class="input {{ $errors->has('password_confirmation') ? ' is-danger' : '' }}" placeholder="{{ __('common.password_confirmation') }}" name="password_confirmation">
+                                <input type="password" class="input {{ $errors->has('password_confirmation') ? ' is-danger' : '' }}" placeholder="{{ __('common.password_confirmation') }}" name="password_confirmation">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>
