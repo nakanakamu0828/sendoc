@@ -73,6 +73,57 @@
                         </div>
 
                         <div class="field">
+                            <div class="columns">
+                                <div class="column is-6">
+                                    <label class="label is-small">{{ __('db.attributes.client.postal_code') }}</label>
+                                    <div class="control">
+                                        {!! Form::text('postal_code', old('postal_code'), ['class' => 'input' . ($errors->has('postal_code') ? ' is-danger' : '' )]) !!}
+                                        @if ($errors->has('postal_code'))
+                                            <p class="help is-danger">{{ $errors->first('postal_code') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="column is-6">
+                                    <label class="label is-small">{{ __('db.attributes.client.prefecture') }}</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            {!! 
+                                                Form::select('prefecture_id',
+                                                    ['' => '▼ 選択してください'] + App\Models\Prefecture::pluck('name', 'id')->toArray(),
+                                                    old('prefecture_id'),
+                                                    ['class' => '', 'style' => '']
+                                                )
+                                            !!}
+                                        </div>
+                                        @if ($errors->has('prefecture_id'))
+                                            <p class="help is-danger">{{ $errors->first('prefecture_id') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.client.address1') }}</label>
+                            <div class="control">
+                                {!! Form::text('address1', old('address1'), ['class' => 'input' . ($errors->has('address1') ? ' is-danger' : '' )]) !!}
+                                @if ($errors->has('address1'))
+                                    <p class="help is-danger">{{ $errors->first('address1') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.client.address2') }}</label>
+                            <div class="control">
+                                {!! Form::text('address2', old('address2'), ['class' => 'input' . ($errors->has('address2') ? ' is-danger' : '' )]) !!}
+                                @if ($errors->has('address2'))
+                                    <p class="help is-danger">{{ $errors->first('address2') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="field">
                             <label class="label is-small">{{ __('db.attributes.client.remarks') }}</label>
                             <div class="control">
                                 {!! Form::textarea('remarks', old('remarks'), ['class'=>'textarea', 'rows' => 4]) !!}

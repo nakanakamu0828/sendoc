@@ -27,10 +27,6 @@ Route::group(['middleware' => ['auth'] ], function () {
             'as'   => 'search',
             'uses' => 'ClientController@index',
         ]);
-        Route::post('selection', [
-            'as'   => 'selection',
-            'uses' => 'ClientController@selection',
-        ]);
         Route::post('csv/upload', [
             'as'   => 'csv.upload',
             'uses' => 'Client\CsvController@upload',

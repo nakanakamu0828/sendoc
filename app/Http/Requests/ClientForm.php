@@ -25,11 +25,12 @@ class ClientForm extends FormRequest
     {
         return [
             'name'          => 'required|string|max:255',
-            'country'       => 'required|string|max:255',
             'contact_name'  => 'required|string|max:255',
             'email'         => 'required|string|email|max:255',
-            'user_id'       => '',
-            'client_type'   => 'required',
+            'postal_code'   => 'required|string|max:8',
+            'prefecture_id' => 'required',
+            'address1'      => 'required|string|max:255',
+            'address1'      => 'nullable|string|max:255',
             'remarks'       => '',
         ];
     }

@@ -127,71 +127,54 @@
             <a href="{{ route('client.csv.download.sample') }}">{{ __('views.client.index.help_download_sample') }}</a>
         </p>
         @if(count($clients))
-            <form id="selection-form" action="{{ route('client.selection') }}" method="post">
-                @csrf
-                <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-                    <thead>
+            <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>{{ __('db.attributes.client.id') }}</th>
+                        <th>{{ __('db.attributes.client.name') }}</th>
+                        <th>{{ __('db.attributes.client.contact_name') }}</th>
+                        <th>{{ __('db.attributes.client.email') }}</th>
+                        <th>{{ __('db.attributes.client.prefecture') }}</th>
+                        <th>{{ __('db.attributes.client.created_at') }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($clients as $client)
                         <tr>
-                            <th>
-                                <input type="checkbox" value="" data-checkboxall="selection[]" data-target="selection-form">
-                            </th>
-                            <th>{{ __('db.attributes.client.id') }}</th>
-                            <th>{{ __('db.attributes.client.name') }}</th>
-                            <th>{{ __('db.attributes.client.contact_name') }}</th>
-                            <th>{{ __('db.attributes.client.email') }}</th>
-                            <th>{{ __('db.attributes.client.user') }}</th>
-                            <th class="has-text-centered">{{ __('db.attributes.client.client_type') }}</th>
-                            <th>{{ __('db.attributes.client.created_at') }}</th>
-                            <th></th>
+                            <td data-label="{{ __('db.attributes.client.id') }}">{{ $client->id }}</td>
+                            <td data-label="{{ __('db.attributes.client.name') }}">
+                                {{ $client->name }}
+                            </td>
+                            <td data-label="{{ __('db.attributes.client.contact_name') }}">
+                                {{ $client->contact_name }}
+                            </td>
+                            <td data-label="{{ __('db.attributes.client.email') }}">
+                                {{ $client->email }}
+                            </td>
+                            <td data-label="{{ __('db.attributes.client.prefecture') }}">
+                                {{ $client->prefecture->name }}
+                            </td>
+                            <td data-label="{{ __('db.attributes.client.created_at') }}">
+                                {{ $client->created_at->format('Y/m/d H:i:s')  }}
+                            </td>
+                            <td class="has-text-centered">
+                                <a href="{{ route('client.edit', [$client->id]) }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ route('client.destroy', [$client->id]) }}"
+                                    class="has-text-danger"
+                                    data-method="delete"
+                                    data-confirm="{{ __('common.delete_are_you_sure_you_want_to') }}"
+                                >
+                                    <i class="fas fa-times-circle"></i>
+                                </a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($clients as $client)
-                            <tr>
-                                <td data-label="{{ __('common.selection') }}">
-                                    <input type="checkbox" value="{{ $client->id }}" name="selection[]"{{ in_array($client->id, $selections) ? ' checked' : '' }}>
-                                </td>
-                                <td data-label="{{ __('db.attributes.client.id') }}">{{ $client->id }}</td>
-                                <td data-label="{{ __('db.attributes.client.name') }}">
-                                    {{ $client->name }}
-                                </td>
-                                <td data-label="{{ __('db.attributes.client.contact_name') }}">
-                                    {{ $client->contact_name }}
-                                </td>
-                                <td data-label="{{ __('db.attributes.client.email') }}">
-                                    {{ $client->email }}
-                                </td>
-                                <td data-label="{{ __('db.attributes.client.user') }}">
-                                    @if($client->user)
-                                        {{ $client->user->name }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td class="has-text-centered" data-label="{{ __('db.attributes.client.client_type') }}">
-                                    <span class="tag is-client__client-type__{{ $client->client_type }}">{{ __('db.enums.client.client_type.' . $client->client_type) }}</span>
-                                </td>
-                                <td data-label="{{ __('db.attributes.client.created_at') }}">
-                                    {{ $client->created_at->format('Y/m/d H:i:s')  }}
-                                </td>
-                                <td class="has-text-centered">
-                                    <a href="{{ route('client.edit', [$client->id]) }}">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="{{ route('client.destroy', [$client->id]) }}"
-                                        class="has-text-danger"
-                                        data-method="delete"
-                                        data-confirm="{{ __('common.delete_are_you_sure_you_want_to') }}"
-                                    >
-                                        <i class="fas fa-times-circle"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                {{ $clients->links('vendor.pagination.bulma') }}
-            </form>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $clients->links('vendor.pagination.bulma') }}
         @endif
     </div>
 </main>

@@ -47,28 +47,6 @@
                             </div>
                         </div>
 
-                        <div class="field">
-                            <div class="control">
-                                <label class="label is-small">{{ __('db.attributes.client.country') }}</label>
-                                <div class="select">
-                                    {!!
-                                        Form::select('country',
-                                            [
-                                                '' => '▼ 選択してください',
-                                                'japan' => __('db.enums.client.country.japan'),
-                                                'china' => __('db.enums.client.country.china'),
-                                                'koria' => __('db.enums.client.country.koria'),
-                                            ],
-                                            old('country', $client->country),
-                                            []
-                                        )
-                                    !!}
-                                </div>
-                                @if ($errors->has('country'))
-                                    <p class="help is-danger">{{ $errors->first('country') }}</p>
-                                @endif
-                            </div>
-                        </div>
 
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.client.contact_name') }}</label>
@@ -97,37 +75,52 @@
                         </div>
 
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.client.user_id') }}</label>
-                            <div class="control">
-                                <div class="select">
-                                    {!!
-                                        Form::select('user_id',
-                                            ['' => '▼ 選択してください'] + $memberOptions->toArray(),
-                                            old('user_id', $client->user_id),
-                                            []
-                                        )
-                                    !!}
+                            <div class="columns">
+                                <div class="column is-6">
+                                    <label class="label is-small">{{ __('db.attributes.client.postal_code') }}</label>
+                                    <div class="control">
+                                        {!! Form::text('postal_code', old('postal_code', $client->postal_code), ['class' => 'input' . ($errors->has('postal_code') ? ' is-danger' : '' )]) !!}
+                                        @if ($errors->has('postal_code'))
+                                            <p class="help is-danger">{{ $errors->first('postal_code') }}</p>
+                                        @endif
+                                    </div>
                                 </div>
-                                @if ($errors->has('user_id'))
-                                    <p class="help is-danger">{{ $errors->first('user_id') }}</p>
+                                <div class="column is-6">
+                                    <label class="label is-small">{{ __('db.attributes.client.prefecture') }}</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            {!! 
+                                                Form::select('prefecture_id',
+                                                    ['' => '▼ 選択してください'] + App\Models\Prefecture::pluck('name', 'id')->toArray(),
+                                                    old('prefecture_id', $client->prefecture_id),
+                                                    ['class' => '', 'style' => '']
+                                                )
+                                            !!}
+                                        </div>
+                                        @if ($errors->has('prefecture_id'))
+                                            <p class="help is-danger">{{ $errors->first('prefecture_id') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.client.address1') }}</label>
+                            <div class="control">
+                                {!! Form::text('address1', old('address1', $client->address1), ['class' => 'input' . ($errors->has('address1') ? ' is-danger' : '' )]) !!}
+                                @if ($errors->has('address1'))
+                                    <p class="help is-danger">{{ $errors->first('address1') }}</p>
                                 @endif
                             </div>
                         </div>
 
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.client.client_type') }}</label>
+                            <label class="label is-small">{{ __('db.attributes.client.address2') }}</label>
                             <div class="control">
-                                <div class="select">
-                                    {!! 
-                                        Form::select('client_type',
-                                            [ 'all' => __('db.enums.client.client_type.all'), 'proposal_only' => __('db.enums.client.client_type.proposal_only'), 'personnel_only' => __('db.enums.client.client_type.personnel_only') ],
-                                            old('client_type', $client->client_type),
-                                            ['class' => '']
-                                        )
-                                    !!}
-                                </div>
-                                @if ($errors->has('client_type'))
-                                    <p class="help is-danger">{{ $errors->first('client_type') }}</p>
+                                {!! Form::text('address2', old('address2', $client->address2), ['class' => 'input' . ($errors->has('address2') ? ' is-danger' : '' )]) !!}
+                                @if ($errors->has('address2'))
+                                    <p class="help is-danger">{{ $errors->first('address2') }}</p>
                                 @endif
                             </div>
                         </div>
