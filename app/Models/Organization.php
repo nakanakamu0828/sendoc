@@ -11,11 +11,6 @@ class Organization extends Model
         'name',
     ];
 
-    public function mail_setting()
-    {
-        return $this->hasOne('App\Models\Organization\MailSetting', 'organization_id', 'id');
-    }
-
     public function members()
     {
         return $this->hasMany('App\Models\Member');
@@ -26,9 +21,9 @@ class Organization extends Model
         return $this->hasMany('App\Models\Client');
     }
 
-    public function documents()
+    public function invoices()
     {
-        return $this->hasMany('App\Models\Document');
+        return $this->hasMany('App\Models\Invoice');
     }
 
     public function schedule_mails()

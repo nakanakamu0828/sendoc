@@ -6,6 +6,7 @@ return [
         'organization' => 'Organization',
         'member' => 'Member',
         'client' => 'Client',
+        'invoice' => 'Invoice',
     ],
     'attributes' => [
         'user' => [
@@ -52,20 +53,34 @@ return [
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ],
+        'invoice' => [
+            'id' => 'ID',
+            'organization_id' => 'Organization ID',
+            'title' => 'Title',
+            'client_id' => 'Client ID',
+            'date' => 'date of issue',
+            'due' => 'Due Date',
+            'in_tax' => 'In Tax',
+            'tax_rate' => 'Tax Rate',
+            'remarks' => 'Remarks',
+            'subtotal' => 'Subtotal',
+            'tax' => 'Tax',
+            'total' => 'Total',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ],
+        'invoice_item' => [
+            'id' => 'ID',
+            'invoice_id' => 'Invoice ID',
+            'name' => 'Item Name',
+            'price' => 'Price',
+            'quantity' => 'Quantity',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+         ],
     ],
     'enums' => [
         'client' => [
-            'country' => [
-                'japan' => 'Japan',
-                'china' => 'China',
-                'koria' => 'Koria',
-                'america' => 'Amerika'
-            ],
-            'client_type' => [
-                'all' => 'ALL',
-                'proposal_only' => 'Proposal Only',
-                'personnel_only' => 'Personnel Only',
-            ],
         ]
     ],
 ];

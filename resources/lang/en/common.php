@@ -2,7 +2,9 @@
 
 return [
 
+    'add' => 'Add',
     'admin' => 'Admin',
+    'choose_a_select_tag' => '▼ Please Choose',
     'choose_a_file' => 'Choose a file',
     'upload_csv' => 'Upload CSV',
     'dashboard' => 'Dashboard',
@@ -11,6 +13,7 @@ return [
     'detail' => 'Detail',
     'delete_are_you_sure_you_want_to' => 'Delete Are you sure you want to?',
     'delete_has_been_completed' => 'Delete has been completed.',
+    'display_currency' => '$:price',
     'creater' => 'Creater',
     'edit' => 'Edit',
     'email' => 'Email',

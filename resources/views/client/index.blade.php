@@ -29,6 +29,11 @@
             <div class="message">
                 <div class="message-header">
                     <p>{{ __('common.search') }}</p>
+                    <p class="control">
+                        <button type="reset" class="button is-danger is-small is-rounded">
+                            <i class="fas fa-sync-alt"></i> {{ __('common.reset') }}
+                        </button>
+                    </p>
                 </div>
                 <div class="message-body">
                     <div class="columns is-multiline">
@@ -71,11 +76,6 @@
                         <p class="control">
                             <button type="submit" class="button is-primary" style="width: 8rem;">
                                 {{ __('common.search') }}
-                            </button>
-                        </p>
-                        <p class="control">
-                            <button type="reset" class="button" style="width: 8rem;">
-                                {{ __('common.reset') }}
                             </button>
                         </p>
                     </div>
@@ -127,14 +127,14 @@
             <a href="{{ route('client.csv.download.sample') }}">{{ __('views.client.index.help_download_sample') }}</a>
         </p>
         @if(count($clients))
-            <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth is-dark-header">
                 <thead>
                     <tr>
                         <th>{{ __('db.attributes.client.id') }}</th>
                         <th>{{ __('db.attributes.client.name') }}</th>
                         <th>{{ __('db.attributes.client.contact_name') }}</th>
                         <th>{{ __('db.attributes.client.email') }}</th>
-                        <th>{{ __('db.attributes.client.prefecture') }}</th>
+                        <th>{{ __('db.attributes.client.address1') }}</th>
                         <th>{{ __('db.attributes.client.created_at') }}</th>
                         <th></th>
                     </tr>
@@ -152,8 +152,8 @@
                             <td data-label="{{ __('db.attributes.client.email') }}">
                                 {{ $client->email }}
                             </td>
-                            <td data-label="{{ __('db.attributes.client.prefecture') }}">
-                                {{ $client->prefecture->name }}
+                            <td data-label="{{ __('db.attributes.client.address1') }}">
+                                {{ $client->prefecture->name }}<br>{{ $client->address1 }}{!! $client->address2 ? '<br>' . $client->address2 : '' !!}
                             </td>
                             <td data-label="{{ __('db.attributes.client.created_at') }}">
                                 {{ $client->created_at->format('Y/m/d H:i:s')  }}

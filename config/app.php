@@ -151,6 +151,7 @@ return [
          * Package Service Providers...
          */
         Collective\Html\HtmlServiceProvider::class,
+        browner12\helpers\HelperServiceProvider::class,
 
         /*
          * Application Service Providers...

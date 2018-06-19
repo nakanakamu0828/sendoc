@@ -27,7 +27,7 @@
         @include('layouts.messages')
         <a href="{{ url('/member/create') }}" class="button is-info is-outlined is-rounded m-b-10">{{ __('common.register') }}</a>
         @if(count($members))
-            <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth is-dark-header">
                 <thead>
                     <tr>
                         <th>{{ __('db.attributes.member.id') }}</th>

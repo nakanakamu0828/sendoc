@@ -28,6 +28,11 @@ class Client extends Model
         return $this->belongsTo('App\Models\Prefecture');
     }
 
+    public function invoices()
+    {
+        return $this->hasMany('App\Models\Invoice');
+    }
+
 
     public function scopeSearchByCondition($query, $condition)
     {

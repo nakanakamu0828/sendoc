@@ -2,7 +2,9 @@
 
 return [
 
+    'add' => '追加',
     'admin' => '管理',
+    'choose_a_select_tag' => '▼ 選択してください',
     'choose_a_file' => 'ファイルを選択してください',
     'upload_csv' => 'CSVアップロード',
     'dashboard' => 'ダッシュボード',
@@ -11,6 +13,7 @@ return [
     'detail' => '詳細',
     'delete_are_you_sure_you_want_to' => '削除してもよろしいですか？',
     'delete_has_been_completed' => '削除が完了しました。',
+    'display_currency' => ':price円',
     'creater' => '作成者',
     'edit' => '更新',
     'email' => 'メールアドレス',

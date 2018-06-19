@@ -34,6 +34,7 @@
                     <form method="POST" action="{{ route('member.store') }}">
                         @csrf
                         <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.name') }}</label>
                             <div class="control has-icons-left">
                                 <input type="text" class="input {{ $errors->has('name') ? ' is-danger' : '' }}" name="name" placeholder="" value="{{ old('name') }}" required>
                                 <span class="icon is-small is-left">
@@ -46,6 +47,7 @@
                         </div>
 
                         <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
                             <div class="control  has-icons-left">
                                 <input type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email') }}" required>
                                 <span class="icon is-small is-left">
@@ -58,6 +60,7 @@
                         </div>
 
                         <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.password') }}</label>
                             <div class="control has-icons-left">
                                 <input type="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password" required>
                                 <span class="icon is-small is-left">

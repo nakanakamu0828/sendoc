@@ -74,6 +74,14 @@ $link-focus-border: $primary;
   }
 }
 
+table.table {
+  &.is-dark-header {
+    & > thead > tr > th {
+      background-color: $dark;
+      color: $dark-invert;
+    }
+  }
+}
 @media screen and (max-width: 768px) {
 	.table.has-mobile-cards thead { display: none }
 	.table.has-mobile-cards tfoot th { border: 0; display: inherit }
@@ -236,6 +244,27 @@ body {
           }
         }
       }
+    }
+  }
+}
+
+
+// page
+// invoce
+// create or edit
+.invoice-create, .invoice-edit {
+  .prices-box {
+    dt {
+      color: $dark;
+      font-weight: bold;
+      float: left;
+      clear: left;
+      margin-right: 0.5em;
+      width: 5rem;
+    }
+    dd {
+      float: right;
+      margin-left: 1em;
     }
   }
 }

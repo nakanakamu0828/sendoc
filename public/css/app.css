@@ -11797,6 +11797,11 @@ label.panel-block:hover {
   margin-bottom: 0;
 }
 
+table.table.is-dark-header > thead > tr > th {
+  background-color: #3a4651;
+  color: #fff;
+}
+
 @media screen and (max-width: 768px) {
   .table.has-mobile-cards thead {
     display: none;
@@ -12416,5 +12421,21 @@ body {
 
 .columns.is-fullheight .column .menu ul.menu-list li > a:hover {
   background-color: #8c67ef;
+}
+
+.invoice-create .prices-box dt,
+.invoice-edit .prices-box dt {
+  color: #3a4651;
+  font-weight: bold;
+  float: left;
+  clear: left;
+  margin-right: 0.5em;
+  width: 5rem;
+}
+
+.invoice-create .prices-box dd,
+.invoice-edit .prices-box dd {
+  float: right;
+  margin-left: 1em;
 }
 

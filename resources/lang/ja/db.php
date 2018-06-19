@@ -6,6 +6,8 @@ return [
         'organization' => '組織',
         'member' => 'メンバー',
         'client' => 'クライアント',
+        'invoice' => '請求書',
+        'invoice_item' => '商品',
     ],
     'attributes' => [
         'user' => [
@@ -48,20 +50,36 @@ return [
             'created_at' => '登録日時',
             'updated_at' => '更新日時',
         ],
+        'invoice' => [
+            'id' => 'ID',
+            'organization_id' => '組織ID',
+            'title' => 'タイトル',
+            'client_id' => 'クライアントID',
+            'date' => '発行日',
+            'due' => '支払期限',
+            'in_tax' => '税込価格',
+            'tax_rate' => '税率',
+            'remarks' => '備考',
+            'subtotal' => '小計',
+            'tax' => '税金',
+            'total' => '合計',
+            'created_at' => '登録日時',
+            'updated_at' => '更新日時',
+        ],
+        'invoice_item' => [
+            'id' => 'ID',
+            'invoice_id' => '請求書ID',
+            'name' => '商品名',
+            'price' => '単価',
+            'quantity' => '数量',
+            'created_at' => '登録日時',
+            'updated_at' => '更新日時',
+
+            'total' => '計',
+        ],
     ],
     'enums' => [
         'client' => [
-            'country' => [
-                'japan' => '日本',
-                'china' => '中国',
-                'koria' => '韓国',
-                'america' => 'アメリカ'
-            ],
-            'client_type' => [
-                'all' => '両方可能',
-                'proposal_only' => '案件のみ可能',
-                'personnel_only' => '要員のみ可能',
-            ],
         ],
     ],
 ];

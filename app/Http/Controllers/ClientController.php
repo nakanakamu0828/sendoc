@@ -35,8 +35,7 @@ class ClientController extends Controller
 
     public function create()
     {
-        $memberOptions = Auth::user()->selectedOrganization()->members()->join('users', 'users.id', '=', 'members.user_id')->pluck('users.name', 'users.id');
-        return view('client.create', [ 'memberOptions' => $memberOptions ]);
+        return view('client.create');
     }
 
     public function store(ClientForm $request)
@@ -52,8 +51,9 @@ class ClientController extends Controller
     {
         $organization = Auth::user()->selectedOrganization();
         $client = $organization->clients()->find($id);
-        $memberOptions = $organization->members()->join('users', 'users.id', '=', 'members.user_id')->pluck('users.name', 'users.id');
-        return view('client.edit', [ 'client' => $client, 'memberOptions' => $memberOptions ]);
+        return view('client.edit', [
+            'client' => $client
+        ]);
     }
 
     public function update(ClientForm $request, $id)
