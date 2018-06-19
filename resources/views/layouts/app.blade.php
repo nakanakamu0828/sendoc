@@ -106,7 +106,7 @@
                 </div>
             @endif
             <div class="column">
-                <div class="is-main-content {{ str_replace('/', '-', Request::path()) }}">
+                <div class="is-main-content {{ str_replace('.', '-', Route::currentRouteName()) }}">
                     @yield('content')
                 </div>
             </div>

@@ -88,7 +88,7 @@
                             <input type="checkbox" value="" data-checkboxall="selection[]" data-target="selection-form">
                         </th>
                         <th class="has-text-centered">{{ __('db.attributes.invoice.id') }}</th>
-                        <th class="has-text-centered">{{ __('db.attributes.invoice.title') }}</th>
+                        <th class="has-text-centered">{{ __('common.invoice_information') }}</th>
                         <th class="has-text-centered">{{ __('db.attributes.invoice.total') }}</th>
                         <th class="has-text-centered">{{ __('db.attributes.invoice.date') }}</th>
                         <th class="has-text-centered">{{ __('db.attributes.invoice.due') }}</th>
@@ -102,8 +102,11 @@
                                 <input type="checkbox" value="{{ $invoice->id }}" name="selection[]"{{ in_array($invoice->id, $selections) ? ' checked' : '' }}>
                             </td>
                             <td data-label="{{ __('db.attributes.invoice.id') }}">{{ $invoice->id }}</td>
-                            <td data-label="{{ __('db.attributes.invoice.title') }}">
-                                {{ $invoice->title }}
+                            <td data-label="{{ __('common.invoice_information') }}">
+                                <p>
+                                    {{ $invoice->title }}<br>
+                                    <small class="has-text-grey">{{ $invoice->client->name }}</small>
+                                </p>
                             </td>
                             <td data-label="{{ __('db.attributes.invoice.total') }}">
                                 {{ $invoice->total }}

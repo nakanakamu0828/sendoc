@@ -18,6 +18,7 @@ return [
     'edit' => 'Edit',
     'email' => 'Email',
     'forgot_your_password?' => 'Forgot Your Password?',
+    'invoice_information' => 'Invoice Information',
     'login' => 'Login',
     'logout' => 'Logout',
     'member' => 'Mamber',

@@ -31,8 +31,9 @@
         <div class="columns">
             <div class="column is-offset-1 is-10">
                 <div class="box">
-                    <form method="POST" action="{{ route('invoice.store') }}">
+                    <form method="POST" action="{{ route('invoice.update', [$invoice->id]) }}">
                         @csrf
+                        {{ method_field('PUT') }}
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.invoice.title') }}</label>
                             <div class="control">
@@ -193,7 +194,7 @@
                         <div class="field">
                             <div class="control">
                                 <button type="submit" class="button is-primary">
-                                    {{ __('common.register') }}
+                                    {{ __('common.edit') }}
                                 </button>
                             </div>
                         </div>

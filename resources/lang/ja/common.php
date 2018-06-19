@@ -18,6 +18,7 @@ return [
     'edit' => '更新',
     'email' => 'メールアドレス',
     'forgot_your_password?' => 'パスワードを忘れた方はこちら',
+    'invoice_information' => '請求情報',
     'login' => 'ログイン',
     'logout' => 'ログアウト',
     'member' => 'メンバー',

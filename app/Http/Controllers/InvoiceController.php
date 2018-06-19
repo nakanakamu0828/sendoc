@@ -95,13 +95,33 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function update(ClientForm $request, $id)
+    public function update(SaveForm $request, $id)
     {
-        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'prefecture_id', 'address1', 'address2', 'remarks');
+        $data = $request->only('title', 'client_id', 'date', 'due', 'remarks');
 
         $organization = Auth::user()->selectedOrganization();
         $invoice = $organization->invoices()->find($id);
-        $invoice->fill($data)->save();
+
+        $subtotal = 0;
+        $tax = 0;
+        foreach ($request->only('items')['items'] as $form) {
+            $item = isset($form['id']) ? $invoice->items()->find($form['id']) : new Item(['invoice_id' => $invoice->id]);
+            if ((empty($form['name']) && empty($form['price']) && empty($form['quantity'])) || $form['_delete']) {
+                $item->delete();
+            } else {
+                $item->fill($form)->save();
+
+                $subtotal += intval($item->price);
+                if ($invoice->in_tax) $tax += (floatval($item->price) * $invoice->tax_rate / 100);
+            }
+        }
+
+        $invoice->fill($data);
+        $invoice->subtotal = $subtotal;
+        $invoice->tax = $tax;
+        $invoice->total = $subtotal + $tax;
+        $invoice->save();
+
         return redirect()->route('invoice.index')->with('success', Lang::get('common.update_has_been_completed'));
     }
 

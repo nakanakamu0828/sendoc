@@ -36,7 +36,7 @@
         </div>
     </td>
     <td class="has-text-right" style="vertical-align: middle;">
-        <span class="">{{ __('common.display_currency', [ 'price' => 0 ]) }}</span>
+        <span class="">{{ (isset($item) && $item->price ? $item->price : 0) }}</span>
         <a href="#" class="m-l-10 has-text-danger" data-deletetable="true"><i class="fas fa-times-circle"></i></a>
     </td>
 </tr>
