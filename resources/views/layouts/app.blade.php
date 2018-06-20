@@ -51,7 +51,7 @@
                                 <a class="navbar-link" href="#">
                                     {{ Auth::user()->name }}
                                 </a>
-                                <div class="navbar-dropdown is-boxed">
+                                <div class="navbar-dropdown is-boxed is-right">
                                     <a class="navbar-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

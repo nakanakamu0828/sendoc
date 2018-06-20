@@ -5,18 +5,28 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
-import { Sortable } from '@shopify/draggable';
+require('./bootstrap')
 
-function find(selector) {
-    return document.querySelector(selector)
-}
+import { Sortable } from '@shopify/draggable'
+// import bulmaCalendar from 'bulma-extensions/bulma-calendar/dist/js/bulma-calendar.js'
+
 
 function getAll(selector) {
     return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
 }
 
+const sum  = arr => {
+    return arr.reduce((prev, current, i, arr) => {
+        return prev + current;
+    })
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+
+    // const datePickers = bulmaCalendar.attach('[type="date"]', {
+    //     overlay: false,
+    // });
+
     // burger
     const $navbarBurgers = getAll(".navbar-burger");
     if ($navbarBurgers.length > 0) {
@@ -134,47 +144,92 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    const createSortable = selector => {
-        const $el = document.querySelectorAll(selector);
-        return !$el ? null : new Sortable($el, {
-            draggable: '.js-drag-item',
-            delay: 500
-        }).on('drag:start', event => {
-            console.log('drag:start:')
-            console.log(event)
-        }).on('drag:move', event => {
-    
-        }).on('drag:stop', event => {
-    
-        })
-    }
-    let draggable = createSortable('.js-drag-container')
-    const $addfields = getAll("[data-addtable='true']");
-    if ($addfields.length > 0) {
-        $addfields.forEach($el => {
-            $el.addEventListener("click", () => {
-                const table = find($el.dataset.target);
-                const index = table.querySelectorAll('tbody > tr').length
-                const tempalte = $el.dataset.template.replace(/___INDEX___/g, index)
-                table.querySelector('tbody').insertAdjacentHTML('beforeend', tempalte)
-                return false;
-            });
-        })
-    }
-
-
-    // 動的に追加された項目に対応する為、クリックした要素が対象の場合処理を行う。
-    document.addEventListener('click', e => {
-        const $el = e.target
-        if($el.querySelector("[data-deletetable='true']") || $el.closest("[data-deletetable='true']")) {
-            const $tr = $el.closest('tr')
-            if ($tr) {
-                $tr.style.display = 'none'
-                const $hidden = $tr.querySelector('input[type="hidden"][name$="_delete\]"]')
-                $hidden.value = 1
-            }
+    // 請求書作成ページ
+    if(document.querySelector('.invoice-create') || document.querySelector('.invoice-edit')) {
+        const createSortable = selector => {
+            const $el = document.querySelectorAll(selector);
+            return !$el ? null : new Sortable($el, {
+                draggable: '.js-drag-item',
+                delay: 500
+            }).on('drag:start', event => {
+            }).on('drag:move', event => {
+            }).on('drag:stop', event => {
+            })
         }
-    })
 
+        const calculatorTotal = () => {
+            const $subtotals = getAll('.js-item-subtotal').map($e => $e.closest('tr') && $e.closest('tr').style.display == 'none' ? 0 : parseInt($e.innerText))
+            const tax_rate = document.querySelector('input[name="in_tax"]').checked ? document.querySelector('select[name="tax_rate"]').value : 0
+
+            const subtotal = sum($subtotals)
+            const tax = sum($subtotals.map($p => $p * tax_rate / 100))
+
+            getAll('.js-subtotal').forEach($el => {
+                $el.innerText = subtotal
+            })
+            getAll('.js-tax').forEach($el => {
+                $el.innerText = tax
+            })
+            getAll('.js-total').forEach($el => {
+                $el.innerText = subtotal + tax
+            })
+        }
+
+        let draggable = createSortable('.js-drag-container')
+        const $addfields = getAll("[data-addtable='true']");
+        if ($addfields.length > 0) {
+            $addfields.forEach($el => {
+                $el.addEventListener("click", () => {
+                    const table = document.querySelector($el.dataset.target)
+                    const index = table.querySelectorAll('tbody > tr').length
+                    const tempalte = $el.dataset.template.replace(/___INDEX___/g, index)
+                    table.querySelector('tbody').insertAdjacentHTML('beforeend', tempalte)
+                    return false;
+                });
+            })
+        }
+    
+    
+        // 動的に追加された項目に対応する為、クリックした要素が対象の場合処理を行う。
+        document.addEventListener('click', e => {
+            const $el = e.target
+            if($el.querySelector("[data-deletetable='true']") || $el.closest("[data-deletetable='true']")) {
+                const $tr = $el.closest('tr')
+                if ($tr) {
+                    $tr.style.display = 'none'
+                    const $hidden = $tr.querySelector('input[type="hidden"][name$="_delete\]"]')
+                    $hidden.value = 1
+
+                    calculatorTotal()
+                }
+            }
+        })
+
+        // 税込設定の変更
+        document.querySelector('input[name="in_tax"]').addEventListener('change', () => {
+            calculatorTotal()
+        })
+        // 税率の変更
+        document.querySelector('select[name="tax_rate"]').addEventListener('change', () => {
+            calculatorTotal()
+        })
+
+        // 商品毎の単価・数量が変わった時の金額計算処理
+        // 動的に追加された項目に対応する為、全てのchangeイベントから対象要素だけ抽出
+        document.addEventListener('change', e => {
+            const $el = e.target
+            if($el.classList.contains('js-trigger-change-item')) {
+                const $tr = $el.closest('tr')
+                if ($tr) {
+                    const price = parseInt($tr.querySelector('[name$="[price]"]').value)
+                    const quantity = parseInt($tr.querySelector('[name$="[quantity]"]').value)
+                    $tr.querySelector('.js-item-subtotal').innerText = (price * quantity)
+
+
+                    calculatorTotal()
+                }
+            }
+        })
+    }
 });
 

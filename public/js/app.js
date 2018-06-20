@@ -89,15 +89,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __webpack_require__(2);
 
 
-function find(selector) {
-    return document.querySelector(selector);
-}
+// import bulmaCalendar from 'bulma-extensions/bulma-calendar/dist/js/bulma-calendar.js'
+
 
 function getAll(selector) {
     return Array.prototype.slice.call(document.querySelectorAll(selector), 0);
 }
 
+var sum = function sum(arr) {
+    return arr.reduce(function (prev, current, i, arr) {
+        return prev + current;
+    });
+};
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    // const datePickers = bulmaCalendar.attach('[type="date"]', {
+    //     overlay: false,
+    // });
+
     // burger
     var $navbarBurgers = getAll(".navbar-burger");
     if ($navbarBurgers.length > 0) {
@@ -206,42 +216,92 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    var createSortable = function createSortable(selector) {
-        var $el = document.querySelectorAll(selector);
-        return !$el ? null : new __WEBPACK_IMPORTED_MODULE_0__shopify_draggable__["Sortable"]($el, {
-            draggable: '.js-drag-item',
-            delay: 500
-        }).on('drag:start', function (event) {
-            console.log('drag:start:');
-            console.log(event);
-        }).on('drag:move', function (event) {}).on('drag:stop', function (event) {});
-    };
-    var draggable = createSortable('.js-drag-container');
-    var $addfields = getAll("[data-addtable='true']");
-    if ($addfields.length > 0) {
-        $addfields.forEach(function ($el) {
-            $el.addEventListener("click", function () {
-                var table = find($el.dataset.target);
-                var index = table.querySelectorAll('tbody > tr').length;
-                var tempalte = $el.dataset.template.replace(/___INDEX___/g, index);
-                table.querySelector('tbody').insertAdjacentHTML('beforeend', tempalte);
-                return false;
+    // 請求書作成ページ
+    if (document.querySelector('.invoice-create') || document.querySelector('.invoice-edit')) {
+        var createSortable = function createSortable(selector) {
+            var $el = document.querySelectorAll(selector);
+            return !$el ? null : new __WEBPACK_IMPORTED_MODULE_0__shopify_draggable__["Sortable"]($el, {
+                draggable: '.js-drag-item',
+                delay: 500
+            }).on('drag:start', function (event) {}).on('drag:move', function (event) {}).on('drag:stop', function (event) {});
+        };
+
+        var calculatorTotal = function calculatorTotal() {
+            var $subtotals = getAll('.js-item-subtotal').map(function ($e) {
+                return $e.closest('tr') && $e.closest('tr').style.display == 'none' ? 0 : parseInt($e.innerText);
             });
+            var tax_rate = document.querySelector('input[name="in_tax"]').checked ? document.querySelector('select[name="tax_rate"]').value : 0;
+
+            var subtotal = sum($subtotals);
+            var tax = sum($subtotals.map(function ($p) {
+                return $p * tax_rate / 100;
+            }));
+
+            getAll('.js-subtotal').forEach(function ($el) {
+                $el.innerText = subtotal;
+            });
+            getAll('.js-tax').forEach(function ($el) {
+                $el.innerText = tax;
+            });
+            getAll('.js-total').forEach(function ($el) {
+                $el.innerText = subtotal + tax;
+            });
+        };
+
+        var draggable = createSortable('.js-drag-container');
+        var $addfields = getAll("[data-addtable='true']");
+        if ($addfields.length > 0) {
+            $addfields.forEach(function ($el) {
+                $el.addEventListener("click", function () {
+                    var table = document.querySelector($el.dataset.target);
+                    var index = table.querySelectorAll('tbody > tr').length;
+                    var tempalte = $el.dataset.template.replace(/___INDEX___/g, index);
+                    table.querySelector('tbody').insertAdjacentHTML('beforeend', tempalte);
+                    return false;
+                });
+            });
+        }
+
+        // 動的に追加された項目に対応する為、クリックした要素が対象の場合処理を行う。
+        document.addEventListener('click', function (e) {
+            var $el = e.target;
+            if ($el.querySelector("[data-deletetable='true']") || $el.closest("[data-deletetable='true']")) {
+                var $tr = $el.closest('tr');
+                if ($tr) {
+                    $tr.style.display = 'none';
+                    var $hidden = $tr.querySelector('input[type="hidden"][name$="_delete\]"]');
+                    $hidden.value = 1;
+
+                    calculatorTotal();
+                }
+            }
+        });
+
+        // 税込設定の変更
+        document.querySelector('input[name="in_tax"]').addEventListener('change', function () {
+            calculatorTotal();
+        });
+        // 税率の変更
+        document.querySelector('select[name="tax_rate"]').addEventListener('change', function () {
+            calculatorTotal();
+        });
+
+        // 商品毎の単価・数量が変わった時の金額計算処理
+        // 動的に追加された項目に対応する為、全てのchangeイベントから対象要素だけ抽出
+        document.addEventListener('change', function (e) {
+            var $el = e.target;
+            if ($el.classList.contains('js-trigger-change-item')) {
+                var $tr = $el.closest('tr');
+                if ($tr) {
+                    var price = parseInt($tr.querySelector('[name$="[price]"]').value);
+                    var quantity = parseInt($tr.querySelector('[name$="[quantity]"]').value);
+                    $tr.querySelector('.js-item-subtotal').innerText = price * quantity;
+
+                    calculatorTotal();
+                }
+            }
         });
     }
-
-    // 動的に追加された項目に対応する為、クリックした要素が対象の場合処理を行う。
-    document.addEventListener('click', function (e) {
-        var $el = e.target;
-        if ($el.querySelector("[data-deletetable='true']") || $el.closest("[data-deletetable='true']")) {
-            var $tr = $el.closest('tr');
-            if ($tr) {
-                $tr.style.display = 'none';
-                var $hidden = $tr.querySelector('input[type="hidden"][name$="_delete\]"]');
-                $hidden.value = 1;
-            }
-        }
-    });
 });
 
 /***/ }),

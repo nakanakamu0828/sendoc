@@ -16,7 +16,7 @@
         @endif
     </td>
     <td>
-        {!! Form::number('items[' . $index . '][price]', isset($item) && $item->price ? $item->price : null, ['class' => 'input' ]) !!}
+        {!! Form::number('items[' . $index . '][price]', isset($item) && $item->price ? $item->price : null, ['class' => 'input js-trigger-change-item' ]) !!}
         @if(isset($index) && isset($errors) && ($errors->has("items.{$index}.price") || $errors->has("items")))
             <p class="help is-danger">{{ $errors->first("items.{$index}.price") }}</p>
         @endif
@@ -27,7 +27,7 @@
                 Form::select('items[' . $index . '][quantity]',
                     array_combine(range(1, 100), range(1, 100)),
                     isset($item) && $item->quantity ? $item->quantity : 1,
-                    [ 'class' => '' ]
+                    [ 'class' => 'js-trigger-change-item' ]
                 )
             !!}
             @if(isset($index) && isset($errors) && ($errors->has("items.{$index}.quantity") || $errors->has("items")))
@@ -36,7 +36,7 @@
         </div>
     </td>
     <td class="has-text-right" style="vertical-align: middle;">
-        <span class="">{{ (isset($item) && $item->price ? $item->price : 0) }}</span>
+        <span class="js-item-subtotal">{{ (isset($item) && $item->price ? $item->price : 0) }}</span>
         <a href="#" class="m-l-10 has-text-danger" data-deletetable="true"><i class="fas fa-times-circle"></i></a>
     </td>
 </tr>

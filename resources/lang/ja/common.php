@@ -19,6 +19,7 @@ return [
     'email' => 'メールアドレス',
     'forgot_your_password?' => 'パスワードを忘れた方はこちら',
     'invoice_information' => '請求情報',
+    'item_information' => '商品情報',
     'login' => 'ログイン',
     'logout' => 'ログアウト',
     'member' => 'メンバー',
@@ -30,6 +31,7 @@ return [
     'reset' => 'リセット',
     'search' => '検索',
     'selection' => '選択',
+    'tax_information' => '課税情報',
     'unknown' => '不明',
     'update_has_been_completed' => '更新が完了しました。',
 ];

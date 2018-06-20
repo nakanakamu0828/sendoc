@@ -33,6 +33,8 @@
                 <div class="box">
                     <form method="POST" action="{{ route('invoice.store') }}">
                         @csrf
+
+                        <h3 class="m-t-20 item-title is-border-line">{{ __('common.invoice_information') }}</h3>
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.invoice.title') }}</label>
                             <div class="control">
@@ -45,7 +47,7 @@
 
                         <div class="field">
                             <div class="columns">
-                                <div class="column is-6">
+                                <div class="column is-6 p-b-0">
                                     <label class="label is-small">{{ __('db.attributes.invoice.client_id') }}</label>
                                     <div class="control">
                                         <div class="select">
@@ -67,7 +69,7 @@
 
                         <div class="field">
                             <div class="columns">
-                                <div class="column is-6">
+                                <div class="column is-6 p-b-0">
                                     <label class="label is-small">{{ __('db.attributes.invoice.date') }}</label>
                                     <div class="control">
                                         {!! Form::date('date', old('date', $invoice->date), ['class' => 'input' . ($errors->has('date') ? ' is-danger' : '' )]) !!}
@@ -76,7 +78,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="column is-6">
+                                <div class="column is-6 p-b-0">
                                     <label class="label is-small">{{ __('db.attributes.invoice.due') }}</label>
                                     <div class="control">
                                         {!! Form::date('due', old('due', $invoice->due), ['class' => 'input' . ($errors->has('due') ? ' is-danger' : '' )]) !!}
@@ -88,6 +90,7 @@
                             </div>
                         </div>
 
+                        <h3 class="m-t-30 item-title is-border-line">{{ __('common.tax_information') }}</h3>
                         <div class="field">
                             <div class="columns">
                                 <div class="column is-6">
@@ -124,6 +127,7 @@
                         </div>
 
                         @if(count($invoice->items) > 0)
+                            <h3 class="m-t-30 item-title is-border-line">{{ __('common.item_information') }}</h3>
                             <?php
                                 $subtotal = 0;
                                 $tax = 0;
@@ -169,12 +173,12 @@
                                 </div>
                                 <div class="column is-3">
                                     <dl>
-                                        <dt>小計</dt>
-                                        <dd>{{ $subtotal }}</dd>
+                                    <dt>小計</dt>
+                                        <dd class="js-subtotal">{{ $subtotal }}</dd>
                                         <dt>消費税</dt>
-                                        <dd>{{ $tax }}</dd>
+                                        <dd class="js-tax">{{ $tax }}</dd>
                                         <dt>合計</dt>
-                                        <dd>{{ $subtotal + $tax }}</dd>
+                                        <dd class="js-total">{{ $subtotal + $tax }}</dd>
                                 　　</dl>
                                 </div>
                             </div>

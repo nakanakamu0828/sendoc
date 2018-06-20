@@ -19,6 +19,7 @@ return [
     'email' => 'Email',
     'forgot_your_password?' => 'Forgot Your Password?',
     'invoice_information' => 'Invoice Information',
+    'item_information' => 'Item Information',
     'login' => 'Login',
     'logout' => 'Logout',
     'member' => 'Mamber',
@@ -30,6 +31,7 @@ return [
     'reset' => 'Reset',
     'search' => 'Search',
     'selection' => 'Selection',
+    'tax_information' => 'Tax Information',
     'unknown' => 'Unknown',
     'update_has_been_completed' => 'Update has been completed.',
 ];
