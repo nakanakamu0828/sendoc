@@ -92,7 +92,7 @@
                         <th class="has-text-centered">{{ __('db.attributes.invoice.total') }}</th>
                         <th class="has-text-centered">{{ __('db.attributes.invoice.date') }}</th>
                         <th class="has-text-centered">{{ __('db.attributes.invoice.due') }}</th>
-                        <th></th>
+                        <th width="10"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,7 +101,9 @@
                             <td data-label="{{ __('common.selection') }}">
                                 <input type="checkbox" value="{{ $invoice->id }}" name="selection[]"{{ in_array($invoice->id, $selections) ? ' checked' : '' }}>
                             </td>
-                            <td data-label="{{ __('db.attributes.invoice.id') }}">{{ $invoice->id }}</td>
+                            <td data-label="{{ __('db.attributes.invoice.id') }}">
+                                {{ $invoice->id }}
+                            </td>
                             <td data-label="{{ __('common.invoice_information') }}">
                                 <p>
                                     {{ $invoice->title }}<br>
@@ -117,17 +119,38 @@
                             <td data-label="{{ __('db.attributes.invoice.due') }}" class="has-text-centered">
                                 {{ $invoice->due ? $invoice->due->format('Y/m/d') : '' }}
                             </td>
-                            <td class="has-text-centered">
-                                <a href="{{ route('invoice.edit', [$invoice->id]) }}">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="{{ route('invoice.destroy', [$invoice->id]) }}"
-                                    class="has-text-danger"
-                                    data-method="delete"
-                                    data-confirm="{{ __('common.delete_are_you_sure_you_want_to') }}"
-                                >
-                                    <i class="fas fa-times-circle"></i>
-                                </a>
+                            <td>
+                                <div class="dropdown is-right">
+                                    <div class="dropdown-trigger">
+                                        <button class="button is-default is-small" dropdown="true">
+                                            <span>{{ __('common.menu') }}</span>
+                                            <span class="icon is-small">
+                                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-content">
+                                            <a href="{{ route('invoice.edit', [$invoice->id]) }}" class="dropdown-item">
+                                                <i class="fas fa-edit"></i> {{ __('common.edit') }}
+                                            </a>
+                                            <a href="{{ route('invoice.pdf.preview', [$invoice->id]) }}" class="dropdown-item" target="_blank">
+                                                <i class="fas fa-file-pdf"></i> {{ __('common.preview_pdf') }}
+                                            </a>
+                                            <a href="{{ route('invoice.pdf.download', [$invoice->id]) }}" class="dropdown-item" download>
+                                                <i class="fas fa-file-pdf"></i> {{ __('common.download_pdf') }}
+                                            </a>
+                                            <a href="{{ route('invoice.destroy', [$invoice->id]) }}"
+                                                class="dropdown-item"
+                                                data-method="delete"
+                                                data-confirm="{{ __('common.delete_are_you_sure_you_want_to') }}"
+                                            >
+                                                <i class="has-text-danger fas fa-times-circle"></i> {{ __('common.delete') }}
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

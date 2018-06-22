@@ -1,0 +1,44 @@
+@import "_variables";
+@import "_bulma";
+@import "_util";
+
+.table {
+    td, th {
+        padding: 10px 10px !important;
+    }
+
+    td.blank {
+        background-color: white;
+        border: none;
+    }
+}
+
+.is-underline {
+    text-decoration: underline;
+}
+
+
+.recipient-items {
+    & > .recipient-item {
+        float: left;
+        text-align: left;
+
+        &.is-half {
+            width: 50%;
+        }
+    }
+}
+
+.total-price {
+    width: 80%;
+    border-bottom: 1px solid #000;
+    font-size: 130%;
+    
+    & > dt {
+        float: left;
+    }
+    & > dd {
+        float: right;
+        text-align: right;
+    }
+}

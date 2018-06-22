@@ -42,5 +42,13 @@ Route::group(['middleware' => ['auth'] ], function () {
             'as'   => 'search',
             'uses' => 'InvoiceController@index',
         ]);
+        Route::get('{id}/preview.pdf', [
+            'as'   => 'pdf.preview',
+            'uses' => 'Invoice\PdfController@preview',
+        ]);
+        Route::get('{id}/download.pdf', [
+            'as'   => 'pdf.download',
+            'uses' => 'Invoice\PdfController@download',
+        ]);
     });
 });

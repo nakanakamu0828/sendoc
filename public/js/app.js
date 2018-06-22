@@ -68,7 +68,8 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-module.exports = __webpack_require__(5);
+__webpack_require__(5);
+module.exports = __webpack_require__(6);
 
 
 /***/ }),
@@ -117,6 +118,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 $el.classList.toggle("is-active");
                 $target.classList.toggle("is-active");
             });
+        });
+    }
+    var $dropdowns = getAll('.dropdown:not(.is-hoverable) [dropdown="true"]');
+    if ($dropdowns.length > 0) {
+        $dropdowns.forEach(function ($el) {
+            $el.addEventListener("click", function (event) {
+                var $dropdown = $el.closest('.dropdown:not(.is-hoverable)');
+                $dropdown.classList.toggle("is-active");
+            });
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!event.target.closest('.dropdown')) {
+                $dropdowns.forEach(function ($el) {
+                    var $dropdown = $el.closest('.dropdown:not(.is-hoverable)');
+                    $dropdown.classList.remove("is-active");
+                });
+            }
         });
     }
 
@@ -7265,6 +7284,12 @@ exports.Plugins = Plugins;
 
 /***/ }),
 /* 5 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

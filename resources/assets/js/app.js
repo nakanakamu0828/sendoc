@@ -38,7 +38,24 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         })
     }
+    const $dropdowns = getAll('.dropdown:not(.is-hoverable) [dropdown="true"]')
+    if ($dropdowns.length > 0) {
+        $dropdowns.forEach($el => {
+            $el.addEventListener("click", event => {
+                const $dropdown  = $el.closest('.dropdown:not(.is-hoverable)')
+                $dropdown.classList.toggle("is-active")
+            })
+        })
 
+        document.addEventListener("click", event => {
+            if(!event.target.closest('.dropdown')) {
+                $dropdowns.forEach($el => {
+                    const $dropdown  = $el.closest('.dropdown:not(.is-hoverable)')
+                    $dropdown.classList.remove("is-active")
+                });
+            }
+        });
+    }
 
     const $autoSubmitElements = getAll(".js-auto-submit");
     if ($autoSubmitElements.length > 0) {

@@ -61,7 +61,7 @@ return [
             'tax_rate' => '税率',
             'remarks' => '備考',
             'subtotal' => '小計',
-            'tax' => '税金',
+            'tax' => '消費税',
             'total' => '合計',
             'created_at' => '登録日時',
             'updated_at' => '更新日時',

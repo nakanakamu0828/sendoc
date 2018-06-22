@@ -158,17 +158,32 @@
                             <td data-label="{{ __('db.attributes.client.created_at') }}">
                                 {{ $client->created_at->format('Y/m/d H:i:s')  }}
                             </td>
-                            <td class="has-text-centered">
-                                <a href="{{ route('client.edit', [$client->id]) }}">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="{{ route('client.destroy', [$client->id]) }}"
-                                    class="has-text-danger"
-                                    data-method="delete"
-                                    data-confirm="{{ __('common.delete_are_you_sure_you_want_to') }}"
-                                >
-                                    <i class="fas fa-times-circle"></i>
-                                </a>
+                            <td>
+                                <div class="dropdown is-right">
+                                    <div class="dropdown-trigger">
+                                        <button class="button is-default is-small" dropdown="true">
+                                            <span>{{ __('common.menu') }}</span>
+                                            <span class="icon is-small">
+                                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div class="dropdown-menu">
+                                        <div class="dropdown-content">
+                                            <a href="{{ route('client.edit', [$client->id]) }}" class="dropdown-item">
+                                                <i class="fas fa-edit"></i> {{ __('common.edit') }}
+                                            </a>
+                                            <a href="{{ route('client.destroy', [$client->id]) }}"
+                                                class="dropdown-item"
+                                                data-method="delete"
+                                                data-confirm="{{ __('common.delete_are_you_sure_you_want_to') }}"
+                                            >
+                                                <i class="has-text-danger fas fa-times-circle"></i> {{ __('common.delete') }}
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

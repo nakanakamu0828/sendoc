@@ -18,5 +18,14 @@ return [
             'danger_not_selection_clients' => 'BPが１つも選択されていない為、メールを作成することができません。'
         ]
     ],
+    'invoice' => [
+        'pdf' => [
+            'due_date' => 'お支払い期限',
+            'grand_total' => 'ご請求金額',
+            'please_be_advised_that_your_payment_is_listed_below' => '下記の通りご請求いたします。',
+            'price' => '金額',
+            'subject' => '件名',
+        ]
+    ],
     
 ];
