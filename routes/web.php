@@ -36,6 +36,13 @@ Route::group(['middleware' => ['auth'] ], function () {
             'uses' => 'Client\CsvController@downloadSample',
         ]);
     });
+    Route::resource('source', 'SourceController', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
+    Route::group(['prefix' => 'source', 'as' => 'source.'], function () {
+        Route::post('search', [
+            'as'   => 'search',
+            'uses' => 'SourceController@index',
+        ]);
+    });
     Route::resource('invoice', 'InvoiceController', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
     Route::group(['prefix' => 'invoice', 'as' => 'invoice.'], function () {
         Route::post('search', [

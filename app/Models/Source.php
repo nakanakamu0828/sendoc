@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Source extends Model
 {
     protected $fillable = [
         'organization_id',
@@ -15,12 +15,17 @@ class Client extends Model
         'address1',
         'address2',
         'address3',
-        'remarks',
     ];
 
+    // Relation
     public function organization()
     {
         return $this->belongsTo('App\Models\Organization');
+    }
+
+    public function payees()
+    {
+        return $this->hasMany('App\Models\Source\Payee');
     }
 
     public function invoices()
@@ -28,7 +33,7 @@ class Client extends Model
         return $this->hasMany('App\Models\Invoice');
     }
 
-
+    // Scope
     public function scopeSearchByCondition($query, $condition)
     {
         return $query
@@ -63,5 +68,19 @@ class Client extends Model
         } else {
             return $query->where('contact_name', 'like', '%' . $value . '%');
         }
+    }
+
+    // Function
+    public function printPostalCode()
+    {
+        if ($this->postal_code) {
+            return '〒' . $this->postal_code;
+        } else {
+            return '';
+        }
+    }
+    public function printFullAddress($delimiter = ' ')
+    {
+        return join($delimiter, array_filter([$this->printPostalCode(), $this->address1, $this->address2, $this->address3]));
     }
 }

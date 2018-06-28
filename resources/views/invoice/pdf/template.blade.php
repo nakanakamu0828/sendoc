@@ -7,7 +7,7 @@
             {{ $invoice->date->format('Y/m/d') }}
         </p>
         <p class="m-b-0">
-            No. 20180601-001
+            No. {{ $invoice->invoice_no }}
         </p>
     </div>
     <h1 class="title is-size-2 has-text-centered">{{ __('db.models.invoice') }}</h1>
@@ -40,17 +40,15 @@
             </div>
             <div class="beta">
                 <p class="senderName">
-                    SHIEN株式会社
+                    {{ $invoice->source->name }}{!! $invoice->source->contact_name ? '&nbsp;' . $invoice->source->contact_name : '' !!}
                 </p>
                 <p>
-                    〒100-0005<br>
-                    東京都千代田区<br>
-                    丸の内2-3-2<br>
-                    郵船ビルディング1階<br>
-
-                    <br>TEL:03-5533-8670<br>
-                    
-                    nakamura.yuuki.0606@gmail.com
+                    <?php
+                        $address = $invoice->source->printFullAddress('<br>');
+                    ?>
+                    {!! $address ? sprintf('<br>%s', $address) : '' !!}
+                    {!! $invoice->source->tel ? sprintf('<br>TEL: %s', $invoice->source->tel) : '' !!}
+                    {!! $invoice->source->email ? sprintf('<br>Email: %s', $invoice->source->email) : '' !!}
                 </p>
             </div>
         </div>
@@ -126,11 +124,16 @@
     <p class="notes">
         {{ nl2br($invoice->remarks) }}
     </p>
-    <div style="margin:1em 0;page-break-inside: avoid;">
-        <strong>お振込先：</strong><br>
-        <div>
-            三井住友銀行 丸ノ内支店 (普) 7041390 シエン カブシキカイシャ
+
+    @if(count($invoice->source->payees))
+        <div style="margin:1em 0;page-break-inside: avoid;">
+            <strong>{{ __('db.models.payee') }}</strong><br>
+            @foreach ($invoice->source->payees as $payee)
+                <div>
+                    {{ $payee->detail }}
+                </div>
+            @endforeach
         </div>
-    </div>
+    @endif
 </div>
 @endsection

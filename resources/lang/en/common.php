@@ -4,6 +4,8 @@ return [
 
     'add' => 'Add',
     'admin' => 'Admin',
+    'bank_account_information' => 'Bank Account Information',
+    'basic_information' => 'Basic Information',
     'choose_a_select_tag' => '▼ Please Choose',
     'choose_a_file' => 'Choose a file',
     'upload_csv' => 'Upload CSV',

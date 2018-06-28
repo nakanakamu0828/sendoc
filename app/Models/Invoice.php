@@ -14,6 +14,8 @@ class Invoice extends Model
         'organization_id',
         'title',
         'client_id',
+        'source_id',
+        'invoice_no',
         'date',
         'due',
         'in_tax',
@@ -43,6 +45,7 @@ class Invoice extends Model
         parent::__construct($attributes);
     }
 
+    // Relation
     public function organization()
     {
         return $this->belongsTo('App\Models\Organization');
@@ -53,11 +56,17 @@ class Invoice extends Model
         return $this->belongsTo('App\Models\Client');
     }
 
+    public function source()
+    {
+        return $this->belongsTo('App\Models\Source');
+    }
+
     public function items()
     {
         return $this->hasMany('App\Models\Invoice\Item');
     }
 
+    // Scope
     public function scopeSearchByCondition($query, $condition)
     {
         return $query
@@ -73,4 +82,17 @@ class Invoice extends Model
             return $query->where('title', 'like', '%' . $value . '%');
         }
     }
+
+    // Function
+    public function generateInvoiceNo()
+    {
+        $i = 1;
+        while(is_null($this->invoice_no)) {
+            $invoice_no = sprintf('%s-%03d', date('Ymd'), $i++);
+            if (0 === $this->where('organization_id', $this->organization->id)->where('invoice_no', $invoice_no)->count()) {
+                $this->invoice_no = $invoice_no;
+            }
+        }
+    }
+
 }

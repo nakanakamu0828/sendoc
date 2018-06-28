@@ -16,7 +16,7 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.user.name') }}</label>
+                            <label class="label is-small">{{ __('db.attributes.organization.name') }}</label>
                             <div class="control has-icons-left">
                                 <input type="text" class="input {{ $errors->has('organization_name') ? ' is-danger' : '' }}" name="organization_name" placeholder="" value="{{ old('organization_name') }}" autofocus>
                                 <span class="icon is-small is-left">

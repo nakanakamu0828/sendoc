@@ -235,6 +235,32 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    var $addfields = getAll("[data-addfiled='true']");
+    if ($addfields.length > 0) {
+        $addfields.forEach(function ($el) {
+            $el.addEventListener("click", function () {
+                var $block = document.querySelector($el.dataset.target);
+                var index = $block.querySelectorAll('.js-addfield-block').length;
+                var tempalte = $el.dataset.template.replace(/___INDEX___/g, index);
+                $block.insertAdjacentHTML('beforeend', tempalte);
+                return false;
+            });
+        });
+    }
+
+    // 動的に追加された項目に対応する為、クリックした要素が対象の場合処理を行う。
+    document.addEventListener('click', function (e) {
+        var $el = e.target;
+        if ($el.closest("[data-deletefiled='true']")) {
+            var $block = $el.closest('.js-addfield-block');
+            if ($block) {
+                $block.style.display = 'none';
+                var $hidden = $block.querySelector('input[type="hidden"][name$="_delete\]"]');
+                $hidden.value = 1;
+            }
+        }
+    });
+
     // 請求書作成ページ
     if (document.querySelector('.invoice-create') || document.querySelector('.invoice-edit')) {
         var createSortable = function createSortable(selector) {
@@ -268,9 +294,9 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         var draggable = createSortable('.js-drag-container');
-        var $addfields = getAll("[data-addtable='true']");
-        if ($addfields.length > 0) {
-            $addfields.forEach(function ($el) {
+        var _$addfields = getAll("[data-addtable='true']");
+        if (_$addfields.length > 0) {
+            _$addfields.forEach(function ($el) {
                 $el.addEventListener("click", function () {
                     var table = document.querySelector($el.dataset.target);
                     var index = table.querySelectorAll('tbody > tr').length;
@@ -284,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 動的に追加された項目に対応する為、クリックした要素が対象の場合処理を行う。
         document.addEventListener('click', function (e) {
             var $el = e.target;
-            if ($el.querySelector("[data-deletetable='true']") || $el.closest("[data-deletetable='true']")) {
+            if ($el.closest("[data-deletetable='true']")) {
                 var $tr = $el.closest('tr');
                 if ($tr) {
                     $tr.style.display = 'none';

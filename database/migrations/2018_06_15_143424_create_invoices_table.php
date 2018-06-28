@@ -18,6 +18,8 @@ class CreateInvoicesTable extends Migration
             $table->string('title')->comment('タイトル');
             $table->integer('organization_id')->unsigned();
             $table->integer('client_id')->unsigned();
+            $table->integer('source_id')->unsigned();
+            $table->string('invoice_no')->comment('請求No');
             $table->date('date')->comment('発行日');
             $table->date('due')->nullable(true)->comment('支払期限');
             $table->boolean('in_tax')->default(true)->comment('税込みかどうか');
@@ -30,6 +32,7 @@ class CreateInvoicesTable extends Migration
             $table->softDeletes();
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('source_id')->references('id')->on('sources')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

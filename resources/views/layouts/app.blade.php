@@ -82,6 +82,9 @@
                             <li class="{{ Request::is('client*') ? 'is-active' : '' }}">
                                 <a href="{{ route('client.index') }}">{{ __('db.models.client') }}{{ __('common.admin') }}</a>
                             </li>
+                            <li class="{{ Request::is('source*') ? 'is-active' : '' }}">
+                                <a href="{{ route('source.index') }}">{{ __('db.models.source') }}{{ __('common.admin') }}</a>
+                            </li>
                             <li class="{{ Request::is('invoice*') ? 'is-active' : '' }}">
                                 <a href="{{ route('invoice.index') }}">{{ __('db.models.invoice') }}{{ __('common.admin') }}</a>
                             </li>

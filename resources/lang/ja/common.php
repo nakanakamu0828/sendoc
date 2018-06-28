@@ -4,6 +4,8 @@ return [
 
     'add' => '追加',
     'admin' => '管理',
+    'bank_account_information' => '口座情報',
+    'basic_information' => '基本情報',
     'choose_a_select_tag' => '▼ 選択してください',
     'choose_a_file' => 'ファイルを選択してください',
     'upload_csv' => 'CSVアップロード',

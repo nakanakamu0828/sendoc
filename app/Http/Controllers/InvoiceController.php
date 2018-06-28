@@ -39,22 +39,32 @@ class InvoiceController extends Controller
 
     public function create()
     {
-        $invoice = new Invoice();
+        $user = Auth::user();
+        $organization = $user->selectedOrganization();
+
+        $invoice = new Invoice(['organization_id' => $organization->id]);
+        $invoice->generateInvoiceNo();
         $invoice->items->add(new Item());
 
-        $clientOptions = Auth::user()->selectedOrganization()
+        $clientOptions = $organization
             ->clients()
             ->pluck('name', 'id');
+
+        $sourceOptions = $organization
+            ->sources()
+            ->pluck('name', 'id');
+
 
         return view('invoice.create', [
             'invoice' => $invoice,
             'clientOptions' => $clientOptions,
+            'sourceOptions' => $sourceOptions,
         ]);
     }
 
     public function store(SaveForm $request)
     {
-        $data = $request->only('title', 'client_id', 'date', 'due', 'remarks');
+        $data = $request->only('invoice_no', 'title', 'client_id', 'source_id', 'date', 'due', 'remarks');
 
         $organization = Auth::user()->selectedOrganization();
         $invoice = $organization->invoices()->create(['organization_id' => $organization->id] + $data);
@@ -83,21 +93,27 @@ class InvoiceController extends Controller
 
     public function edit($id)
     {
-        $clientOptions = Auth::user()->selectedOrganization()
+        $organization = Auth::user()->selectedOrganization();
+        
+        $clientOptions = $organization
             ->clients()
             ->pluck('name', 'id');
 
-        $organization = Auth::user()->selectedOrganization();
+        $sourceOptions = $organization
+            ->sources()
+            ->pluck('name', 'id');
+
         $invoice = $organization->invoices()->find($id);
         return view('invoice.edit', [
             'invoice' => $invoice,
             'clientOptions' => $clientOptions,
+            'sourceOptions' => $sourceOptions,
         ]);
     }
 
     public function update(SaveForm $request, $id)
     {
-        $data = $request->only('title', 'client_id', 'date', 'due', 'remarks');
+        $data = $request->only('invoice_no', 'title', 'client_id', 'source_id', 'date', 'due', 'remarks');
 
         $organization = Auth::user()->selectedOrganization();
         $invoice = $organization->invoices()->find($id);

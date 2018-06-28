@@ -21,6 +21,11 @@ class Organization extends Model
         return $this->hasMany('App\Models\Client');
     }
 
+    public function sources()
+    {
+        return $this->hasMany('App\Models\Source');
+    }
+
     public function invoices()
     {
         return $this->hasMany('App\Models\Invoice');

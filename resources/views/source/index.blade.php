@@ -7,7 +7,7 @@
             <a style="padding-left: 0.5rem;" href="{{ url('/dashboard') }}">{{ __('common.dashboard') }}</a>
         </li>
         <li class="is-active">
-            <a href="#" aria-current="page">{{ __('db.models.client') }}</a>
+            <a href="#" aria-current="page">{{ __('db.models.source') }}</a>
         </li>
     </ul>
 </nav>
@@ -15,7 +15,7 @@
     <div class="hero-body">
         <div class="container-fulid">
             <h1 class="title">
-            {{ __('db.models.client') }}
+            {{ __('db.models.source') }}
             </h1>
             <h2 class="subtitle">
             </h2>
@@ -24,7 +24,7 @@
 </section>
 <main class="section">
     <div class="container-fulid">
-        <form action="{{ route('client.search') }}" method="post" class="m-b-20">
+        <form action="{{ route('source.search') }}" method="post" class="m-b-20">
             @csrf
             <div class="message">
                 <div class="message-header">
@@ -39,7 +39,7 @@
                     <div class="columns is-multiline">
                         <div class="column is-4">
                             <div class="field">
-                                <label class="label is-small">{{ __('db.attributes.client.name') }}</label>
+                                <label class="label is-small">{{ __('db.attributes.source.name') }}</label>
                                 <div class="control">
                                     <input name="name" class="input" type="text" placeholder="" value="{{ old('name', (isset($condition['name']) ? $condition['name'] : null)) }}">
                                     @if ($errors->has('name'))
@@ -50,7 +50,7 @@
                         </div>
                         <div class="column is-4">
                             <div class="field">
-                                <label class="label is-small">{{ __('db.attributes.client.email') }}</label>
+                                <label class="label is-small">{{ __('db.attributes.source.email') }}</label>
                                 <div class="control">
                                     <input name="email" class="input" type="text" placeholder="" value="{{ old('email', (isset($condition['email']) ? $condition['email'] : null)) }}">
                                     @if ($errors->has('email'))
@@ -61,7 +61,7 @@
                         </div>
                         <div class="column is-4">
                             <div class="field">
-                                <label class="label is-small">{{ __('db.attributes.client.contact_name') }}</label>
+                                <label class="label is-small">{{ __('db.attributes.source.contact_name') }}</label>
                                 <div class="control">
                                     <input name="contact_name" class="input" type="text" placeholder="" value="{{ old('contact_name', (isset($condition['contact_name']) ? $condition['contact_name'] : null)) }}">
                                     @if ($errors->has('contact_name'))
@@ -96,67 +96,42 @@
             </div>
         @endif
         <div class="is-clearfix">
-            <a href="{{ route('client.create') }}" class="button is-info is-outlined is-rounded m-b-10 is-pulled-left">
+            <a href="{{ route('source.create') }}" class="button is-info is-outlined is-rounded m-b-10 is-pulled-left">
                 <span class="is-hidden-mobile">{{ __('common.register') }}</span>
                 <span class="is-hidden-desktop"><i class="fas fa-plus"></i></span>
             </a>
-            <form action="{{ route('client.csv.upload') }}" method="post" class="is-pulled-left" enctype="multipart/form-data">
-                @csrf
-                <div class="file is-primary m-l-5">
-                    <label class="file-label">
-                        <input class="file-input js-auto-submit" type="file" name="file" accept=".csv">
-                        <span class="file-cta">
-                            <span class="file-icon m-r-0">
-                                <i class="fas fa-upload"></i>
-                            </span>
-                            <span class="file-label m-l-5 is-hidden-mobile">
-                                {{ __('common.upload_csv') }}
-                            </span>
-                        </span>
-                    </label>
-                </div>
-            </form>
         </div>
-        <p class="is-size-7 m-b-5">
-            {{ __('views.client.index.help_upload') }}
-        </p>
-        <p class="is-size-7 m-b-5">
-            {{ __('views.client.index.help_csv_charactor') }}
-        </p>
-        <p class="is-size-7 m-b-20">
-            <a href="{{ route('client.csv.download.sample') }}">{{ __('views.client.index.help_download_sample') }}</a>
-        </p>
-        @if(count($clients))
+        @if(count($sources))
             <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth is-dark-header">
                 <thead>
                     <tr>
-                        <th>{{ __('db.attributes.client.id') }}</th>
-                        <th>{{ __('db.attributes.client.name') }}</th>
-                        <th>{{ __('db.attributes.client.contact_name') }}</th>
-                        <th>{{ __('db.attributes.client.email') }}</th>
-                        <th>{{ __('db.attributes.client.address1') }}</th>
-                        <th>{{ __('db.attributes.client.created_at') }}</th>
+                        <th>{{ __('db.attributes.source.id') }}</th>
+                        <th>{{ __('db.attributes.source.name') }}</th>
+                        <th>{{ __('db.attributes.source.contact_name') }}</th>
+                        <th>{{ __('db.attributes.source.email') }}</th>
+                        <th>{{ __('db.attributes.source.address1') }}</th>
+                        <th>{{ __('db.attributes.source.created_at') }}</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($clients as $client)
+                    @foreach($sources as $source)
                         <tr>
-                            <td data-label="{{ __('db.attributes.client.id') }}">{{ $client->id }}</td>
-                            <td data-label="{{ __('db.attributes.client.name') }}">
-                                {{ $client->name }}
+                            <td data-label="{{ __('db.attributes.source.id') }}">{{ $source->id }}</td>
+                            <td data-label="{{ __('db.attributes.source.name') }}">
+                                {{ $source->name }}
                             </td>
-                            <td data-label="{{ __('db.attributes.client.contact_name') }}">
-                                {{ $client->contact_name }}
+                            <td data-label="{{ __('db.attributes.source.contact_name') }}">
+                                {{ $source->contact_name }}
                             </td>
-                            <td data-label="{{ __('db.attributes.client.email') }}">
-                                {{ $client->email }}
+                            <td data-label="{{ __('db.attributes.source.email') }}">
+                                {{ $source->email }}
                             </td>
-                            <td data-label="{{ __('db.attributes.client.address1') }}">
-                                {{ $client->address1 }}{!! $client->address2 ? '<br>' . $client->address2 : '' !!}{!! $client->address3 ? '<br>' . $client->address3 : '' !!}
+                            <td data-label="{{ __('db.attributes.source.address1') }}">
+                                {{ $source->address1 }}{!! $source->address2 ? '<br>' . $source->address2 : '' !!}{!! $source->address3 ? '<br>' . $source->address3 : '' !!}
                             </td>
-                            <td data-label="{{ __('db.attributes.client.created_at') }}">
-                                {{ $client->created_at->format('Y/m/d H:i:s')  }}
+                            <td data-label="{{ __('db.attributes.source.created_at') }}">
+                                {{ $source->created_at->format('Y/m/d H:i:s')  }}
                             </td>
                             <td>
                                 <div class="dropdown is-right">
@@ -170,10 +145,10 @@
                                     </div>
                                     <div class="dropdown-menu">
                                         <div class="dropdown-content">
-                                            <a href="{{ route('client.edit', [$client->id]) }}" class="dropdown-item">
+                                            <a href="{{ route('source.edit', [$source->id]) }}" class="dropdown-item">
                                                 <i class="fas fa-edit"></i> {{ __('common.edit') }}
                                             </a>
-                                            <a href="{{ route('client.destroy', [$client->id]) }}"
+                                            <a href="{{ route('source.destroy', [$source->id]) }}"
                                                 class="dropdown-item"
                                                 data-method="delete"
                                                 data-confirm="{{ __('common.delete_are_you_sure_you_want_to') }}"
@@ -189,7 +164,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $clients->links('vendor.pagination.bulma') }}
+            {{ $sources->links('vendor.pagination.bulma') }}
         @endif
     </div>
 </main>

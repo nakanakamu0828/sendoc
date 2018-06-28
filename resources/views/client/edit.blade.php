@@ -86,21 +86,6 @@
                                     </div>
                                 </div>
                                 <div class="column is-6">
-                                    <label class="label is-small">{{ __('db.attributes.client.prefecture') }}</label>
-                                    <div class="control">
-                                        <div class="select">
-                                            {!! 
-                                                Form::select('prefecture_id',
-                                                    ['' => '▼ 選択してください'] + App\Models\Prefecture::pluck('name', 'id')->toArray(),
-                                                    old('prefecture_id', $client->prefecture_id),
-                                                    ['class' => '', 'style' => '']
-                                                )
-                                            !!}
-                                        </div>
-                                        @if ($errors->has('prefecture_id'))
-                                            <p class="help is-danger">{{ $errors->first('prefecture_id') }}</p>
-                                        @endif
-                                    </div>
                                 </div>
                             </div>
                         </div>

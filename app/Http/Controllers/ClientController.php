@@ -40,7 +40,7 @@ class ClientController extends Controller
 
     public function store(ClientForm $request)
     {
-        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'prefecture_id', 'address1', 'address2', 'remarks');
+        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'address1', 'address2', 'address3', 'remarks');
 
         $organization = Auth::user()->selectedOrganization();
         $organization->clients()->create(['organization_id' => $organization->id] + $data);
@@ -58,7 +58,7 @@ class ClientController extends Controller
 
     public function update(ClientForm $request, $id)
     {
-        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'prefecture_id', 'address1', 'address2', 'remarks');
+        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'address1', 'address2', 'address3', 'remarks');
 
         $organization = Auth::user()->selectedOrganization();
         $client = $organization->clients()->find($id);

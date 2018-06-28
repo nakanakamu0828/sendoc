@@ -36,25 +36,55 @@
 
                         <h3 class="m-t-20 item-title is-border-line">{{ __('common.invoice_information') }}</h3>
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.invoice.title') }}</label>
-                            <div class="control">
-                                {!! Form::text('title', old('title', $invoice->title), ['class' => 'input' . ($errors->has('title') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.invoice.title')]) !!}
-                                @if ($errors->has('title'))
-                                    <p class="help is-danger">{{ $errors->first('title') }}</p>
-                                @endif
+                            <div class="columns">
+                                <div class="column is-6 p-b-0">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.invoice_no') }}</label>
+                                    <div class="control">
+                                        {!! Form::text('invoice_no', old('invoice_no', $invoice->invoice_no), ['class' => 'input' . ($errors->has('invoice_no') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.invoice.invoice_no')]) !!}
+                                        @if ($errors->has('invoice_no'))
+                                            <p class="help is-danger">{{ $errors->first('invoice_no') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="column is-6 p-b-0">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.title') }}</label>
+                                    <div class="control">
+                                        {!! Form::text('title', old('title', $invoice->title), ['class' => 'input' . ($errors->has('title') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.invoice.title')]) !!}
+                                        @if ($errors->has('title'))
+                                            <p class="help is-danger">{{ $errors->first('title') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="field">
                             <div class="columns">
                                 <div class="column is-6 p-b-0">
-                                    <label class="label is-small">{{ __('db.attributes.invoice.client_id') }}</label>
+                                    <label class="label is-small">{{ __('db.models.client') }}</label>
                                     <div class="control">
                                         <div class="select">
                                             {!!
                                                 Form::select('client_id',
                                                     ['' => __('common.choose_a_select_tag')] + $clientOptions->toArray(),
                                                     old('client_id', $invoice->client_id),
+                                                    []
+                                                )
+                                            !!}
+                                        </div>
+                                        @if ($errors->has('client_id'))
+                                            <p class="help is-danger">{{ $errors->first('client_id') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="column is-6 p-b-0">
+                                    <label class="label is-small">{{ __('db.models.source') }}</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            {!!
+                                                Form::select('source_id',
+                                                    ['' => __('common.choose_a_select_tag')] + $sourceOptions->toArray(),
+                                                    old('client_id', $invoice->source_id),
                                                     []
                                                 )
                                             !!}
@@ -173,11 +203,11 @@
                                 </div>
                                 <div class="column is-3">
                                     <dl>
-                                    <dt>小計</dt>
+                                        <dt>{{ __('db.attributes.invoice.subtotal') }}</dt>
                                         <dd class="js-subtotal">{{ $subtotal }}</dd>
-                                        <dt>消費税</dt>
+                                        <dt>{{ __('db.attributes.invoice.tax') }}</dt>
                                         <dd class="js-tax">{{ $tax }}</dd>
-                                        <dt>合計</dt>
+                                        <dt>{{ __('db.attributes.invoice.total') }}</dt>
                                         <dd class="js-total">{{ $subtotal + $tax }}</dd>
                                 　　</dl>
                                 </div>
