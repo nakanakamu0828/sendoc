@@ -81,6 +81,7 @@ class Source extends Model
     }
     public function printFullAddress($delimiter = ' ')
     {
-        return join($delimiter, array_filter([$this->printPostalCode(), $this->address1, $this->address2, $this->address3]));
+        $address = array_filter([$this->printPostalCode(), $this->address1, $this->address2, $this->address3]);
+        return empty($address) ? '' : join($delimiter, $address);
     }
 }

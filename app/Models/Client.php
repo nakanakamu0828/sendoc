@@ -18,6 +18,7 @@ class Client extends Model
         'remarks',
     ];
 
+    // Relation
     public function organization()
     {
         return $this->belongsTo('App\Models\Organization');
@@ -38,6 +39,7 @@ class Client extends Model
         ;
     }
 
+    // Scope
     public function scopeWhereLikeBothName($query, $value)
     {
         if (empty($value)) {
@@ -63,5 +65,20 @@ class Client extends Model
         } else {
             return $query->where('contact_name', 'like', '%' . $value . '%');
         }
+    }
+
+    // Function
+    public function printPostalCode()
+    {
+        if ($this->postal_code) {
+            return '〒' . $this->postal_code;
+        } else {
+            return '';
+        }
+    }
+    public function printFullAddress($delimiter = ' ')
+    {
+        $address = array_filter([$this->printPostalCode(), $this->address1, $this->address2, $this->address3]);
+        return empty($address) ? '' : join($delimiter, $address);
     }
 }

@@ -51,7 +51,14 @@
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.source.contact_name') }}</label>
                             <div class="control has-icons-left">
-                                {!! Form::text('contact_name', old('contact_name', $source->contact_name), ['class' => 'input' . ($errors->has('contact_name') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.client.contact_name')]) !!}
+                                {!! Form::text('contact_name', old('contact_name', $source->contact_name), [ 'list' => 'contact_name_list', 'class' => 'input' . ($errors->has('contact_name') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.client.contact_name')]) !!}
+                                @if(count($memberOptions))
+                                    <datalist id="contact_name_list">
+                                        @foreach($memberOptions as $name)
+                                            <option value="{{ $name }}"></option>
+                                        @endforeach
+                                    </datalist>
+                                @endif
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-user"></i>
                                 </span> 

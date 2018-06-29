@@ -28,7 +28,9 @@
             @csrf
             <div class="message">
                 <div class="message-header">
-                    <p>{{ __('common.search') }}</p>
+                    <p>
+                        <i class="fas fa-search"></i> {{ __('common.search') }}
+                    </p>
                     <p class="control">
                         <button type="reset" class="button is-danger is-small is-rounded">
                             <i class="fas fa-sync-alt"></i> {{ __('common.reset') }}

@@ -35,11 +35,18 @@ class SourceController extends Controller
 
     public function create()
     {
+        $organization = Auth::user()->selectedOrganization();
         $source = new Source();
         $source->payees->add(new Payee());
 
+        $memberOptions = $organization
+            ->members()
+            ->join('users', 'members.user_id', 'users.id')
+            ->pluck('users.name');
+
         return view('source.create', [
-            'source' => $source
+            'source' => $source,
+            'memberOptions' => $memberOptions,
         ]);
     }
 
@@ -69,8 +76,15 @@ class SourceController extends Controller
 
         if(0 === count($source->payees)) $source->payees->add(new Payee());
 
+
+        $memberOptions = $organization
+            ->members()
+            ->join('users', 'members.user_id', 'users.id')
+            ->pluck('users.name');
+
         return view('source.edit', [
-            'source' => $source
+            'source' => $source,
+            'memberOptions' => $memberOptions,
         ]);
     }
 
