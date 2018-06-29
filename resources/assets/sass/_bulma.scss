@@ -65,6 +65,18 @@ $link-focus-border: $primary;
     margin-bottom: 0;
   }
 }
+.dropdown {
+  &.is-fullwidth {
+    width: 100%;
+
+    & > .dropdown-menu {
+      width: 100%;
+    }
+  }
+  &.is-position-absolute {
+    position: absolute;
+  }
+}
 
 table.table {
   &.is-dark-header {

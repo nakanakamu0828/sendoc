@@ -261,6 +261,27 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    var $datalists = getAll("input[data-list]");
+    if ($datalists.length > 0) {
+        $datalists.forEach(function ($el) {
+            var $dropdown = document.getElementById($el.dataset.list);
+            if ($dropdown) {
+                $el.addEventListener("focus", function () {
+                    $dropdown.classList.add("is-active");
+                });
+                $dropdown.querySelector('.dropdown-item').addEventListener('click', function (e) {
+                    $el.value = e.target.innerText;
+                    $dropdown.classList.remove("is-active");
+                });
+                document.addEventListener('click', function (e) {
+                    if (!e.target.closest('#' + $el.dataset.list) && !e.target.closest('input[data-list]')) {
+                        $dropdown.classList.remove("is-active");
+                    }
+                });
+            }
+        });
+    }
+
     // 請求書作成ページ
     if (document.querySelector('.invoice-create') || document.querySelector('.invoice-edit')) {
         var createSortable = function createSortable(selector) {

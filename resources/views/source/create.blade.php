@@ -49,18 +49,27 @@
 
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.source.contact_name') }}</label>
-                            <div class="control has-icons-left">
-                                {!! Form::text('contact_name', old('contact_name', $source->contact_name), [ 'list' => 'contact_name_list', 'class' => 'input' . ($errors->has('contact_name') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.client.contact_name')]) !!}
-                                @if(count($memberOptions))
-                                    <datalist id="contact_name_list">
-                                        @foreach($memberOptions as $name)
-                                            <option value="{{ $name }}"></option>
-                                        @endforeach
-                                    </datalist>
-                                @endif
+                            <div class="control has-icons-left has-icons-right">
+                                {!! Form::text('contact_name', old('contact_name', $source->contact_name), [ 'data-list' => 'contact_name_list', 'class' => 'input' . ($errors->has('contact_name') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.client.contact_name'), 'autocomplete' => 'off']) !!}
+                                <div id="contact_name_list" class="dropdown is-position-absolute is-fullwidth">
+                                    @if(count($memberOptions))
+                                        <div class="dropdown-menu">
+                                            <div class="dropdown-content">
+                                                @foreach($memberOptions as $name)
+                                                    <a href="#" class="dropdown-item">
+                                                        {{ $name }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-user"></i>
-                                </span> 
+                                </span>
+                                <span class="icon is-small is-right">
+                                    <i class="fas fa-angle-down"></i>
+                                </span>
                                 @if ($errors->has('contact_name'))
                                     <p class="help is-danger">{{ $errors->first('contact_name') }}</p>
                                 @endif

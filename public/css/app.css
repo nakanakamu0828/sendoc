@@ -12522,6 +12522,18 @@ label.panel-block:hover {
   margin-bottom: 0;
 }
 
+.dropdown.is-fullwidth {
+  width: 100%;
+}
+
+.dropdown.is-fullwidth > .dropdown-menu {
+  width: 100%;
+}
+
+.dropdown.is-position-absolute {
+  position: absolute;
+}
+
 table.table.is-dark-header > thead > tr > th {
   background-color: #3a4651;
   color: #fff;
