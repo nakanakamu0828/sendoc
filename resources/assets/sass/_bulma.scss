@@ -73,8 +73,8 @@ $link-focus-border: $primary;
       width: 100%;
     }
   }
-  &.is-position-absolute {
-    position: absolute;
+  &.is-block {
+    display: block;
   }
 }
 
