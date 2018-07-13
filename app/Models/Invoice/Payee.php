@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Source;
+namespace App\Models\Invoice;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,15 +11,15 @@ class Payee extends Model
      *
      * @var string
      */
-    protected $table = 'source_payees';
+    protected $table = 'invoice_payees';
 
     protected $fillable = [
-        'source_id',
+        'invoice_id',
         'detail',
     ];
 
-    public function source()
+    public function invoice()
     {
-        return $this->belongsTo('App\Models\Source');
+        return $this->belongsTo('App\Models\Invoice');
     }
 }

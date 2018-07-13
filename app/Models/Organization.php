@@ -31,8 +31,8 @@ class Organization extends Model
         return $this->hasMany('App\Models\Invoice');
     }
 
-    public function schedule_mails()
+    public function member_invitation_links()
     {
-        return $this->hasMany('App\Models\ScheduleMail');
+        return $this->hasMany('App\Models\Member\Invitation\Link');
     }
 }

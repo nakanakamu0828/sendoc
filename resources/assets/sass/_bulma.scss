@@ -1,7 +1,8 @@
 @import "~bulma/sass/utilities/_all";
 
 $variable-columns: false;
-$primary: #8c67ef;
+// $primary: #8c67ef;
+$primary: #3273dc;
 $primary-invert: findColorInvert($primary);
 $dark: #3a4651;
 $dark-invert: findColorInvert($dark);
@@ -27,7 +28,8 @@ $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
 @import "~bulma/bulma";
-@import '~bulma-extensions/bulma-calendar/src/sass/index';
+@import "~bulma-extensions/bulma-divider/src/sass/index";
+@import "~bulma-extensions/bulma-tooltip/src/sass/index";
 
 // bulma wrapper
 @media screen and (max-width: 768px) {

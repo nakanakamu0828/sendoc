@@ -39,16 +39,19 @@ body {
   }
 }
 
+// $navbar-height: 3.25rem;
+$navbar-height: 3.35rem;
 
 .columns.is-fullheight {
-  min-height: 100vh;
-  max-height: 100vh;
+  min-height: calc(100vh - #{$navbar-height} );
+  max-height: calc(100vh - #{$navbar-height} );
+  height: calc(100vh - #{$navbar-height} );
   display: flex;
   flex-direction: row;
   justify-content: stretch;
   margin-bottom: 0 !important;
 
-  .column {
+  & > .column {
     overflow-y: auto;
 
 

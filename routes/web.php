@@ -13,7 +13,18 @@
 
 Auth::routes();
 
-// メンバー
+
+Route::group(['middleware' => ['guest'], 'prefix' => 'invitation', 'as' => 'invitation.'], function () {
+    Route::get('member/{token}', [
+        'as'   => 'member.register',
+        'uses' => 'Invitation\MemberController@create',
+    ]);
+    Route::post('member/{token}', [
+        'as'   => 'member.register',
+        'uses' => 'Invitation\MemberController@store',
+    ]);
+});
+
 Route::group(['middleware' => ['auth'] ], function () {
     Route::get('/', function(){
         return redirect()->route('dashboard');
@@ -21,6 +32,12 @@ Route::group(['middleware' => ['auth'] ], function () {
     
     Route::get('dashboard', 'DashboardController@index')->name('dashboard');
     Route::resource('member', 'MemberController', ['only' => ['index', 'create', 'store', 'destroy']]);
+    Route::group(['prefix' => 'member', 'as' => 'member.'], function () {
+        Route::post('invitation/link', [
+            'as'   => 'invitation.link.store',
+            'uses' => 'Member\Invitation\LinkController@store',
+        ]);
+    });
     Route::resource('client', 'ClientController', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
     Route::group(['prefix' => 'client', 'as' => 'client.'], function () {
         Route::post('search', [

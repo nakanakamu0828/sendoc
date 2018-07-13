@@ -4,16 +4,16 @@
 <main class="section">
     <div class="container">
         <div class="columns">
-            <div class="column is-offset-3 is-6">
+            <div class="column is-offset-4 is-4">
 
                 <div class="box">
-                    <h1 class="title has-text-centered">
+                    <h1 class="has-text-centered">
                         <a href="{{ url('/dashboard') }}" class="has-text-black">
-                            <span class="logo">{{ config('app.name', 'Laravel') }}</span>
+                            <span class="logo">{{ __('common.login') }}</span>
                         </a>
                     </h1>
 
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" class="m-t-50">
                         @csrf
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
@@ -54,13 +54,9 @@
 
                         <div class="field m-t-30">
                             <div class="control">
-                                <div class="columns">
-                                    <div class="column is-offset-3 is-6">
-                                        <button type="submit" class="button is-primary" style="width: 100%;">
-                                            {{ __('common.login') }}
-                                        </button>
-                                    </div>
-                                </div>
+                                <button type="submit" class="button is-primary is-fullwidth">
+                                    {{ __('common.login') }}
+                                </button>
                             </div>
                         </div>
 
@@ -70,6 +66,12 @@
                         </a>
 
                     </form>
+
+                    <div class="is-divider" data-content="OR"></div>
+
+                    <a href="{{ route('register') }}" class="button is-outlined is-primary is-fullwidth">
+                        {{ __('common.register') }}
+                    </a>
                 </div>                
             </div>
         </div>

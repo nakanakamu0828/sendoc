@@ -7,9 +7,10 @@ return [
         'member' => 'メンバー',
         'client' => 'クライアント',
         'source' => '名義',
-        'payee'  => '振込先',
+        'source_payee'  => '振込先',
         'invoice' => '請求書',
         'invoice_item' => '商品',
+        'invoice_payee'  => '振込先',
     ],
     'attributes' => [
         'user' => [
@@ -57,6 +58,7 @@ return [
             'name' => '会社名・屋号名',
             'contact_name' => '担当者名',
             'email' => 'メールアドレス',
+            'tel' => '電話番号',
             'postal_code' => '郵便番号',
             'address1' => '住所',
             'address2' => '番地',
@@ -64,7 +66,7 @@ return [
             'created_at' => '登録日時',
             'updated_at' => '更新日時',
         ],
-        'payee' => [
+        'source_payee' => [
             'id' => 'ID',
             'source_id' => '名義ID',
             'detail' => '詳細',
@@ -77,6 +79,18 @@ return [
             'invoice_no' => '請求No.',
             'title' => 'タイトル',
             'client_id' => 'クライアントID',
+            'recipient' => '請求先',
+            'recipient_title' => '敬称',
+            'recipient_contact' => '担当者',
+            'source_id' => '名義ID',
+            'sender' => '請求元',
+            'sender_contact' => '担当者',
+            'sender_email' => 'メールアドレス',
+            'sender_tel' => '電話番号',
+            'sender_postal_code' => '郵便番号',
+            'sender_address1' => '住所',
+            'sender_address2' => '番地',
+            'sender_address3' => '建物名',
             'date' => '請求日',
             'due' => '支払期限',
             'in_tax' => '税込価格',
@@ -98,6 +112,13 @@ return [
             'updated_at' => '更新日時',
 
             'total' => '計',
+        ],
+        'invoice_payee' => [
+            'id' => 'ID',
+            'source_id' => '名義ID',
+            'detail' => '詳細',
+            'created_at' => '登録日時',
+            'updated_at' => '更新日時',
         ],
     ],
     'enums' => [

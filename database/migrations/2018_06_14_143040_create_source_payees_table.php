@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePayeesTable extends Migration
+class CreateSourcePayeesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePayeesTable extends Migration
      */
     public function up()
     {
-        Schema::create('payees', function (Blueprint $table) {
+        Schema::create('source_payees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('source_id')->unsigned();
             $table->string('detail')->comment('詳細');
@@ -29,6 +29,6 @@ class CreatePayeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payees');
+        Schema::dropIfExists('source_payees');
     }
 }

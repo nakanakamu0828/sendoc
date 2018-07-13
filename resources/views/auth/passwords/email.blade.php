@@ -1,47 +1,64 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+<main class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                <div class="box">
+                    <h1 class="has-text-centered">
+                        <a href="{{ url('/dashboard') }}" class="has-text-black">
+                            <span class="logo">{{ __('common.reset_password') }}</span>
+                        </a>
+                    </h1>
 
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form method="POST" action="{{ route('password.email') }}" class="m-t-50">
+                        @if (session('status'))
+                            <div class="message is-success">
+                                <div class="message-body">
+                                    <ul>
+                                        <li>{{ session('status') }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+
                         @csrf
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
+                            <div class="control  has-icons-left">
+                                <input id="input" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email') }}" required autofocus>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
                                 @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                    <p class="help is-danger">{{ $errors->first('email') }}</p>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Send Password Reset Link') }}
+                        <div class="field m-t-30">
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-fullwidth">
+                                    {{ __('common.submit') }}
                                 </button>
                             </div>
                         </div>
                     </form>
-                </div>
+
+                    <div class="is-divider" data-content="OR"></div>
+
+
+                    <a href="{{ route('login') }}" class="button is-outlined is-primary is-fullwidth m-b-5">
+                        {{ __('common.login') }}
+                    </a>
+                    <a href="{{ route('register') }}" class="button is-outlined is-primary is-fullwidth">
+                        {{ __('common.register') }}
+                    </a>
+                </div>                
             </div>
         </div>
     </div>
-</div>
+</main>
 @endsection

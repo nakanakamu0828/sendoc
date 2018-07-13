@@ -8,6 +8,7 @@ use App\Http\Requests\Invoice\SearchForm;
 use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Invoice\Item;
+use App\Models\Invoice\Payee;
 use Auth;
 use Lang;
 
@@ -45,6 +46,7 @@ class InvoiceController extends Controller
         $invoice = new Invoice(['organization_id' => $organization->id]);
         $invoice->generateInvoiceNo();
         $invoice->items->add(new Item());
+        $invoice->payees->add(new Payee());
 
         $clientOptions = $organization
             ->clients()

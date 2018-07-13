@@ -27,5 +27,10 @@ return [
             'subject' => '件名',
         ]
     ],
+    'member' => [
+        'index' => [
+            'invite_members_to' => ':nameにメンバーを招待',
+        ]
+    ]
     
 ];

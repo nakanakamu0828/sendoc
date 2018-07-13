@@ -1,65 +1,73 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+<main class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-offset-4 is-4">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.request') }}">
+                <div class="box">
+                    <h1 class="has-text-centered">
+                        <a href="{{ url('/dashboard') }}" class="has-text-black">
+                            <span class="logo">{{ __('common.reset_password') }}</span>
+                        </a>
+                    </h1>
+
+                    <form method="POST" action="{{ route('password.request') }}" class="m-t-50">
                         @csrf
+                        <input type="hidden" name="token" value="{{$token}}">
 
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
-
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
+                            <div class="control  has-icons-left">
+                                <input id="input" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email') }}">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
                                 @if ($errors->has('email'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
+                                    <p class="help is-danger">{{ $errors->first('email') }}</p>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.password') }}</label>
+                            <div class="control has-icons-left">
+                                <input type="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
                                 @if ($errors->has('password'))
-                                    <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                                    <p class="help is-danger">{{ $errors->first('password') }}</p>
                                 @endif
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user.password_confirmation') }}</label>
+                            <div class="control has-icons-left">
+                                <input type="password" class="input {{ $errors->has('password_confirmation') ? ' is-danger' : '' }}" placeholder="{{ __('common.password_confirmation') }}" name="password_confirmation">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-lock"></i>
+                                </span>
+                                @if ($errors->has('password_confirmation'))
+                                    <p class="help is-danger">{{ $errors->first('password_confirmation') }}</p>
+                                @endif
                             </div>
                         </div>
 
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
+                        <div class="field m-t-30">
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-fullwidth">
+                                    {{ __('common.reset_password') }}
                                 </button>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
+</main>
 @endsection

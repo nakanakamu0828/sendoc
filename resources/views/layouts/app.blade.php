@@ -15,10 +15,10 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="has-navbar-fixed-top">
     <div id="app">
 
-        <nav class="navbar has-shadow is-white is-border-top">
+        <nav class="navbar is-fixed-top has-shadow is-white is-border-top">
             <div class="container">
                 <div class="navbar-brand">
                     @if(Auth::check())
@@ -69,7 +69,7 @@
         </nav>
 
         <div class="columns is-fullheight is-gapless">
-            @if(!Request::is('login') && !Request::is('register') && Auth::check())
+            @if(!Request::is('login*') && !Request::is('register*') && !Request::is('invitation/member*') && Auth::check())
                 <div  id="navMenubd-drawer" class="column is-sidebar-menu is-hidden-mobile">
                     <p class="menu-title">
                         {{ Auth::user()->selectedOrganization()->name }}

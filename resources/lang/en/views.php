@@ -25,5 +25,10 @@ return [
             'subject' => 'SUBJECT',
         ]
     ],
+    'member' => [
+        'index' => [
+            'invite_members_to' => 'Invite Members to :name',
+        ]
+    ]
     
 ];

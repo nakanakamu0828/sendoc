@@ -79,12 +79,22 @@
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.source.email') }}</label>
                             <div class="control  has-icons-left">
-                                {!! Form::email('email', old('email', $source->email), ['class' => 'input' . ($errors->has('email') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.client.email')]) !!}
+                                {!! Form::email('email', old('email', $source->email), ['class' => 'input' . ($errors->has('email') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.source.email')]) !!}
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>
                                 @if ($errors->has('email'))
                                     <p class="help is-danger">{{ $errors->first('email') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.source.tel') }}</label>
+                            <div class="control">
+                                {!! Form::email('tel', old('tel', $source->tel), ['class' => 'input' . ($errors->has('tel') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.source.tel')]) !!}
+                                @if ($errors->has('tel'))
+                                    <p class="help is-danger">{{ $errors->first('tel') }}</p>
                                 @endif
                             </div>
                         </div>
@@ -127,7 +137,7 @@
 
                         <h3 class="m-t-20 item-title is-border-line">{{ __('common.bank_account_information') }}</h3>
                         <div class="field">
-                            <label class="label is-small">{{ __('db.models.payee') }}</label>
+                            <label class="label is-small">{{ __('db.models.source_payee') }}</label>
                             <div id="payee-block" class="control">
                                 @if(!is_null(old('_token')))
                                     @foreach (old('payees') as $i => $form)

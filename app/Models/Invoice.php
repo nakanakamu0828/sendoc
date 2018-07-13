@@ -13,9 +13,19 @@ class Invoice extends Model
     protected $fillable = [
         'organization_id',
         'title',
-        'client_id',
-        'source_id',
         'invoice_no',
+        'client_id',
+        'recipient',
+        'recipient_title',
+        'recipient_contact',
+        'source_id',
+        'sender',
+        'sender_contact',
+        'sender_email',
+        'sender_postal_code',
+        'sender_address1',
+        'sender_address2',
+        'sender_address3',
         'date',
         'due',
         'in_tax',
@@ -64,6 +74,11 @@ class Invoice extends Model
     public function items()
     {
         return $this->hasMany('App\Models\Invoice\Item');
+    }
+
+    public function payees()
+    {
+        return $this->hasMany('App\Models\Invoice\Payee');
     }
 
     // Scope

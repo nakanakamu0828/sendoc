@@ -25,7 +25,10 @@
 <main class="section">
     <div class="container-fulid">
         @include('layouts.messages')
-        <a href="{{ url('/member/create') }}" class="button is-info is-outlined is-rounded m-b-10">{{ __('common.register') }}</a>
+        @if(Auth::user()->selectedMember()->isAdmin())
+            <a href="{{ url('/member/create') }}" class="button is-info is-outlined is-rounded m-b-10">{{ __('common.register') }}</a>
+            <a href="#" class="button is-success is-rounded m-b-10" data-toggle="modal" data-targetid="invitation-modal">{{ __('common.invitation') }}</a>
+        @endif
         @if(count($members))
             <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth is-dark-header">
                 <thead>
@@ -79,4 +82,49 @@
         @endif
     </div>
 </main>
+
+
+<div id="invitation-modal" class="modal @if(session('invitation_link') OR isset($invitation_link)) is-active @endif">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="box">
+        <h3 class="logo is-size-5 has-text-centered m-b-30">
+            {{ __('views.member.index.invite_members_to', [ 'name' => Auth::user()->selectedOrganization()->name ]) }}
+        </h3>
+        @if(session('invitation_link') OR isset($invitation_link))
+            <div class="field has-addons">
+                <div class="control is-expanded">
+                    <input id="invitation-url" type="text" class="input" name="name" placeholder="" value="{{ session('invitation_link') ? session('invitation_link') : $invitation_link }}" readonly>
+                </div>
+                <div class="control">
+                    <a class="button is-primary js-clipboard" data-tooltip="{{ __('common.copied') }}" data-clipboard-target="#invitation-url">
+                        {{ __('common.copy') }}
+                    </a>
+                </div>
+            </div>
+        @else
+            <form method="POST" action="{{ route('member.invitation.link.store') }}">
+                @csrf
+                <div class="field has-addons">
+                    <div class="control is-expanded">
+                        <div class="select is-fullwidth">
+                        <select name="expire">
+                            @foreach([1, 7, 30] as $i)
+                            <option value="{{ $i }}">{{ __('common.expires_in_days', [ 'day' => $i ]) }}</option>
+                            @endforeach
+                        </select>
+                        </div>
+                    </div>
+                    <div class="control">
+                        <button type="submit" class="button is-primary">
+                            {{ __('common.create_invite_link') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        @endif
+    </div>
+  </div>
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
 @endsection

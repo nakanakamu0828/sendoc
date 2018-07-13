@@ -7,6 +7,8 @@
 
 require('./bootstrap')
 
+
+import ClipBoard from 'clipboard'
 import { Sortable } from '@shopify/draggable'
 // import bulmaCalendar from 'bulma-extensions/bulma-calendar/dist/js/bulma-calendar.js'
 
@@ -38,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         })
     }
+    // dropdown menu
     const $dropdowns = getAll('.dropdown:not(.is-hoverable) [dropdown="true"]')
     if ($dropdowns.length > 0) {
         $dropdowns.forEach($el => {
@@ -56,6 +59,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+    // Modal
+    const $modals = getAll('a[data-toggle="modal"][data-targetid], button[data-toggle="modal"][data-targetid]')
+    if ($modals.length > 0) {
+        $modals.forEach($el => {
+            $el.addEventListener("click", event => {
+                event.preventDefault()
+                document.getElementById($el.dataset.targetid).classList.toggle("is-active");
+            })
+        })
+    }
+    document.addEventListener('click', e => {
+        if(e.target.closest(".modal-background") || e.target.closest(".modal-close")) {
+            e.target.closest(".modal").classList.remove('is-active');
+        }
+    })
 
     const $autoSubmitElements = getAll(".js-auto-submit");
     if ($autoSubmitElements.length > 0) {
@@ -65,7 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         })
     }
-
 
     const $resetButtons = getAll("button[type='reset']");
     if ($resetButtons.length > 0) {
@@ -208,6 +225,16 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    const clipboard = new ClipBoard('.js-clipboard')
+    clipboard.on('success', e => {
+        e.trigger.classList.add("tooltip")
+        e.trigger.classList.add("is-tooltip-active")
+        
+        setTimeout(() => {
+            e.trigger.classList.remove("tooltip")
+            e.trigger.classList.remove("is-tooltip-active")
+		}, 3000)
+    })
 
 
     // 請求書作成ページ
