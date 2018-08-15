@@ -9,24 +9,29 @@ use App\Models\User;
 use App\Models\Client;
 use Auth;
 use Lang;
+use App\Repositories\Interfaces\ClientRepositoryInterface;
 
 class ClientController extends Controller
 {
 
     const SEARCH_SESSION_KEY = 'client.search';
 
+    private $clientRepository;
+
+    public function __construct(ClientRepositoryInterface $clientRepository)
+    {
+        $this->clientRepository = $clientRepository;
+        $this->middleware(function ($request, $next) {
+            $this->clientRepository->setUser(Auth::user());
+            return $next($request);
+        });
+    }
+
     public function index(SearchForm $request)
     {
         $condition = $request->isMethod('post') ? $request->all() : $request->session()->get(static::SEARCH_SESSION_KEY, []);
         $request->session()->put(static::SEARCH_SESSION_KEY, $condition);
-        
-        $user = Auth::user();
-        $clients = $user->selectedOrganization()
-            ->clients()
-            ->searchByCondition($condition)
-            ->orderBy('id', 'desc')
-            ->paginate(20);
-
+        $clients = $this->clientRepository->paginateByCondition($condition, 'id', 'desc', 20);
         return view('client.index', [
             'condition'     => $condition,
             'clients'       => $clients,
@@ -40,39 +45,24 @@ class ClientController extends Controller
 
     public function store(ClientForm $request)
     {
-        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'address1', 'address2', 'address3', 'remarks');
-
-        $organization = Auth::user()->selectedOrganization();
-        $organization->clients()->create(['organization_id' => $organization->id] + $data);
+        $this->clientRepository->create($request->all());
         return redirect()->route('client.index')->with('success', Lang::get('common.registrationd_has_been_completed'));
     }
 
     public function edit($id)
     {
-        $organization = Auth::user()->selectedOrganization();
-        $client = $organization->clients()->find($id);
-        return view('client.edit', [
-            'client' => $client
-        ]);
+        return view('client.edit', [ 'client' => $this->clientRepository->find($id) ]);
     }
 
     public function update(ClientForm $request, $id)
     {
-        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'address1', 'address2', 'address3', 'remarks');
-
-        $organization = Auth::user()->selectedOrganization();
-        $client = $organization->clients()->find($id);
-        $client->fill($data)->save();
+        $this->clientRepository->update($id, $request->all());
         return redirect()->route('client.index')->with('success', Lang::get('common.update_has_been_completed'));
     }
 
     public function destroy($id)
     {
-        $user = Auth::user();
-        $client = $user->selectedOrganization()->clients()->find($id);
-        if ($client) {
-            $client->delete();
-        }
+        $this->clientRepository->delete($id);
         return redirect()->route('client.index')->with('success', Lang::get('common.delete_has_been_completed'));
     }
 }

@@ -28,5 +28,11 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register('Kurt\Repoist\RepoistServiceProvider');
         }
 
+        // Repogitoryクラス
+        $this->app->bind(
+            \App\Repositories\Interfaces\ClientRepositoryInterface::class,
+            \App\Repositories\ClientRepository::class
+        );
+
     }
 }
