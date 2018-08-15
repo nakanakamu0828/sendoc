@@ -9,13 +9,27 @@ use App\Models\User;
 use App\Models\Member;
 use Auth;
 use Lang;
+use App\Repositories\Interfaces\MemberRepositoryInterface;
+
 
 class MemberController extends Controller
 {
+
+    private $memberRepository;
+
+    public function __construct(MemberRepositoryInterface $memberRepository)
+    {
+        $this->memberRepository = $memberRepository;
+        $this->middleware(function ($request, $next) {
+            $this->memberRepository->setUser(Auth::user());
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         $user = Auth::user();
-        $members = $user->selectedOrganization()->members()->orderBy('id', 'desc')->paginate(20);
+        $members = $this->memberRepository->paginateByCondition([], 'id', 'desc', 20);
         return view('member.index', [
             'members'       => $members,
         ]);
@@ -29,37 +43,24 @@ class MemberController extends Controller
 
     public function store(MemberForm $request)
     {
-        $data = $request->only('name', 'email', 'password');
+        $data = $request->all();
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        $organization = Auth::user()->selectedOrganization();
-
-        Member::create([
-            'organization_id' => $organization->id,
+        $this->memberRepository->create([
             'user_id' => $user->id,
             'role' => 'user',
             'selected' => true
         ]);
-
         return redirect()->route('member.index')->with('success', Lang::get('common.registrationd_has_been_completed'));
     }
 
     public function destroy($id)
     {
-        $user = Auth::user();
-        $member = $user->selectedOrganization()->members()->find($id);
-        if ($member) {
-            if(1 == $member->user->members()->count()) {
-                // どの組織にも属さない場合、ユーザー毎削除
-                $member->user->delete();
-            } else {
-                $member->delete();
-            }
-        }
+        $this->memberRepository->delete($id);
         return redirect()->route('member.index')->with('success', Lang::get('common.delete_has_been_completed'));
     }
 }

@@ -47,6 +47,12 @@ class Member extends Model
         return $this->belongsTo('App\Models\User', 'updated_by', 'id');
     }
 
+    public function scopeSearchByCondition($query, $condition)
+    {
+        return $query
+        ;
+    }
+
     /**
      * 管理者権限かどうかの判定
      */
