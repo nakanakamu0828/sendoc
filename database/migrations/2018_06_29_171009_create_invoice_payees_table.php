@@ -17,8 +17,13 @@ class CreateInvoicePayeesTable extends Migration
             $table->increments('id');
             $table->integer('invoice_id')->unsigned();
             $table->string('detail')->comment('詳細');
-            $table->timestamps();
+            $table->integer('created_by')->nullable(true)->unsigned()->comment('作成者');
+            $table->integer('updated_by')->nullable(true)->unsigned()->comment('更新者');
+            $table->integer('created_at')->nullable()->unsigned();
+            $table->integer('updated_at')->nullable()->unsigned();
             $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('SET NULL');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('SET NULL');
         });
     }
 

@@ -84,7 +84,7 @@
 </main>
 
 
-<div id="invitation-modal" class="modal @if(session('invitation_link') OR isset($invitation_link)) is-active @endif">
+<div id="invitation-modal" class="modal @if(session('invitation_link') OR isset($invitation_link) OR $errors->has('emails')) is-active @endif">
   <div class="modal-background"></div>
   <div class="modal-content">
     <div class="box">
@@ -103,6 +103,9 @@
                 </div>
             </div>
         @else
+            <h4 class="logo is-size-6 m-b-10">
+                招待リンクを作成
+            </h4>
             <form method="POST" action="{{ route('member.invitation.link.store') }}">
                 @csrf
                 <div class="field has-addons">
@@ -118,6 +121,29 @@
                     <div class="control">
                         <button type="submit" class="button is-primary">
                             {{ __('common.create_invite_link') }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+
+            <h4 class="logo is-size-6 m-t-30 m-b-10">
+                メールで招待
+            </h4>
+            <form method="POST" action="{{ route('member.invitation.email.store') }}">
+                @csrf
+                <div class="field">
+                    <div class="control">
+                        <textarea name="emails" class="textarea{{ $errors->has('emails') ? ' is-danger' : ''  }}">{{ old('emails') }}</textarea>
+                        @if ($errors->has('emails'))
+                            <p class="help is-danger">{{ $errors->first('emails') }}</p>
+                        @endif
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <button type="submit" class="button is-primary">
+                            {{ __('common.invitation') }}
                         </button>
                     </div>
                 </div>

@@ -3,9 +3,22 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Models\AuthorObservable;
+use App\Traits\Models\HistoryObservable;
 
 class Source extends Model
 {
+
+    use AuthorObservable;
+    use HistoryObservable;
+
+    /**
+    　* The storage format of the model's date columns.
+    　*
+    　* @var string
+    　*/
+    protected $dateFormat = 'U';
+
     protected $fillable = [
         'organization_id',
         'name',
@@ -15,12 +28,24 @@ class Source extends Model
         'address1',
         'address2',
         'address3',
+        'created_by',
+        'updated_by',
     ];
 
     // Relation
     public function organization()
     {
         return $this->belongsTo('App\Models\Organization');
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo('App\Models\User', 'created_by', 'id');
+    }
+
+    public function updated_by()
+    {
+        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
     }
 
     public function payees()

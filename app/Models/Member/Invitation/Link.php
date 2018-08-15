@@ -4,9 +4,19 @@ namespace App\Models\Member\Invitation;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Encryption\Encrypter;
+use App\Traits\Models\AuthorObservable;
 
 class Link extends Model
 {
+    use AuthorObservable;
+
+    /**
+    　* The storage format of the model's date columns.
+    　*
+    　* @var string
+    　*/
+    protected $dateFormat = 'U';
+
     /**
      * テーブル
      *
@@ -19,6 +29,8 @@ class Link extends Model
         'email',
         'token',
         'expired_at',
+        'created_by',
+        'updated_by',
     ];
 
     protected $dates = [
@@ -29,6 +41,16 @@ class Link extends Model
     public function organization()
     {
         return $this->belongsTo('App\Models\Organization');
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo('App\Models\User', 'created_by', 'id');
+    }
+
+    public function updated_by()
+    {
+        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
     }
 
     // Function

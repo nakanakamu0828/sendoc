@@ -4,10 +4,19 @@ namespace App\Models;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Traits\Models\AuthorObservable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use AuthorObservable;
+
+    /**
+    　* The storage format of the model's date columns.
+    　*
+    　* @var string
+    　*/
+    protected $dateFormat = 'U';
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +24,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'verified',
+        'last_login_at',
+        'created_ip',
+        'updated_ip',
     ];
 
     /**
@@ -25,6 +40,10 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    protected $dates = [
+        'last_login_at',
     ];
 
     // Relation

@@ -37,6 +37,10 @@ Route::group(['middleware' => ['auth'] ], function () {
             'as'   => 'invitation.link.store',
             'uses' => 'Member\Invitation\LinkController@store',
         ]);
+        Route::post('invitation/email', [
+            'as'   => 'invitation.email.store',
+            'uses' => 'Member\Invitation\EmailController@store',
+        ]);
     });
     Route::resource('client', 'ClientController', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
     Route::group(['prefix' => 'client', 'as' => 'client.'], function () {

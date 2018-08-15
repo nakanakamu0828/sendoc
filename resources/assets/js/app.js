@@ -212,10 +212,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 $el.addEventListener("focus", () => {
                     $dropdown.classList.add("is-active")
                 })
-                $dropdown.querySelector('.dropdown-item').addEventListener('click', e => {
-                    $el.value = e.target.innerText
-                    $dropdown.classList.remove("is-active")
-                })
+                const $items = $dropdown.querySelectorAll('.dropdown-item');
+                if ($items && $items.length > 0) {
+                    $items.forEach($item => {
+                        $item.addEventListener('click', e => {
+                            $el.value = e.target.innerText
+                            $dropdown.classList.remove("is-active")
+                        })
+                    })
+                }
                 document.addEventListener('click', e => {
                     if(!e.target.closest('#' + $el.dataset.list) && !e.target.closest('input[data-list]')) {
                         $dropdown.classList.remove("is-active")

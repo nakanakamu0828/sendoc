@@ -288,10 +288,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 $el.addEventListener("focus", function () {
                     $dropdown.classList.add("is-active");
                 });
-                $dropdown.querySelector('.dropdown-item').addEventListener('click', function (e) {
-                    $el.value = e.target.innerText;
-                    $dropdown.classList.remove("is-active");
-                });
+                var $items = $dropdown.querySelectorAll('.dropdown-item');
+                if ($items && $items.length > 0) {
+                    $items.forEach(function ($item) {
+                        $item.addEventListener('click', function (e) {
+                            $el.value = e.target.innerText;
+                            $dropdown.classList.remove("is-active");
+                        });
+                    });
+                }
                 document.addEventListener('click', function (e) {
                     if (!e.target.closest('#' + $el.dataset.list) && !e.target.closest('input[data-list]')) {
                         $dropdown.classList.remove("is-active");

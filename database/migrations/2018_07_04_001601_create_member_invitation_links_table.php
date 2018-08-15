@@ -18,8 +18,13 @@ class CreateMemberInvitationLinksTable extends Migration
             $table->integer('organization_id')->unsigned();
             $table->string('email')->nullable(true)->comment('メールアドレス');
             $table->string('token')->comment('トークン')->unique();
-            $table->timestamp('expired_at')->nullable(true)->comment('有効期限');
-            $table->timestamps();
+            $table->integer('expired_at')->nullable(true)->unsigned()->comment('有効期限');
+            $table->integer('created_by')->nullable(true)->unsigned()->comment('作成者');
+            $table->integer('updated_by')->nullable(true)->unsigned()->comment('更新者');
+            $table->integer('created_at')->nullable()->unsigned();
+            $table->integer('updated_at')->nullable()->unsigned();
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('SET NULL');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('SET NULL');
         });
     }
 

@@ -27,9 +27,10 @@ class SaveForm extends FormRequest
 
         $rules = [
             'title'         => 'required|string|max:80',
-            'client_id'     => 'required',
             'date'          => 'required|date',
             'due'           => 'nullable|date',
+            'sender'        => 'required|string|max:80',
+            'recipient'     => 'required|string|max:80',
             'in_tax'        => '',
             'tax_rate'      => '',
             'remarks'       => 'nullable|string|max:800',

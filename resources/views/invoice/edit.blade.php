@@ -35,10 +35,10 @@
                         @csrf
                         {{ method_field('PUT') }}
 
-                        <h3 class="m-t-20 item-title is-border-line">{{ __('common.invoice_information') }}</h3>
-                        <div class="field">
-                            <div class="columns">
-                                <div class="column is-6 p-b-0">
+                        <div class="columns">
+                            <div class="column is-6">
+                                <h3 class="m-t-20 item-title is-border-line">{{ __('common.invoice_information') }}</h3>
+                                <div class="field">
                                     <label class="label is-small">{{ __('db.attributes.invoice.invoice_no') }}</label>
                                     <div class="control">
                                         {!! Form::text('invoice_no', old('invoice_no', $invoice->invoice_no), ['class' => 'input' . ($errors->has('invoice_no') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.invoice.invoice_no')]) !!}
@@ -47,7 +47,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="column is-6 p-b-0">
+                                <div class="field">
                                     <label class="label is-small">{{ __('db.attributes.invoice.title') }}</label>
                                     <div class="control">
                                         {!! Form::text('title', old('title', $invoice->title), ['class' => 'input' . ($errors->has('title') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.invoice.title')]) !!}
@@ -56,63 +56,155 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <div class="columns">
-                                <div class="column is-6 p-b-0">
-                                    <label class="label is-small">{{ __('db.models.client') }}</label>
-                                    <div class="control">
-                                        <div class="select">
-                                            {!!
-                                                Form::select('client_id',
-                                                    ['' => __('common.choose_a_select_tag')] + $clientOptions->toArray(),
-                                                    old('client_id', $invoice->client_id),
-                                                    []
-                                                )
-                                            !!}
+                                <div class="field">
+                                    <div class="columns">
+                                        <div class="column is-6">
+                                            <label class="label is-small">{{ __('db.attributes.invoice.date') }}</label>
+                                            <div class="control">
+                                                {!! Form::date('date', old('date', $invoice->date), ['class' => 'input' . ($errors->has('date') ? ' is-danger' : '' )]) !!}
+                                                @if ($errors->has('date'))
+                                                    <p class="help is-danger">{{ $errors->first('date') }}</p>
+                                                @endif
+                                            </div>
                                         </div>
-                                        @if ($errors->has('client_id'))
-                                            <p class="help is-danger">{{ $errors->first('client_id') }}</p>
+                                        <div class="column is-6">
+                                            <label class="label is-small">{{ __('db.attributes.invoice.due') }}</label>
+                                            <div class="control">
+                                                {!! Form::date('due', old('due', $invoice->due), ['class' => 'input' . ($errors->has('due') ? ' is-danger' : '' )]) !!}
+                                                @if ($errors->has('due'))
+                                                    <p class="help is-danger">{{ $errors->first('due') }}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.recipient') }}</label>
+                                    <div class="control has-icons-right">
+                                        {!! Form::text('recipient', old('recipient', $invoice->recipient), [ 'data-list' => 'recipient_list', 'class' => 'input' . ($errors->has('recipient') ? ' is-danger' : '' ), 'placeholder' => '', 'autocomplete' => 'off' ]) !!}
+                                        <div id="recipient_list" class="dropdown is-block is-fullwidth">
+                                            @if(count($clientOptions))
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-content">
+                                                        @foreach($clientOptions as $id => $name)
+                                                            <a href="#" class="dropdown-item">
+                                                                {{ $name }}
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <span class="icon is-small is-right">
+                                            <i class="fas fa-angle-down"></i>
+                                        </span>
+                                        @if ($errors->has('recipient'))
+                                            <p class="help is-danger">{{ $errors->first('recipient') }}</p>
                                         @endif
                                     </div>
                                 </div>
-                                <div class="column is-6 p-b-0">
-                                    <label class="label is-small">{{ __('db.models.source') }}</label>
+                                <div class="field">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.recipient_contact') }}</label>
                                     <div class="control">
-                                        <div class="select">
-                                            {!!
-                                                Form::select('source_id',
-                                                    ['' => __('common.choose_a_select_tag')] + $sourceOptions->toArray(),
-                                                    old('client_id', $invoice->source_id),
-                                                    []
-                                                )
-                                            !!}
-                                        </div>
-                                        @if ($errors->has('client_id'))
-                                            <p class="help is-danger">{{ $errors->first('client_id') }}</p>
+                                        {!! Form::text('recipient_contact', old('recipient_contact', $invoice->recipient_contact), ['class' => 'input' . ($errors->has('recipient_contact') ? ' is-danger' : '' ), 'placeholder' => '']) !!}
+                                        @if ($errors->has('recipient_contact'))
+                                            <p class="help is-danger">{{ $errors->first('recipient_contact') }}</p>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="field">
-                            <div class="columns">
-                                <div class="column is-6 p-b-0">
-                                    <label class="label is-small">{{ __('db.attributes.invoice.date') }}</label>
-                                    <div class="control">
-                                        {!! Form::date('date', old('date', $invoice->date), ['class' => 'input' . ($errors->has('date') ? ' is-danger' : '' )]) !!}
-                                        @if ($errors->has('date'))
-                                            <p class="help is-danger">{{ $errors->first('date') }}</p>
+                            <div class="column is-6">
+                                <h3 class="m-t-20 item-title is-border-line">{{ __('common.invoice_sender_information') }}</h3>
+                                <div class="field">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.sender') }}</label>
+                                    <div class="control has-icons-right">
+                                        {!! Form::text('sender', old('sender', $invoice->sender), [ 'data-list' => 'sender_list','class' => 'input' . ($errors->has('sender') ? ' is-danger' : '' ), 'placeholder' => '', 'autocomplete' => 'off' ]) !!}
+                                        <div id="sender_list" class="dropdown is-block is-fullwidth">
+                                            @if(count($sourceOptions))
+                                                <div class="dropdown-menu">
+                                                    <div class="dropdown-content">
+                                                        @foreach($sourceOptions as $id => $name)
+                                                            <a href="#" class="dropdown-item">
+                                                                {{ $name }}
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <span class="icon is-small is-right">
+                                            <i class="fas fa-angle-down"></i>
+                                        </span>
+                                        @if ($errors->has('sender'))
+                                            <p class="help is-danger">{{ $errors->first('sender') }}</p>
                                         @endif
                                     </div>
                                 </div>
-                                <div class="column is-6 p-b-0">
-                                    <label class="label is-small">{{ __('db.attributes.invoice.due') }}</label>
+                                <div class="field">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.sender_contact') }}</label>
                                     <div class="control">
-                                        {!! Form::date('due', old('due', $invoice->due), ['class' => 'input' . ($errors->has('due') ? ' is-danger' : '' )]) !!}
-                                        @if ($errors->has('due'))
-                                            <p class="help is-danger">{{ $errors->first('due') }}</p>
+                                        {!! Form::text('sender_contact', old('sender_contact', $invoice->sender_contact), ['class' => 'input' . ($errors->has('sender_contact') ? ' is-danger' : '' ), 'placeholder' => '']) !!}
+                                        @if ($errors->has('sender_contact'))
+                                            <p class="help is-danger">{{ $errors->first('sender_contact') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.sender_email') }}</label>
+                                    <div class="control  has-icons-left">
+                                        {!! Form::email('sender_email', old('sender_email', $invoice->sender_email), ['class' => 'input' . ($errors->has('sender_email') ? ' is-danger' : '' ), 'placeholder' => '']) !!}
+                                        <span class="icon is-small is-left">
+                                            <i class="fas fa-envelope"></i>
+                                        </span>
+                                        @if ($errors->has('sender_email'))
+                                            <p class="help is-danger">{{ $errors->first('sender_email') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.sender_tel') }}</label>
+                                    <div class="control">
+                                        {!! Form::email('sender_tel', old('sender_tel', $invoice->sender_tel), ['class' => 'input' . ($errors->has('sender_tel') ? ' is-danger' : '' ), 'placeholder' => '']) !!}
+                                        @if ($errors->has('sender_tel'))
+                                            <p class="help is-danger">{{ $errors->first('sender_tel') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="columns">
+                                        <div class="column is-6">
+                                            <label class="label is-small">{{ __('db.attributes.invoice.sender_postal_code') }}</label>
+                                            <div class="control">
+                                                {!! Form::text('sender_postal_code', old('sender_postal_code', $invoice->sender_postal_code), ['class' => 'input' . ($errors->has('sender_postal_code') ? ' is-danger' : '' )]) !!}
+                                                @if ($errors->has('sender_postal_code'))
+                                                    <p class="help is-danger">{{ $errors->first('sender_postal_code') }}</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="column is-6">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label is-small">{{ __('db.attributes.invoice.sender_address1') }}</label>
+                                    <div class="control">
+                                        {!! Form::text('sender_address1', old('sender_address1', $invoice->sender_address1), ['class' => 'input' . ($errors->has('sender_address1') ? ' is-danger' : '' )]) !!}
+                                        @if ($errors->has('sender_address1'))
+                                            <p class="help is-danger">{{ $errors->first('sender_address1') }}</p>
+                                        @endif
+
+                                        {!! Form::text('sender_address2', old('sender_address2', $invoice->sender_address2), ['class' => 'input m-t-5' . ($errors->has('sender_address2') ? ' is-danger' : '' )]) !!}
+                                        @if ($errors->has('sender_address2'))
+                                            <p class="help is-danger">{{ $errors->first('sender_address2') }}</p>
+                                        @endif
+
+                                        {!! Form::text('sender_address3', old('sender_address3', $invoice->sender_address3), ['class' => 'input m-t-5' . ($errors->has('sender_address3') ? ' is-danger' : '' )]) !!}
+                                        @if ($errors->has('sender_address3'))
+                                            <p class="help is-danger">{{ $errors->first('sender_address3') }}</p>
                                         @endif
                                     </div>
                                 </div>
@@ -126,7 +218,7 @@
                                     <label class="label is-small">{{ __('db.attributes.invoice.in_tax') }}</label>
                                     <div class="control">
                                         <label class="checkbox">
-                                            <input name="in_tax" type="checkbox"@if($invoice->in_tax) checked @endif>
+                                            <input name="in_tax" type="checkbox" value="1" @if($invoice->in_tax) checked @endif>
                                             {{ __('db.attributes.invoice.in_tax') }}
                                         </label>
                                         @if ($errors->has('in_tax'))

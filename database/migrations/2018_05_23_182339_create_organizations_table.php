@@ -16,7 +16,8 @@ class CreateOrganizationsTable extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->timestamps();
+            $table->integer('created_at')->nullable()->unsigned();
+            $table->integer('updated_at')->nullable()->unsigned();
         });
     }
 

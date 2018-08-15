@@ -66,9 +66,14 @@ class InvoiceController extends Controller
 
     public function store(SaveForm $request)
     {
-        $data = $request->only('invoice_no', 'title', 'client_id', 'source_id', 'date', 'due', 'remarks');
-
         $organization = Auth::user()->selectedOrganization();
+        $data = $request->all();
+
+        $client = $organization->clients()->firstOrCreate(['name' => $data['recipient']]);
+        $data['client_id'] = $client->id;
+
+        $source = $organization->sources()->firstOrCreate(['name' => $data['sender']]);
+        $data['source_id'] = $source->id;
         $invoice = $organization->invoices()->create(['organization_id' => $organization->id] + $data);
 
         $subtotal = 0;
@@ -115,9 +120,9 @@ class InvoiceController extends Controller
 
     public function update(SaveForm $request, $id)
     {
-        $data = $request->only('invoice_no', 'title', 'client_id', 'source_id', 'date', 'due', 'remarks');
-
         $organization = Auth::user()->selectedOrganization();
+        $data = $request->all();
+
         $invoice = $organization->invoices()->find($id);
 
         $subtotal = 0;
@@ -133,6 +138,12 @@ class InvoiceController extends Controller
                 if ($invoice->in_tax) $tax += (floatval($item->price) * $invoice->tax_rate / 100);
             }
         }
+
+        $client = $organization->clients()->firstOrCreate(['name' => $data['recipient']]);
+        $data['client_id'] = $client->id;
+
+        $source = $organization->sources()->firstOrCreate(['name' => $data['sender']]);
+        $data['source_id'] = $source->id;
 
         $invoice->fill($data);
         $invoice->subtotal = $subtotal;

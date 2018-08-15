@@ -25,8 +25,13 @@ class CreateClientsTable extends Migration
             $table->string('address2')->nullable(true)->comment('住所2');
             $table->string('address3')->nullable(true)->comment('住所3');
             $table->text('remarks')->nullable(true)->comment('備考');
-            $table->timestamps();
+            $table->integer('created_by')->nullable(true)->unsigned()->comment('作成者');
+            $table->integer('updated_by')->nullable(true)->unsigned()->comment('更新者');
+            $table->integer('created_at')->nullable()->unsigned();
+            $table->integer('updated_at')->nullable()->unsigned();
             $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('SET NULL');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('SET NULL');
         });
     }
 

@@ -80,7 +80,7 @@
                                 <div class="field">
                                     <label class="label is-small">{{ __('db.attributes.invoice.recipient') }}</label>
                                     <div class="control has-icons-right">
-                                        {!! Form::text('recipient', old('recipient', $invoice->recipient), [ 'data-list' => 'recipient_list', 'class' => 'input' . ($errors->has('recipient') ? ' is-danger' : '' ), 'placeholder' => '']) !!}
+                                        {!! Form::text('recipient', old('recipient', $invoice->recipient), [ 'data-list' => 'recipient_list', 'class' => 'input' . ($errors->has('recipient') ? ' is-danger' : '' ), 'placeholder' => '', 'autocomplete' => 'off' ]) !!}
                                         <div id="recipient_list" class="dropdown is-block is-fullwidth">
                                             @if(count($clientOptions))
                                                 <div class="dropdown-menu">
@@ -117,7 +117,7 @@
                                 <div class="field">
                                     <label class="label is-small">{{ __('db.attributes.invoice.sender') }}</label>
                                     <div class="control has-icons-right">
-                                        {!! Form::text('sender', old('sender', $invoice->sender), [ 'data-list' => 'sender_list','class' => 'input' . ($errors->has('sender') ? ' is-danger' : '' ), 'placeholder' => '']) !!}
+                                        {!! Form::text('sender', old('sender', $invoice->sender), [ 'data-list' => 'sender_list','class' => 'input' . ($errors->has('sender') ? ' is-danger' : '' ), 'placeholder' => '', 'autocomplete' => 'off' ]) !!}
                                         <div id="sender_list" class="dropdown is-block is-fullwidth">
                                             @if(count($sourceOptions))
                                                 <div class="dropdown-menu">
@@ -217,7 +217,7 @@
                                     <label class="label is-small">{{ __('db.attributes.invoice.in_tax') }}</label>
                                     <div class="control">
                                         <label class="checkbox">
-                                            <input name="in_tax" type="checkbox"@if($invoice->in_tax) checked @endif>
+                                            <input name="in_tax" type="checkbox" value="1"@if($invoice->in_tax) checked @endif>
                                             {{ __('db.attributes.invoice.in_tax') }}
                                         </label>
                                         @if ($errors->has('in_tax'))

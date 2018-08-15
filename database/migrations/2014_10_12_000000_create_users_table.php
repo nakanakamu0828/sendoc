@@ -19,7 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();
-            $table->timestamps();
+            $table->boolean('verified')->default(false)->comment('認証判定');
+            $table->timestamp('last_login_at')->nullable();      
+            $table->string('created_ip', 16)->nullable()->comment('登録時IPアドレス');
+            $table->string('updated_ip', 16)->nullable()->comment('最終更新時IPアドレス');
+            $table->integer('created_at')->nullable()->unsigned();
+            $table->integer('updated_at')->nullable()->unsigned();
         });
     }
 

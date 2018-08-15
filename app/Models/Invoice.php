@@ -5,10 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use App\Traits\Models\AuthorObservable;
+use App\Traits\Models\HistoryObservable;
 
 class Invoice extends Model
 {
     use SoftDeletes;
+    use AuthorObservable;
+    use HistoryObservable;
+
+    /**
+    　* The storage format of the model's date columns.
+    　*
+    　* @var string
+    　*/
+    protected $dateFormat = 'U';
 
     protected $fillable = [
         'organization_id',
@@ -34,6 +45,9 @@ class Invoice extends Model
         'subtotal',
         'tax',
         'total',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $dates = [
@@ -69,6 +83,21 @@ class Invoice extends Model
     public function source()
     {
         return $this->belongsTo('App\Models\Source');
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo('App\Models\User', 'created_by', 'id');
+    }
+
+    public function updated_by()
+    {
+        return $this->belongsTo('App\Models\User', 'updated_by', 'id');
+    }
+
+    public function deleted_by()
+    {
+        return $this->belongsTo('App\Models\User', 'deleted_by', 'id');
     }
 
     public function items()
