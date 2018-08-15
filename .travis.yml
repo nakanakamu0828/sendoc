@@ -5,14 +5,14 @@ php:
   - 7.2
 
 before_script:
-#   - cp .env.travis .env
+  - cp .env.travis .env
   - composer self-update
   - composer install --prefer-source --no-interaction --dev
-#   - php artisan key:generate
-#   - php artisan migrate
+  - php artisan key:generate
+  - php artisan migrate
 
-# before_install:
-#   - mysql -e 'CREATE DATABASE realworld_test;'
+before_install:
+  - mysql -e 'CREATE DATABASE sendoc_test;'
 
 script:
   - phpunit
