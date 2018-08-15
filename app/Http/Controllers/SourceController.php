@@ -9,24 +9,29 @@ use App\Models\Source;
 use App\Models\Source\Payee;
 use Auth;
 use Lang;
+use App\Repositories\Interfaces\SourceRepositoryInterface;
 
 class SourceController extends Controller
 {
 
     const SEARCH_SESSION_KEY = 'source.search';
 
+    private $sourceRepository;
+
+    public function __construct(SourceRepositoryInterface $sourceRepository)
+    {
+        $this->sourceRepository = $sourceRepository;
+        $this->middleware(function ($request, $next) {
+            $this->sourceRepository->setUser(Auth::user());
+            return $next($request);
+        });
+    }
+
     public function index(SearchForm $request)
     {
         $condition = $request->isMethod('post') ? $request->all() : $request->session()->get(static::SEARCH_SESSION_KEY, []);
         $request->session()->put(static::SEARCH_SESSION_KEY, $condition);
-        
-        $user = Auth::user();
-        $sources = $user->selectedOrganization()
-            ->sources()
-            ->searchByCondition($condition)
-            ->orderBy('id', 'desc')
-            ->paginate(20);
-
+        $sources = $this->sourceRepository->paginateByCondition($condition, 'id', 'desc', 20);
         return view('source.index', [
             'condition'     => $condition,
             'sources'       => $sources,
@@ -52,11 +57,7 @@ class SourceController extends Controller
 
     public function store(SaveForm $request)
     {
-        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'address1', 'address2', 'address3');
-
-        $organization = Auth::user()->selectedOrganization();
-        $source = $organization->sources()->create(['organization_id' => $organization->id] + $data);
-
+        $source = $this->sourceRepository->create($request->all());
         foreach ($request->only('payees')['payees'] as $form) {
             $payee = isset($form['id']) ? $source->payees()->find($form['id']) : new Payee(['source_id' => $source->id]);
             if (empty($form['detail']) || $form['_delete']) {
@@ -76,7 +77,6 @@ class SourceController extends Controller
 
         if(0 === count($source->payees)) $source->payees->add(new Payee());
 
-
         $memberOptions = $organization
             ->members()
             ->join('users', 'members.user_id', 'users.id')
@@ -90,12 +90,7 @@ class SourceController extends Controller
 
     public function update(SaveForm $request, $id)
     {
-        $data = $request->only('name', 'contact_name', 'email', 'postal_code', 'address1', 'address2', 'address3', 'remarks');
-
-        $organization = Auth::user()->selectedOrganization();
-        $source = $organization->sources()->find($id);
-        $source->fill($data)->save();
-
+        $source = $this->sourceRepository->update($id, $request->all());
         foreach ($request->only('payees')['payees'] as $form) {
             $payee = isset($form['id']) ? $source->payees()->find($form['id']) : new Payee(['source_id' => $source->id]);
             if (empty($form['detail']) || $form['_delete']) {
@@ -110,11 +105,7 @@ class SourceController extends Controller
 
     public function destroy($id)
     {
-        $user = Auth::user();
-        $source = $user->selectedOrganization()->sources()->find($id);
-        if ($source) {
-            $source->delete();
-        }
+        $this->sourceRepository->delete($id);
         return redirect()->route('source.index')->with('success', Lang::get('common.delete_has_been_completed'));
     }
 }

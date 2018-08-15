@@ -93,7 +93,7 @@
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.source.tel') }}</label>
                             <div class="control">
-                                {!! Form::email('tel', old('tel', $source->tel), ['class' => 'input' . ($errors->has('tel') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.source.tel')]) !!}
+                                {!! Form::text('tel', old('tel', $source->tel), ['class' => 'input' . ($errors->has('tel') ? ' is-danger' : '' ), 'placeholder' => __('db.attributes.source.tel')]) !!}
                                 @if ($errors->has('tel'))
                                     <p class="help is-danger">{{ $errors->first('tel') }}</p>
                                 @endif

@@ -88,11 +88,9 @@ abstract class AppRepository extends AbstractRepository
      */
     public function update($id, array $properties)
     {
-        return $this->entity->where(function($query) {
-            if ($this->organization && $this->hasOrganizationId()) {
-                $query->where('organization_id', $this->organization->id);
-            }
-        })->find($id)->update($properties);
+        $entity = $this->find($id);
+        $entity->update($properties);
+        return $entity;
     }
 
     /**
@@ -100,11 +98,7 @@ abstract class AppRepository extends AbstractRepository
      */
     public function delete($id)
     {
-        return $this->entity->where(function($query) {
-            if ($this->organization && $this->hasOrganizationId()) {
-                $query->where('organization_id', $this->organization->id);
-            }
-        })->find($id)->delete();
+        return $this->find($id)->delete();
     }
 
     protected function hasOrganizationId()

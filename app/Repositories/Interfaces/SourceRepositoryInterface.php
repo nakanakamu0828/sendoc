@@ -2,9 +2,8 @@
 
 namespace App\Repositories\Interfaces;
 
-interface ClientRepositoryInterface
+interface SourceRepositoryInterface
 {
-
     public function paginateByCondition(array $condition, $sort, $order, $limit);
 
     public function find($id);
