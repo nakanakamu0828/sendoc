@@ -11,7 +11,7 @@ class AuthorObserver
 {
     public function creating(Model $model)
     {
-        if (Schema::hasColumn($model->getTable(), 'created_by')) {
+        if (Schema::hasColumn($model->getTable(), 'created_by') && Auth::check()) {
             $model->created_by = Auth::user()->id;
         }
         if (Schema::hasColumn($model->getTable(), 'created_ip')) {
@@ -20,7 +20,7 @@ class AuthorObserver
     }
     public function updating(Model $model)
     {
-        if (Schema::hasColumn($model->getTable(), 'updated_by') && $model->isDirty()) {
+        if (Schema::hasColumn($model->getTable(), 'updated_by') && $model->isDirty() && Auth::check()) {
             $model->updated_by = Auth::user()->id;
         }
         if (Schema::hasColumn($model->getTable(), 'updated_ip')) {
@@ -34,7 +34,7 @@ class AuthorObserver
 
     public function deleting(Model $model)
     {
-        if (Schema::hasColumn($model->getTable(), 'deleted_by')) {
+        if (Schema::hasColumn($model->getTable(), 'deleted_by') && Auth::check()) {
             $model->deleted_by = Auth::user()->id;
         }
         if (Schema::hasColumn($model->getTable(), 'deleted_ip')) {
