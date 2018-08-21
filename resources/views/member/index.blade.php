@@ -78,7 +78,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $members->links('vendor.pagination.bulma') }}
+            {{ $members->appends(request()->input())->links('vendor.pagination.bulma') }}
         @endif
     </div>
 </main>

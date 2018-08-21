@@ -166,7 +166,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $sources->links('vendor.pagination.bulma') }}
+            {{ $sources->appends(request()->input())->links('vendor.pagination.bulma') }}
         @endif
     </div>
 </main>

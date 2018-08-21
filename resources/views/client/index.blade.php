@@ -191,7 +191,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $clients->links('vendor.pagination.bulma') }}
+            {{ $clients->appends(request()->input())->links('vendor.pagination.bulma') }}
         @endif
     </div>
 </main>

@@ -158,7 +158,7 @@
                     @endforeach
                 </tbody>
             </table>
-            {{ $invoices->links('vendor.pagination.bulma') }}
+            {{ $invoices->appends(request()->input())->links('vendor.pagination.bulma') }}
         @endif
     </div>
 </main>
