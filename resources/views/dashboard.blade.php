@@ -14,7 +14,12 @@
 </section>
 <main class="section">
     <div class="container-fulid">
-        <div class="tile is-ancestor has-text-centered">
+        @include('layouts.messages')
+        <div>
+            <a href="{{ route('invoice.create') }}" class="button is-primary">
+                <i class="fas fa-pencil-alt"></i>&nbsp;
+                {{ __('common.create_a_item', [ 'item' => __('db.models.invoice') ]) }}
+            </a>
         </div>
     </div>
 </main>

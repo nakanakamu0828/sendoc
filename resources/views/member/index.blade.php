@@ -26,7 +26,6 @@
     <div class="container-fulid">
         @include('layouts.messages')
         @if(Auth::user()->selectedMember()->isAdmin())
-            <a href="{{ url('/member/create') }}" class="button is-info is-outlined is-rounded m-b-10">{{ __('common.register') }}</a>
             <a href="#" class="button is-success is-rounded m-b-10" data-toggle="modal" data-targetid="invitation-modal">{{ __('common.invitation') }}</a>
         @endif
         @if(count($members))
@@ -83,8 +82,7 @@
     </div>
 </main>
 
-
-<div id="invitation-modal" class="modal @if(session('invitation_link') OR isset($invitation_link) OR $errors->has('emails')) is-active @endif">
+<div id="invitation-modal" class="modal @if(session('invitation_link') OR isset($invitation_link) OR ($errors->any() && old('emails') && count(old('emails'))) ) is-active @endif">
   <div class="modal-background"></div>
   <div class="modal-content">
     <div class="box">
@@ -134,10 +132,31 @@
                 @csrf
                 <div class="field">
                     <div class="control">
-                        <textarea name="emails" class="textarea{{ $errors->has('emails') ? ' is-danger' : ''  }}">{{ old('emails') }}</textarea>
-                        @if ($errors->has('emails'))
-                            <p class="help is-danger">{{ $errors->first('emails') }}</p>
-                        @endif
+                        <div class="columns is-multiline m-t-10 m-b-10">
+                            @if (old('emails') && count(old('emails')))
+                                @foreach(old('emails') as $i => $email)
+                                    <div class="column is-6 is-p-t-point-25-rem  is-p-b-point-25-rem">
+                                        <input type="email" name="emails[]" class="input{{ $errors->has('emails.' . $i) ? ' is-danger' : ''  }}" value="{{ $email }}">
+                                        @if ($errors->has('emails.' . $i))
+                                            <p class="help is-danger">{{ $errors->first('emails.' . $i) }}</p>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="column is-6 is-p-t-point-25-rem  is-p-b-point-25-rem">
+                                    <input type="email" name="emails[]" class="input">
+                                </div>
+                                <div class="column is-6 is-p-t-point-25-rem  is-p-b-point-25-rem">
+                                    <input type="email" name="emails[]" class="input">
+                                </div>
+                                <div class="column is-6 is-p-t-point-25-rem  is-p-b-point-25-rem">
+                                    <input type="email" name="emails[]" class="input">
+                                </div>
+                                <div class="column is-6 is-p-t-point-25-rem  is-p-b-point-25-rem">
+                                    <input type="email" name="emails[]" class="input">
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
                 <div class="field">

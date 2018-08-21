@@ -13695,6 +13695,14 @@ table.table.is-dark-header > thead > tr > th {
   background-color: white;
 }
 
+.column.is-p-t-point-25-rem {
+  padding-top: .25rem;
+}
+
+.column.is-p-b-point-25-rem {
+  padding-bottom: .25rem;
+}
+
 .m-t-0 {
   margin-top: 0px !important;
 }

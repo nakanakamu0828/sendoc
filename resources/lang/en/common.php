@@ -2,13 +2,16 @@
 
 return [
 
+    'accept_invitation' => 'Accept invitation',
     'add' => 'Add',
     'admin' => 'Admin',
+    'authorized_email' => 'Authorized Email',
     'bank_account_information' => 'Bank Account Information',
     'basic_information' => 'Basic Information',
     'choose_a_select_tag' => '▼ Please Choose',
     'choose_a_file' => 'Choose a file',
     'create_invite_link' => 'Create Invite Link',
+    'create_a_item' => 'Create a :item',
     'copy' => 'Copy',
     'copied' => 'Copied',
     'upload_csv' => 'Upload CSV',
@@ -31,7 +34,7 @@ return [
     'invoice_sender_information' => 'Invoice Sender Information',
     'item_information' => 'Item Information',
     'invitation' => 'Invitation',
-    'invite_from' => 'Invite From :name',
+    'invited_from_:name' => 'Invited From :name',
     'login' => 'Login',
     'logout' => 'Logout',
     'member' => 'Mamber',
@@ -50,4 +53,6 @@ return [
     'tax_information' => 'Tax Information',
     'unknown' => 'Unknown',
     'update_has_been_completed' => 'Update has been completed.',
+    'verify_your_email_address' => 'Verify Your Email Address',
+    'verify_email_address' => 'Verify Email Address',
 ];

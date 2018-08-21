@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Traits\Models\AuthorObservable;
+use Illuminate\Encryption\Encrypter;
 
 class User extends Authenticatable
 {
@@ -28,6 +29,7 @@ class User extends Authenticatable
         'email',
         'password',
         'verified',
+        'email_token',
         'last_login_at',
         'created_ip',
         'updated_ip',
@@ -66,5 +68,16 @@ class User extends Authenticatable
     public function selectedMember()
     {
         return $this->members()->where('selected', 1)->first();
+    }
+
+    public static function generateEmailToken()
+    {
+        $token = null;
+        while(is_null($token)) {
+            $token = str_replace(['+', '/'], ['-', '_'], base64_encode(Encrypter::generateKey(app()['config']['cipher'])));
+            if (User::where('email_token', $token)->first()) $token = null;
+        }
+
+        return $token;
     }
 }

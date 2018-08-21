@@ -23,8 +23,13 @@ class SaveForm extends FormRequest
      */
     public function rules()
     {
-        return [
-            'emails' => 'required|string'
-        ];
+        $keys = array_keys($this->get('emails') ?? []);
+
+        $rules = [];
+        foreach ($keys as $key) {
+            $rules["emails.{$key}"] = 'nullable|email|max:191';
+        }
+
+        return $rules;
     }
 }

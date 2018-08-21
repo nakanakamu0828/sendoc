@@ -47,6 +47,7 @@ class MemberController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'verified' => $link->email && $data['email']
         ]);
 
         Member::create([
@@ -55,6 +56,8 @@ class MemberController extends Controller
             'role' => 'user',
             'selected' => true
         ]);
+
+        if ($link->email) $link->delete();
 
         \Auth::login($user);
 

@@ -57,7 +57,7 @@
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user.password') }}</label>
                             <div class="control has-icons-left">
-                                <input ype="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password">
+                                <input type="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password">
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-lock"></i>
                                 </span>

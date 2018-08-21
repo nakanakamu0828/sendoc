@@ -157,3 +157,12 @@ table.table {
     background-color: $white;
   }
 }
+
+.column {
+  &.is-p-t-point-25-rem {
+    padding-top: .25rem;
+  }
+  &.is-p-b-point-25-rem {
+    padding-bottom: .25rem;
+  }
+}

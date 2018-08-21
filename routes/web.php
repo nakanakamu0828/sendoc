@@ -13,6 +13,10 @@
 
 Auth::routes();
 
+Route::get('/verify/{token}', [
+    'as'   => 'verify',
+    'uses' => 'Auth\RegisterController@verify',
+]);
 
 Route::group(['middleware' => ['guest'], 'prefix' => 'invitation', 'as' => 'invitation.'], function () {
     Route::get('member/{token}', [
@@ -48,14 +52,14 @@ Route::group(['middleware' => ['auth'] ], function () {
             'as'   => 'search',
             'uses' => 'ClientController@index',
         ]);
-        Route::post('csv/upload', [
-            'as'   => 'csv.upload',
-            'uses' => 'Client\CsvController@upload',
-        ]);
-        Route::get('csv/download-sample', [
-            'as'   => 'csv.download.sample',
-            'uses' => 'Client\CsvController@downloadSample',
-        ]);
+        // Route::post('csv/upload', [
+        //     'as'   => 'csv.upload',
+        //     'uses' => 'Client\CsvController@upload',
+        // ]);
+        // Route::get('csv/download-sample', [
+        //     'as'   => 'csv.download.sample',
+        //     'uses' => 'Client\CsvController@downloadSample',
+        // ]);
     });
     Route::resource('source', 'SourceController', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
     Route::group(['prefix' => 'source', 'as' => 'source.'], function () {

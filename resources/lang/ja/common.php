@@ -2,13 +2,16 @@
 
 return [
 
+    'accept_invitation' => '招待を受け入れる',
     'add' => '追加',
     'admin' => '管理',
+    'authorized_email' => 'メールアドレスが認証されました',
     'bank_account_information' => '口座情報',
     'basic_information' => '基本情報',
     'choose_a_select_tag' => '▼ 選択してください',
     'choose_a_file' => 'ファイルを選択してください',
     'create_invite_link' => '招待リンクを作成',
+    'create_a_item' => ':itemを作成する',
     'copy' => 'コピー',
     'copied' => 'コピーしました',
     'upload_csv' => 'CSVアップロード',
@@ -31,7 +34,7 @@ return [
     'invoice_sender_information' => '請求元情報',
     'item_information' => '商品情報',
     'invitation' => '招待',
-    'invite_from' => ':nameから招待されました',
+    'invited_from_:name' => ':nameから招待されました',
     'login' => 'ログイン',
     'logout' => 'ログアウト',
     'member' => 'メンバー',
@@ -50,4 +53,6 @@ return [
     'tax_information' => '課税情報',
     'unknown' => '不明',
     'update_has_been_completed' => '更新が完了しました。',
+    'verify_your_email_address' => 'メールアドレス確認',
+    'verify_email_address' => 'メールアドレス確認する',
 ];

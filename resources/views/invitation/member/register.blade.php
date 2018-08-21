@@ -9,7 +9,7 @@
                     <h1 class="has-text-centered m-b-30">
                         <a href="{{ url('/dashboard') }}" class="has-text-black">
                             <span class="logo is-size-6">
-                                {{ __('common.invite_from', [ 'name' => $member_invitation_link->organization->name ]) }}
+                                {{ __('common.invited_from_:name', [ 'name' => $member_invitation_link->organization->name ]) }}
                             </span>
                         </a>
                     </h1>
@@ -32,7 +32,7 @@
                         <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
                             <div class="control  has-icons-left">
-                                <input id="input" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email') }}" required>
+                                <input id="input" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email', $member_invitation_link->email) }}" required @if($member_invitation_link->email) readonly @endif>
                                 <span class="icon is-small is-left">
                                     <i class="fas fa-envelope"></i>
                                 </span>

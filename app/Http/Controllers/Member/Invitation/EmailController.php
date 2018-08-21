@@ -9,26 +9,13 @@ use App\Http\Requests\Member\Invitation\Email\SaveForm;
 use Carbon\Carbon;
 use Auth;
 use Lang;
+use Mail;
 
 class EmailController extends Controller
 {
     public function store(SaveForm $request)
     {
-        $data = $request->only('emails');
-        $emails = explode(',', $data['emails']);
-
-        $errors = [];
-        foreach($emails as $email) {
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors['emails'][] = Lang::get('validation.email', [ 'attribute' => $email ]);
-            }
-        }
-
-        if (!empty($errors)) {
-            $request->flash();
-            return redirect()->back()->withErrors($errors);
-        }
-
+        $emails = array_filter($request->only('emails')['emails']);
         $organization = Auth::user()->selectedOrganization();
 
         foreach($emails as $email) {
@@ -38,7 +25,7 @@ class EmailController extends Controller
                 'email'             => $email
             ]);
 
-            // メール送信
+            Mail::to($email)->send(new \App\Mail\Member\EmailInvitation($invitation_link));
         }
 
         return redirect()->back()->with('success', '招待メールが送信されました。');

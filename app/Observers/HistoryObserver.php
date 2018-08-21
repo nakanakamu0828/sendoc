@@ -11,6 +11,8 @@ class HistoryObserver
 
     public function created(Model $model)
     {
+        if (!Auth::check()) return;
+
         $user = Auth::user();
         $organization = $user->selectedOrganization();
         History::create([
@@ -25,6 +27,8 @@ class HistoryObserver
 
     public function updated(Model $model)
     {
+        if (!Auth::check()) return;
+
         $user = Auth::user();
         $organization = $user->selectedOrganization();
         History::create([
@@ -39,6 +43,8 @@ class HistoryObserver
 
     public function deleted(Model $model)
     {
+        if (!Auth::check()) return;
+
         $user = Auth::user();
         $organization = $user->selectedOrganization();
         History::create([

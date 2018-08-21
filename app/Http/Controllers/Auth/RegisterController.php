@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Lang;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -39,7 +41,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest', ['except' => ['verify']]);
     }
 
     /**
@@ -70,6 +72,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'email_token' => User::generateEmailToken()
         ]);
 
         $organization = Organization::create([
@@ -83,6 +86,22 @@ class RegisterController extends Controller
             'selected' => true
         ]);
 
+        Mail::to($user->email)->send(new \App\Mail\Auth\EmailVerification($user));
+
         return $user;
+    }
+
+    /**
+     * メールアドレスの検証
+     * @param $token
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function verify($token)
+    {
+        $user = User::where('email_token', $token)->firstOrFail();
+        $user->verified = 1;
+        if($user->save()) {
+            return redirect($this->redirectTo)->with('success', Lang::get('common.authorized_email'));
+        }
     }
 }
