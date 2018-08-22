@@ -102,32 +102,7 @@
                 <span class="is-hidden-mobile">{{ __('common.register') }}</span>
                 <span class="is-hidden-desktop"><i class="fas fa-plus"></i></span>
             </a>
-            <form action="{{ route('client.csv.upload') }}" method="post" class="is-pulled-left" enctype="multipart/form-data">
-                @csrf
-                <div class="file is-primary m-l-5">
-                    <label class="file-label">
-                        <input class="file-input js-auto-submit" type="file" name="file" accept=".csv">
-                        <span class="file-cta">
-                            <span class="file-icon m-r-0">
-                                <i class="fas fa-upload"></i>
-                            </span>
-                            <span class="file-label m-l-5 is-hidden-mobile">
-                                {{ __('common.upload_csv') }}
-                            </span>
-                        </span>
-                    </label>
-                </div>
-            </form>
         </div>
-        <p class="is-size-7 m-b-5">
-            {{ __('views.client.index.help_upload') }}
-        </p>
-        <p class="is-size-7 m-b-5">
-            {{ __('views.client.index.help_csv_charactor') }}
-        </p>
-        <p class="is-size-7 m-b-20">
-            <a href="{{ route('client.csv.download.sample') }}">{{ __('views.client.index.help_download_sample') }}</a>
-        </p>
         @if(count($clients))
             <table class="table has-mobile-cards is-bordered is-striped is-narrow is-hoverable is-fullwidth is-dark-header">
                 <thead>
