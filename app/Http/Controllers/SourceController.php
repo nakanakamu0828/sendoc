@@ -40,8 +40,12 @@ class SourceController extends Controller
 
     public function create()
     {
-        $organization = Auth::user()->selectedOrganization();
+        $user = Auth::user();
+        $organization = $user->selectedOrganization();
         $source = new Source();
+        $source->name = $organization->name;
+        $source->contact_name = $user->name;
+        $source->email = $user->email;
         $source->payees->add(new Payee());
 
         $memberOptions = $organization
