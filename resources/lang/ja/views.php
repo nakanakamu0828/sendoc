@@ -27,6 +27,15 @@ return [
             'subject' => '件名',
         ]
     ],
+    'estimate' => [
+        'pdf' => [
+            'due_date' => 'お支払い期限',
+            'grand_total' => 'ご請求金額',
+            'please_be_advised_that_your_payment_is_listed_below' => '下記の通りご請求いたします。',
+            'price' => '金額',
+            'subject' => '件名',
+        ]
+    ],
     'member' => [
         'index' => [
             'invite_members_to' => ':nameにメンバーを招待',

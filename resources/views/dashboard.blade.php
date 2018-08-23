@@ -20,6 +20,10 @@
                 <i class="fas fa-pencil-alt"></i>&nbsp;
                 {{ __('common.create_a_item', [ 'item' => __('db.models.invoice') ]) }}
             </a>
+            <a href="{{ route('estimate.create') }}" class="button is-primary is-outlined">
+                <i class="fas fa-pencil-alt"></i>&nbsp;
+                {{ __('common.create_a_item', [ 'item' => __('db.models.estimate') ]) }}
+            </a>
         </div>
     </div>
 </main>

@@ -37,6 +37,11 @@ class Organization extends Model
         return $this->hasMany('App\Models\Invoice');
     }
 
+    public function estimates()
+    {
+        return $this->hasMany('App\Models\Estimate');
+    }
+
     public function member_invitation_links()
     {
         return $this->hasMany('App\Models\Member\Invitation\Link');

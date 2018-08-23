@@ -83,4 +83,19 @@ Route::group(['middleware' => ['auth'] ], function () {
             'uses' => 'Invoice\PdfController@download',
         ]);
     });
+    Route::resource('estimate', 'EstimateController', ['only' => ['index', 'create', 'store', 'edit', 'update', 'destroy']]);
+    Route::group(['prefix' => 'estimate', 'as' => 'estimate.'], function () {
+        Route::post('search', [
+            'as'   => 'search',
+            'uses' => 'EstimateController@index',
+        ]);
+        Route::get('{id}/preview.pdf', [
+            'as'   => 'pdf.preview',
+            'uses' => 'Estimate\PdfController@preview',
+        ]);
+        Route::get('{id}/download.pdf', [
+            'as'   => 'pdf.download',
+            'uses' => 'Estimate\PdfController@download',
+        ]);
+    });
 });
