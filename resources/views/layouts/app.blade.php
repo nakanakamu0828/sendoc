@@ -52,6 +52,9 @@
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="navbar-dropdown is-boxed is-right">
+                                    <a href="{{ route('setting.account.edit') }}" class="navbar-item">
+                                        {{ __('common.setting.account') }}
+                                    </a>
                                     <a class="navbar-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -69,7 +72,7 @@
         </nav>
 
         <div class="columns is-fullheight is-gapless">
-            @if(!Request::is('login*') && !Request::is('register*') && !Request::is('invitation/member*') && Auth::check())
+            @if(Auth::check() && !Request::is('login*') && !Request::is('register*') && !Request::is('setting*') && !Request::is('invitation/member*'))
                 <div  id="navMenubd-drawer" class="column is-sidebar-menu is-hidden-mobile">
                     <p class="menu-title">
                         {{ Auth::user()->selectedOrganization()->name }}

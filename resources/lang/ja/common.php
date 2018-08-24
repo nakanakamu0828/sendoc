@@ -51,6 +51,9 @@ return [
     'reset' => 'リセット',
     'search' => '検索',
     'selection' => '選択',
+    'setting' => [
+        'account' => 'アカウント設定',
+    ],
     'submit' => '送信する',
     'tax_information' => '課税情報',
     'unknown' => '不明',

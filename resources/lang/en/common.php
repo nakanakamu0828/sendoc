@@ -49,6 +49,9 @@ return [
     'reset' => 'Reset',
     'search' => 'Search',
     'selection' => 'Selection',
+    'setting' => [
+        'account' => 'Setting Account',
+    ],
     'submit' => 'Submit',
     'tax_information' => 'Tax Information',
     'unknown' => 'Unknown',

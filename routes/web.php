@@ -98,4 +98,15 @@ Route::group(['middleware' => ['auth'] ], function () {
             'uses' => 'Estimate\PdfController@download',
         ]);
     });
+
+    Route::group(['prefix' => 'setting', 'as' => 'setting.'], function () {
+        Route::get('account', [
+            'as'   => 'account.edit',
+            'uses' => 'Setting\AccountController@edit',
+        ]);
+        Route::put('account', [
+            'as'   => 'account.update',
+            'uses' => 'Setting\AccountController@update',
+        ]);
+    });
 });
