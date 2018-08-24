@@ -243,7 +243,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // 請求書作成ページ
-    if(document.querySelector('.invoice-create') || document.querySelector('.invoice-edit')) {
+    if(
+        document.querySelector('.invoice-create')
+        || document.querySelector('.invoice-edit')
+        || document.querySelector('.estimate-create')
+        || document.querySelector('.estimate-edit')
+    ) {
         const createSortable = selector => {
             const $el = document.querySelectorAll(selector);
             return !$el ? null : new Sortable($el, {
