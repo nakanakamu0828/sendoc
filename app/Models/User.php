@@ -49,6 +49,14 @@ class User extends Authenticatable
     ];
 
     // Relation
+    /**
+     * プロフィール
+     */
+    public function profile()
+    {
+        return $this->hasOne('App\Models\User\Profile');
+    }
+
     public function members()
     {
         return $this->hasMany('App\Models\Member');

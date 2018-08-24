@@ -53,6 +53,7 @@ return [
     'selection' => '選択',
     'setting' => [
         'account' => 'アカウント設定',
+        'profile' => 'プロフィール設定',
     ],
     'submit' => '送信する',
     'tax_information' => '課税情報',

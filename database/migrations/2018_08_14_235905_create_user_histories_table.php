@@ -23,7 +23,7 @@ class CreateUserHistoriesTable extends Migration
             $table->text('data')->comment('対象データ');
             $table->integer('created_at')->nullable()->unsigned();
             $table->integer('updated_at')->nullable()->unsigned();
-            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate('cascade');;
+            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');;
         });
     }

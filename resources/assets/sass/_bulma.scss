@@ -166,3 +166,10 @@ table.table {
     padding-bottom: .25rem;
   }
 }
+
+// Image
+.image {
+  &.is-circle > img {
+      border-radius: 50%;
+  }
+}

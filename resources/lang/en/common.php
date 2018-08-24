@@ -51,6 +51,7 @@ return [
     'selection' => 'Selection',
     'setting' => [
         'account' => 'Setting Account',
+        'profile' => 'Setting Profile',
     ],
     'submit' => 'Submit',
     'tax_information' => 'Tax Information',

@@ -69,6 +69,9 @@
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="navbar-dropdown is-boxed is-right">
+                                    <a href="{{ route('setting.profile.edit') }}" class="navbar-item">
+                                        {{ __('common.setting.profile') }}
+                                    </a>
                                     <a href="{{ route('setting.account.edit') }}" class="navbar-item">
                                         {{ __('common.setting.account') }}
                                     </a>

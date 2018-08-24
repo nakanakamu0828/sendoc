@@ -13703,6 +13703,10 @@ table.table.is-dark-header > thead > tr > th {
   padding-bottom: .25rem;
 }
 
+.image.is-circle > img {
+  border-radius: 50%;
+}
+
 .m-t-0 {
   margin-top: 0px !important;
 }

@@ -12,6 +12,7 @@ return [
         'invoice_item' => 'Invoice Item',
         'estimate' => 'Estimate',
         'estimate_item' => 'Estimate Item',
+        'user_profile' => 'Profile',
     ],
     'attributes' => [
         'user' => [
@@ -150,6 +151,15 @@ return [
              'created_at' => 'Created At',
              'updated_at' => 'Updated At',
           ],
+          'user_profile' => [
+              'user_id' => 'User ID',
+              'name' => 'Name',
+              'birthday' => 'Birthday',
+              'sex' => 'Sex',
+              'tel' => 'TEL',
+              'url' => 'URL',
+              'image' => 'Image',
+          ]
     ],
     'enums' => [
         'client' => [

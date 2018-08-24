@@ -108,5 +108,14 @@ Route::group(['middleware' => ['auth'] ], function () {
             'as'   => 'account.update',
             'uses' => 'Setting\AccountController@update',
         ]);
+
+        Route::get('profile', [
+            'as'   => 'profile.edit',
+            'uses' => 'Setting\ProfileController@edit',
+        ]);
+        Route::put('profile', [
+            'as'   => 'profile.update',
+            'uses' => 'Setting\ProfileController@update',
+        ]);
     });
 });

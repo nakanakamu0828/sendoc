@@ -161,6 +161,15 @@ return [
             'updated_at' => '更新日時',
             'total' => '計',
         ],
+        'user_profile' => [
+            'user_id' => 'ユーザーID',
+            'name' => '氏名',
+            'birthday' => '生年月日',
+            'sex' => '性別',
+            'tel' => '電話番号',
+            'url' => 'URL',
+            'image' => 'プロフィール画像',
+        ]
     ],
     'enums' => [
         'client' => [
