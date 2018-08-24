@@ -54,6 +54,14 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Member');
     }
 
+    /**
+     * メンバーとして参加している組織
+     */
+    public function organizations()
+    {
+        return $this->belongsToMany('App\Models\Organization', 'members', 'organization_id', 'user_id');
+    }
+
     public function documents()
     {
         return $this->hasMany('App\Models\Document', 'created_user_id', 'id');

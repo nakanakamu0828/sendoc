@@ -34,6 +34,23 @@
                 </div>
 
                 <div id="navbarMenu" class="navbar-menu">
+                    <div class="navbar-start">
+                        @if(Auth::check())
+                            <div class="navbar-item has-dropdown is-hoverable">
+                                <a class="navbar-link" href="#">
+                                    <i class="fas fa-tachometer-alt"></i>&nbsp;
+                                    {{ __('common.dashboard') }}
+                                </a>
+                                <div class="navbar-dropdown is-boxed is-right">
+                                    @foreach(Auth::user()->organizations as $organization)
+                                        <a href="{{ route('dashboard') }}" class="navbar-item">
+                                            {{ $organization->name }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                     <div class="navbar-end">
                         @guest
                             <div class="navbar-item">
