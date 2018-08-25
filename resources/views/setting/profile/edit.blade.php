@@ -34,6 +34,17 @@
                         </div>
 
                         <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user_profile.birthday') }}</label>
+                            <div class="control">
+                                <input type="date" class="input {{ $errors->has('birthday') ? ' is-danger' : '' }}" name="birthday" placeholder="" value="{{ old('birthday', $profile->birthday) }}">
+                                @if ($errors->has('birthday'))
+                                    <p class="help is-danger">{{ $errors->first('birthday') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+
+                        <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user_profile.tel') }}</label>
                             <div class="control">
                                 <input id="input" type="text" class="input {{ $errors->has('tel') ? ' is-danger' : '' }}" name="tel" placeholder="" value="{{ old('tel', $profile->tel) }}">

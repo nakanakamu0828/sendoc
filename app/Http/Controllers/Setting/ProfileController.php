@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Setting;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Setting\Account\UpdateForm;
+use App\Http\Requests\Setting\Profile\UpdateForm;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User\Profile;
 use Auth;
@@ -14,21 +14,15 @@ class ProfileController extends Controller
 {
     public function edit()
     {
-        $profile = $user->profile ?? new Profile();
         return view('setting.profile.edit', [
-            'profile' => $profile
+            'profile' => Auth::user()->profile
         ]);
     }
 
     public function update(UpdateForm $request)
     {
-        $data = $request->only('email', 'password');
-        if (empty($data['password'])) {
-            unset($data['password']);
-        } else {
-            $data['password'] = Hash::make($data['password']);
-        }
-        Auth::user()->fill($data)->save();
+        $data = $request->all();
+        Auth::user()->profile->fill($data)->save();
 
         return redirect()->back()->with('success', Lang::get('common.update_has_been_completed'));
     }

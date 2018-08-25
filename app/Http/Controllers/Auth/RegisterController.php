@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
-use App\Models\Organization;
-use App\Models\Member;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\UseCases\RegisterUser;
 use Lang;
 use Mail;
 
@@ -68,24 +65,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'email_token' => User::generateEmailToken()
-        ]);
 
-        $organization = Organization::create([
-            'name' => $data['organization_name'],
-        ]);
-
-        Member::create([
-            'organization_id' => $organization->id,
-            'user_id' => $user->id,
-            'role' => 'admin',
-            'selected' => true
-        ]);
-
+        $usecase = new RegisterUser();
+        $user = $usecase($data);
         Mail::to($user->email)->send(new \App\Mail\Auth\EmailVerification($user));
 
         return $user;

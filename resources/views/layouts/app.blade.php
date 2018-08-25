@@ -66,7 +66,7 @@
                         @else
                             <div class="navbar-item has-dropdown is-hoverable">
                                 <a class="navbar-link" href="#">
-                                    {{ Auth::user()->name }}
+                                    {{ Auth::user()->profile->name }}
                                 </a>
                                 <div class="navbar-dropdown is-boxed is-right">
                                     <a href="{{ route('setting.profile.edit') }}" class="navbar-item">
