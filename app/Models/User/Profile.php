@@ -34,4 +34,10 @@ class Profile extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+
+
+    public function getSexDescription()
+    {
+        return \App\Enums\User\Profile\Sex::getDescription($this->sex);
+    }
 }

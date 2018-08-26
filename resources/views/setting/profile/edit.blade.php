@@ -34,6 +34,27 @@
                         </div>
 
                         <div class="field">
+                            <label class="label is-small">{{ __('db.attributes.user_profile.sex') }}</label>
+                            <div class="control">
+                                <div class="select">
+                                    <select name="sex">
+                                        @foreach($sexes as $k => $v)
+                                            <option
+                                                value="{{ $v }}"
+                                                @if($profile->sex === $v) selected @endif
+                                            >
+                                                {{ __('enum.user_profile.sex.' . strtolower($k)) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @if ($errors->has('sex'))
+                                    <p class="help is-danger">{{ $errors->first('sex') }}</p>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="field">
                             <label class="label is-small">{{ __('db.attributes.user_profile.birthday') }}</label>
                             <div class="control">
                                 <input type="date" class="input {{ $errors->has('birthday') ? ' is-danger' : '' }}" name="birthday" placeholder="" value="{{ old('birthday', $profile->birthday) }}">
