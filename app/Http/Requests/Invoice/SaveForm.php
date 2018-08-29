@@ -51,4 +51,19 @@ class SaveForm extends FormRequest
         }
         return $rules;
     }
+
+    public function attributes()
+    {
+        $keys = array_filter(array_keys($this->rules()), function($i) { return !preg_match('/^items/', $i); });
+        $attributes = array_combine($keys, array_map(function($k) { return __('db.attributes.invoice.' . $k); }, $keys));
+
+        $items = array_keys($this->get('items') ?? []);
+        foreach ($items as $key) {
+            $attributes["items.{$key}.name"] = __('db.attributes.invoice_item.name');
+            $attributes["items.{$key}.price"] = __('db.attributes.invoice_item.price');
+            $attributes["items.{$key}.quantity"] = __('db.attributes.invoice_item.quantity');
+        }
+
+        return $attributes;
+    }
 }

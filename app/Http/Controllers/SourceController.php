@@ -44,14 +44,15 @@ class SourceController extends Controller
         $organization = $user->selectedOrganization();
         $source = new Source();
         $source->name = $organization->name;
-        $source->contact_name = $user->name;
+        $source->contact_name = $user->profile->name;
         $source->email = $user->email;
         $source->payees->add(new Payee());
 
         $memberOptions = $organization
             ->members()
             ->join('users', 'members.user_id', 'users.id')
-            ->pluck('users.name');
+            ->join('user_profiles', 'user_profiles.user_id', 'users.id')
+            ->pluck('user_profiles.name');
 
         return view('source.create', [
             'source' => $source,
@@ -84,7 +85,8 @@ class SourceController extends Controller
         $memberOptions = $organization
             ->members()
             ->join('users', 'members.user_id', 'users.id')
-            ->pluck('users.name');
+            ->join('user_profiles', 'user_profiles.user_id', 'users.id')
+            ->pluck('user_profiles.name');
 
         return view('source.edit', [
             'source' => $source,

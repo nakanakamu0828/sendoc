@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Traits\Models\AuthorObservable;
 use App\Traits\Models\HistoryObservable;
+use App\Models\Invoice\Organization;
+use DB;
 
 class Invoice extends Model
 {
@@ -22,7 +24,6 @@ class Invoice extends Model
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'organization_id',
         'title',
         'invoice_no',
         'client_id',
@@ -70,11 +71,6 @@ class Invoice extends Model
     }
 
     // Relation
-    public function organization()
-    {
-        return $this->belongsTo('App\Models\Organization');
-    }
-
     public function client()
     {
         return $this->belongsTo('App\Models\Client');
@@ -98,6 +94,16 @@ class Invoice extends Model
     public function deleted_by()
     {
         return $this->belongsTo('App\Models\User', 'deleted_by', 'id');
+    }
+
+    public function invoice_organizations()
+    {
+        return $this->hasMany('App\Models\Invoice\Organization');
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany('App\Models\Organization', 'invoice_organizations', 'invoice_id', 'organization_id');
     }
 
     public function items()
@@ -127,13 +133,25 @@ class Invoice extends Model
         }
     }
 
+    public function scopeWhereOrganizationId($query, $id)
+    {
+        if (empty($id)) return $query;
+        return $query->whereIn('id', Organization::where('organization_id', $id)->pluck('invoice_id'));
+    }
+
     // Function
-    public function generateInvoiceNo()
+    public function generateInvoiceNo($organizationId)
     {
         $i = 1;
+        $this->invoice_no = null;
         while(is_null($this->invoice_no)) {
             $invoice_no = sprintf('%s-%03d', date('Ymd'), $i++);
-            if (0 === $this->where('organization_id', $this->organization->id)->where('invoice_no', $invoice_no)->count()) {
+            $count = $this->join('invoice_organizations', 'invoice_organizations.invoice_id', 'invoices.id')
+                ->where('invoice_organizations.organization_id', $organizationId)
+                ->where('invoice_no', $invoice_no)
+                ->count();
+
+            if (0 === $count) {
                 $this->invoice_no = $invoice_no;
             }
         }

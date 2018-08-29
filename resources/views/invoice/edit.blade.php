@@ -315,6 +315,28 @@
                             </div>
                         </div>
 
+                        <h3 class="m-t-20 item-title is-border-line">{{ __('common.bank_account_information') }}</h3>
+                        <div class="field">
+                            <label class="label is-small">{{ __('db.models.invoice_payee') }}</label>
+                            <div id="payee-block" class="control">
+                                @if(!is_null(old('_token')))
+                                    @foreach (old('payees') as $i => $form)
+                                        <?php
+                                            $payee = $form['id'] ? $invoice->payees()->find($form['id'])->fill($form) : new \App\Models\Invoice\Payee($form);
+                                        ?>
+                                        @if (!$form['_delete'])
+                                            @include('invoice._invoice_payee_field', [ 'payee' => $payee, 'index' => $i ])
+                                        @endif
+                                    @endforeach
+                                @else
+                                    @foreach ($invoice->payees as $i => $payee)
+                                        @include('invoice._invoice_payee_field', [ 'payee' => $payee, 'index' => $i ])
+                                    @endforeach
+                                @endif
+                            </div>
+                            {{ link_to_add_fields(__('common.add'), 'Invoice\Payee', 'invoice', [ 'class' => 'button is-outlined is-info', 'data-target' => '#payee-block' ]) }}
+                        </div>
+
                         <div class="field">
                             <div class="control">
                                 <button type="submit" class="button is-primary">

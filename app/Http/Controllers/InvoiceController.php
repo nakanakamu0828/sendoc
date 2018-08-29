@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Invoice;
 use App\Models\Invoice\Item;
 use App\Models\Invoice\Payee;
+use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use Auth;
 use Lang;
 
@@ -18,19 +19,22 @@ class InvoiceController extends Controller
     const SEARCH_SESSION_KEY = 'invoce.search';
     const SELECTION_ID_SESSION_KEY = 'invoce.selection.id';
 
+    private $invoiceRepository;
+
+    public function __construct(InvoiceRepositoryInterface $invoiceRepository)
+    {
+        $this->invoiceRepository = $invoiceRepository;
+        $this->middleware(function ($request, $next) {
+            $this->invoiceRepository->setUser(Auth::user());
+            return $next($request);
+        });
+    }
 
     public function index(SearchForm $request)
     {
         $condition = $request->isMethod('post') ? $request->all() : $request->session()->get(static::SEARCH_SESSION_KEY, []);
         $request->session()->put(static::SEARCH_SESSION_KEY, $condition);
-        
-        $user = Auth::user();
-        $invoices = $user->selectedOrganization()
-            ->invoices()
-            ->searchByCondition($condition)
-            ->orderBy('id', 'desc')
-            ->paginate(20);
-
+        $invoices = $this->invoiceRepository->paginateByCondition($condition, 'id', 'desc', 20);
         return view('invoice.index', [
             'condition'     => $condition,
             'invoices'      => $invoices,
@@ -43,8 +47,8 @@ class InvoiceController extends Controller
         $user = Auth::user();
         $organization = $user->selectedOrganization();
 
-        $invoice = new Invoice(['organization_id' => $organization->id]);
-        $invoice->generateInvoiceNo();
+        $invoice = new Invoice();
+        $invoice->generateInvoiceNo($organization->id);
         $invoice->items->add(new Item());
         $invoice->payees->add(new Payee());
 
@@ -74,26 +78,20 @@ class InvoiceController extends Controller
 
         $source = $organization->sources()->firstOrCreate(['name' => $data['sender']]);
         $data['source_id'] = $source->id;
-        $invoice = $organization->invoices()->create(['organization_id' => $organization->id] + $data);
 
         $subtotal = 0;
         $tax = 0;
-        foreach ($request->only('items')['items'] as $form) {
-            $item = isset($form['id']) ? $invoice->items()->find($form['id']) : new Item(['invoice_id' => $invoice->id]);
-            if ((empty($form['name']) && empty($form['price']) && empty($form['quantity'])) || $form['_delete']) {
-                $item->delete();
-            } else {
-                $item->fill($form)->save();
-
-                $subtotal += intval($item->price);
-                if ($invoice->in_tax) $tax += (floatval($item->price) * $invoice->tax_rate / 100);
+        foreach ($request->only('items')['items'] as $item) {
+            if (!$item['_delete'] && $item['name'] && $item['price'] && $item['quantity']) {
+                $subtotal += floatval($item['price']);
+                if (isset($item['in_tax'])) $tax += (floatval($item['price']) * floatval($item['tax_rate']) / 100);
             }
         }
 
-        $invoice->subtotal = $subtotal;
-        $invoice->tax = $tax;
-        $invoice->total = $subtotal + $tax;
-        $invoice->save();
+        $data['subtotal'] = $subtotal;
+        $data['tax'] = $tax;
+        $data['total'] = $subtotal + $tax;
+        $this->invoiceRepository->create($data);
 
         return redirect()->route('invoice.index')->with('success', Lang::get('common.registrationd_has_been_completed'));
     }
@@ -123,44 +121,53 @@ class InvoiceController extends Controller
         $organization = Auth::user()->selectedOrganization();
         $data = $request->all();
 
-        $invoice = $organization->invoices()->find($id);
-
-        $subtotal = 0;
-        $tax = 0;
-        foreach ($request->only('items')['items'] as $form) {
-            $item = isset($form['id']) ? $invoice->items()->find($form['id']) : new Item(['invoice_id' => $invoice->id]);
-            if ((empty($form['name']) && empty($form['price']) && empty($form['quantity'])) || $form['_delete']) {
-                $item->delete();
-            } else {
-                $item->fill($form)->save();
-
-                $subtotal += intval($item->price);
-                if ($invoice->in_tax) $tax += (floatval($item->price) * $invoice->tax_rate / 100);
-            }
-        }
-
         $client = $organization->clients()->firstOrCreate(['name' => $data['recipient']]);
         $data['client_id'] = $client->id;
 
         $source = $organization->sources()->firstOrCreate(['name' => $data['sender']]);
         $data['source_id'] = $source->id;
 
-        $invoice->fill($data);
-        $invoice->subtotal = $subtotal;
-        $invoice->tax = $tax;
-        $invoice->total = $subtotal + $tax;
-        $invoice->save();
+        $subtotal = 0;
+        $tax = 0;
+        foreach ($request->only('items')['items'] as $item) {
+            if (!$item['_delete'] && $item['name'] && $item['price'] && $item['quantity']) {
+                $subtotal += floatval($item['price']);
+                if (isset($item['in_tax'])) $tax += (floatval($item['price']) * floatval($item['tax_rate']) / 100);
+            }
+        }
+
+        $data['subtotal'] = $subtotal;
+        $data['tax'] = $tax;
+        $data['total'] = $subtotal + $tax;
+
+        $this->invoiceRepository->update($id, $data);
 
         return redirect()->route('invoice.index')->with('success', Lang::get('common.update_has_been_completed'));
     }
 
+    public function copy($id)
+    {
+        $organization = Auth::user()->selectedOrganization();
+        
+        $clientOptions = $organization
+            ->clients()
+            ->pluck('name', 'id');
+
+        $sourceOptions = $organization
+            ->sources()
+            ->pluck('name', 'id');
+
+        $invoice = $organization->invoices()->find($id);
+        return view('invoice.create', [
+            'invoice' => $invoice,
+            'clientOptions' => $clientOptions,
+            'sourceOptions' => $sourceOptions,
+        ]);
+    }
+
     public function destroy($id)
     {
-        $user = Auth::user();
-        $invoice = $user->selectedOrganization()->invoices()->find($id);
-        if ($invoice) {
-            $invoice->delete();
-        }
+        $this->invoiceRepository->delete($id);
         return redirect()->route('invoice.index')->with('success', Lang::get('common.delete_has_been_completed'));
     }
 }

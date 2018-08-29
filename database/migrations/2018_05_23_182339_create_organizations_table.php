@@ -16,6 +16,7 @@ class CreateOrganizationsTable extends Migration
         Schema::create('organizations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->enum('type', ['corporation', 'solo'])->comment('種別 corporation:法人, solo:個人事業主');
             $table->integer('created_at')->nullable()->unsigned();
             $table->integer('updated_at')->nullable()->unsigned();
         });

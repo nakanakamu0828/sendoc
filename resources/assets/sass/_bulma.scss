@@ -173,3 +173,13 @@ table.table {
       border-radius: 50%;
   }
 }
+
+.label {
+  &.is-required {
+    &:after {
+      content: "*";
+      color: $danger;
+      margin-left: .2rem;
+    }
+  }
+}

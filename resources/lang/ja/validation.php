@@ -134,5 +134,11 @@ return [
     | of "email". This simply helps us make messages a little cleaner.
     |
     */
-    'attributes' => [],
+    'attributes' => [
+        'organization_name' => '会社名、屋号など',
+        'organization_type' => '組織形態',
+        'name' => '氏名',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード'
+    ],
 ];

@@ -246,8 +246,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if(
         document.querySelector('.invoice-create')
         || document.querySelector('.invoice-edit')
+        || document.querySelector('.invoice-copy')
         || document.querySelector('.estimate-create')
         || document.querySelector('.estimate-edit')
+        || document.querySelector('.estimate-copy')
     ) {
         const createSortable = selector => {
             const $el = document.querySelectorAll(selector);

@@ -60,4 +60,9 @@ class Member extends Model
     {
         return 'admin' === $this->role;
     }
+
+    public function getRoleDescription()
+    {
+        return \App\Enums\Member\Role::getDescription($this->role);
+    }
 }

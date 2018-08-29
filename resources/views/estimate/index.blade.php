@@ -112,7 +112,7 @@
                                     <small class="has-text-grey">{{ $estimate->client->name }}</small>
                                 </p>
                             </td>
-                            <td data-label="{{ __('db.attributes.estimate.total') }}">
+                            <td data-label="{{ __('db.attributes.estimate.total') }}" class="has-text-right">
                                 {{ $estimate->total }}
                             </td>
                             <td data-label="{{ __('db.attributes.estimate.date') }}" class="has-text-centered">
@@ -135,6 +135,9 @@
                                         <div class="dropdown-content">
                                             <a href="{{ route('estimate.edit', [$estimate->id]) }}" class="dropdown-item">
                                                 <i class="fas fa-edit"></i> {{ __('common.edit') }}
+                                            </a>
+                                            <a href="{{ route('estimate.copy', [$estimate->id]) }}" class="dropdown-item">
+                                                <i class="fas fa-edit"></i> {{ __('common.copy') }}
                                             </a>
                                             <a href="{{ route('estimate.pdf.preview', [$estimate->id]) }}" class="dropdown-item" target="_blank">
                                                 <i class="fas fa-file-pdf"></i> {{ __('common.preview_pdf') }}

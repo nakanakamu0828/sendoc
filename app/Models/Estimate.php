@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 use App\Traits\Models\AuthorObservable;
 use App\Traits\Models\HistoryObservable;
+use App\Models\Estimate\Organization;
+use DB;
 
 class Estimate extends Model
 {
@@ -22,7 +24,6 @@ class Estimate extends Model
     protected $dateFormat = 'U';
 
     protected $fillable = [
-        'organization_id',
         'title',
         'estimate_no',
         'client_id',
@@ -70,11 +71,6 @@ class Estimate extends Model
     }
 
     // Relation
-    public function organization()
-    {
-        return $this->belongsTo('App\Models\Organization');
-    }
-
     public function client()
     {
         return $this->belongsTo('App\Models\Client');
@@ -100,6 +96,16 @@ class Estimate extends Model
         return $this->belongsTo('App\Models\User', 'deleted_by', 'id');
     }
 
+    public function estimate_organizations()
+    {
+        return $this->hasMany('App\Models\Estimate\Organization');
+    }
+
+    public function organizations()
+    {
+        return $this->belongsToMany('App\Models\Organization', 'estimate_organizations', 'estimate_id', 'organization_id');
+    }
+
     public function items()
     {
         return $this->hasMany('App\Models\Estimate\Item');
@@ -122,13 +128,24 @@ class Estimate extends Model
         }
     }
 
+    public function scopeWhereOrganizationId($query, $id)
+    {
+        if (empty($id)) return $query;
+        return $query->whereIn('id', Organization::where('organization_id', $id)->pluck('estimate_id'));
+    }
+
     // Function
-    public function generateEstimateNo()
+    public function generateEstimateNo($organizationId)
     {
         $i = 1;
+        $this->estimate_no = null;
         while(is_null($this->estimate_no)) {
             $estimate_no = sprintf('%s-%03d', date('Ymd'), $i++);
-            if (0 === $this->where('organization_id', $this->organization->id)->where('estimate_no', $estimate_no)->count()) {
+            $count = $this->join('estimate_organizations', 'estimate_organizations.estimate_id', 'estimates.id')
+                ->where('estimate_organizations.organization_id', $organizationId)
+                ->where('estimate_no', $estimate_no)
+                ->count();
+            if (0 === $count) {
                 $this->estimate_no = $estimate_no;
             }
         }

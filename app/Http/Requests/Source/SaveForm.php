@@ -49,4 +49,16 @@ class SaveForm extends FormRequest
         }
         return $rules;
     }
+
+    public function attributes()
+    {
+        $keys = array_filter(array_keys($this->rules()), function($i) { return !preg_match('/^payees/', $i); });
+        $attributes = array_combine($keys, array_map(function($k) { return __('db.attributes.source.' . $k); }, $keys));
+
+        $payees = array_keys($this->get('payees') ?? []);
+        foreach ($payees as $key) {
+            $attributes["payees.{$key}.detail"] = __('db.attributes.payee.detail');
+        }
+        return $attributes;
+    }
 }

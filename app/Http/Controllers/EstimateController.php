@@ -7,7 +7,9 @@ use App\Http\Requests\Estimate\SaveForm;
 use App\Http\Requests\Estimate\SearchForm;
 use App\Models\User;
 use App\Models\Estimate;
+use App\Models\Estimate\Organization;
 use App\Models\Estimate\Item;
+use App\Repositories\Interfaces\EstimateRepositoryInterface;
 use Auth;
 use Lang;
 
@@ -17,19 +19,22 @@ class EstimateController extends Controller
     const SEARCH_SESSION_KEY = 'estimate.search';
     const SELECTION_ID_SESSION_KEY = 'estimate.selection.id';
 
+    private $estimateRepository;
+
+    public function __construct(EstimateRepositoryInterface $estimateRepository)
+    {
+        $this->estimateRepository = $estimateRepository;
+        $this->middleware(function ($request, $next) {
+            $this->estimateRepository->setUser(Auth::user());
+            return $next($request);
+        });
+    }
 
     public function index(SearchForm $request)
     {
         $condition = $request->isMethod('post') ? $request->all() : $request->session()->get(static::SEARCH_SESSION_KEY, []);
         $request->session()->put(static::SEARCH_SESSION_KEY, $condition);
-        
-        $user = Auth::user();
-        $estimates = $user->selectedOrganization()
-            ->estimates()
-            ->searchByCondition($condition)
-            ->orderBy('id', 'desc')
-            ->paginate(20);
-
+        $estimates = $this->estimateRepository->paginateByCondition($condition, 'id', 'desc', 20);
         return view('estimate.index', [
             'condition'     => $condition,
             'estimates'     => $estimates,
@@ -42,8 +47,8 @@ class EstimateController extends Controller
         $user = Auth::user();
         $organization = $user->selectedOrganization();
 
-        $estimate = new Estimate(['organization_id' => $organization->id]);
-        $estimate->generateEstimateNo();
+        $estimate = new Estimate();
+        $estimate->generateEstimateNo($organization->id);
         $estimate->items->add(new Item());
 
         $clientOptions = $organization
@@ -72,26 +77,20 @@ class EstimateController extends Controller
 
         $source = $organization->sources()->firstOrCreate(['name' => $data['sender']]);
         $data['source_id'] = $source->id;
-        $estimate = $organization->estimates()->create(['organization_id' => $organization->id] + $data);
 
         $subtotal = 0;
         $tax = 0;
-        foreach ($request->only('items')['items'] as $form) {
-            $item = isset($form['id']) ? $estimate->items()->find($form['id']) : new Item(['estimate_id' => $estimate->id]);
-            if ((empty($form['name']) && empty($form['price']) && empty($form['quantity'])) || $form['_delete']) {
-                $item->delete();
-            } else {
-                $item->fill($form)->save();
-
-                $subtotal += intval($item->price);
-                if ($estimate->in_tax) $tax += (floatval($item->price) * $estimate->tax_rate / 100);
+        foreach ($request->only('items')['items'] as $item) {
+            if (!$item['_delete'] && $item['name'] && $item['price'] && $item['quantity']) {
+                $subtotal += floatval($item['price']);
+                if (isset($item['in_tax'])) $tax += (floatval($item['price']) * floatval($item['tax_rate']) / 100);
             }
         }
 
-        $estimate->subtotal = $subtotal;
-        $estimate->tax = $tax;
-        $estimate->total = $subtotal + $tax;
-        $estimate->save();
+        $data['subtotal'] = $subtotal;
+        $data['tax'] = $tax;
+        $data['total'] = $subtotal + $tax;
+        $this->estimateRepository->create($data);
 
         return redirect()->route('estimate.index')->with('success', Lang::get('common.registrationd_has_been_completed'));
     }
@@ -121,44 +120,55 @@ class EstimateController extends Controller
         $organization = Auth::user()->selectedOrganization();
         $data = $request->all();
 
-        $estimate = $organization->estimates()->find($id);
-
-        $subtotal = 0;
-        $tax = 0;
-        foreach ($request->only('items')['items'] as $form) {
-            $item = isset($form['id']) ? $estimate->items()->find($form['id']) : new Item(['estimate_id' => $estimate->id]);
-            if ((empty($form['name']) && empty($form['price']) && empty($form['quantity'])) || $form['_delete']) {
-                $item->delete();
-            } else {
-                $item->fill($form)->save();
-
-                $subtotal += intval($item->price);
-                if ($estimate->in_tax) $tax += (floatval($item->price) * $estimate->tax_rate / 100);
-            }
-        }
-
         $client = $organization->clients()->firstOrCreate(['name' => $data['recipient']]);
         $data['client_id'] = $client->id;
 
         $source = $organization->sources()->firstOrCreate(['name' => $data['sender']]);
         $data['source_id'] = $source->id;
 
-        $estimate->fill($data);
-        $estimate->subtotal = $subtotal;
-        $estimate->tax = $tax;
-        $estimate->total = $subtotal + $tax;
-        $estimate->save();
+        $subtotal = 0;
+        $tax = 0;
+        foreach ($request->only('items')['items'] as $item) {
+            if (!$item['_delete'] && $item['name'] && $item['price'] && $item['quantity']) {
+                $subtotal += floatval($item['price']);
+                if (isset($item['in_tax'])) $tax += (floatval($item['price']) * floatval($item['tax_rate']) / 100);
+            }
+        }
+
+        $data['subtotal'] = $subtotal;
+        $data['tax'] = $tax;
+        $data['total'] = $subtotal + $tax;
+
+        $this->estimateRepository->update($id, $data);
 
         return redirect()->route('estimate.index')->with('success', Lang::get('common.update_has_been_completed'));
     }
 
+    public function copy($id)
+    {
+        $organization = Auth::user()->selectedOrganization();
+        
+        $clientOptions = $organization
+            ->clients()
+            ->pluck('name', 'id');
+
+        $sourceOptions = $organization
+            ->sources()
+            ->pluck('name', 'id');
+
+        $estimate = $organization->estimates()->find($id);
+        $estimate->generateEstimateNo($organization->id);
+
+        return view('estimate.create', [
+            'estimate' => $estimate,
+            'clientOptions' => $clientOptions,
+            'sourceOptions' => $sourceOptions,
+        ]);
+    }
+
     public function destroy($id)
     {
-        $user = Auth::user();
-        $estimate = $user->selectedOrganization()->estimates()->find($id);
-        if ($estimate) {
-            $estimate->delete();
-        }
+        $this->estimateRepository->delete($id);
         return redirect()->route('estimate.index')->with('success', Lang::get('common.delete_has_been_completed'));
     }
 }

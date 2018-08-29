@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Http\ViewComposers\SexComposer;
+use App\Http\ViewComposers\OrganizationTypeComposer;
 use View;
 
 class ComposerServiceProvider extends ServiceProvider
@@ -18,6 +19,9 @@ class ComposerServiceProvider extends ServiceProvider
         View::composers([
             SexComposer::class => [
                 'setting.profile.edit'
+            ],
+            OrganizationTypeComposer::class => [
+                'auth.register'
             ]
         ]);
     }

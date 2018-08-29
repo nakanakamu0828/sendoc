@@ -16,7 +16,7 @@
                     <form method="POST" action="{{ route('login') }}" class="m-t-50">
                         @csrf
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
+                            <label class="label is-small is-required">{{ __('db.attributes.user.email') }}</label>
                             <div class="control  has-icons-left">
                                 <input id="input" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email') }}" required autofocus>
                                 <span class="icon is-small is-left">
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.user.password') }}</label>
+                            <label class="label is-small is-required">{{ __('db.attributes.user.password') }}</label>
                             <div class="control has-icons-left">
                                 <input id="password" type="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password" required>
                                 <span class="icon is-small is-left">

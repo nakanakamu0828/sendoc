@@ -41,5 +41,13 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Interfaces\MemberRepositoryInterface::class,
             \App\Repositories\MemberRepository::class
         );
+        $this->app->bind(
+            \App\Repositories\Interfaces\InvoiceRepositoryInterface::class,
+            \App\Repositories\InvoiceRepository::class
+        );
+        $this->app->bind(
+            \App\Repositories\Interfaces\EstimateRepositoryInterface::class,
+            \App\Repositories\EstimateRepository::class
+        );
     }
 }

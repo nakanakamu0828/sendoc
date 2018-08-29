@@ -15,6 +15,7 @@ class Organization extends Model
 
     protected $fillable = [
         'name',
+        'type',
     ];
 
     public function members()
@@ -32,18 +33,28 @@ class Organization extends Model
         return $this->hasMany('App\Models\Source');
     }
 
+    public function member_invitation_links()
+    {
+        return $this->hasMany('App\Models\Member\Invitation\Link');
+    }
+
+    public function invoice_organizations()
+    {
+        return $this->hasMany('App\Models\Invoice\Organization', 'organization_id', 'id');
+    }
+
+    public function estimate_organizations()
+    {
+        return $this->hasMany('App\Models\Estimate\Organization', 'organization_id', 'id');
+    }
+
     public function invoices()
     {
-        return $this->hasMany('App\Models\Invoice');
+        return $this->belongsToMany('App\Models\Invoice', 'invoice_organizations', 'organization_id', 'invoice_id');
     }
 
     public function estimates()
     {
-        return $this->hasMany('App\Models\Estimate');
-    }
-
-    public function member_invitation_links()
-    {
-        return $this->hasMany('App\Models\Member\Invitation\Link');
+        return $this->belongsToMany('App\Models\Estimate', 'estimate_organizations', 'organization_id', 'estimate_id');
     }
 }

@@ -34,4 +34,10 @@ class ClientForm extends FormRequest
             'remarks'       => 'nullable|string|max:1000',
         ];
     }
+
+    public function attributes()
+    {
+        $keys = array_keys($this->rules());
+        return array_combine($keys, array_map(function($k) { return trans('db.attributes.client.' . $k); }, $keys));
+    }
 }

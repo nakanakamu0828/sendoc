@@ -15,7 +15,6 @@ class CreateEstimatesTable extends Migration
     {
         Schema::create('estimates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('organization_id')->unsigned();
             $table->string('title')->comment('タイトル');
             $table->string('estimate_no')->comment('見積No');
 
@@ -48,7 +47,6 @@ class CreateEstimatesTable extends Migration
             $table->integer('created_at')->nullable()->unsigned();
             $table->integer('updated_at')->nullable()->unsigned();
             $table->integer('deleted_at')->nullable()->unsigned();
-            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('source_id')->references('id')->on('sources')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('SET NULL')->onUpdate('SET NULL');

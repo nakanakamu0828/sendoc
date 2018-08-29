@@ -74,6 +74,10 @@ Route::group(['middleware' => ['auth'] ], function () {
             'as'   => 'search',
             'uses' => 'InvoiceController@index',
         ]);
+        Route::get('{id}/copy', [
+            'as'   => 'copy',
+            'uses' => 'InvoiceController@copy',
+        ]);
         Route::get('{id}/preview.pdf', [
             'as'   => 'pdf.preview',
             'uses' => 'Invoice\PdfController@preview',
@@ -88,6 +92,10 @@ Route::group(['middleware' => ['auth'] ], function () {
         Route::post('search', [
             'as'   => 'search',
             'uses' => 'EstimateController@index',
+        ]);
+        Route::get('{id}/copy', [
+            'as'   => 'copy',
+            'uses' => 'EstimateController@copy',
         ]);
         Route::get('{id}/preview.pdf', [
             'as'   => 'pdf.preview',

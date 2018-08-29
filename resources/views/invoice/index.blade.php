@@ -136,6 +136,9 @@
                                             <a href="{{ route('invoice.edit', [$invoice->id]) }}" class="dropdown-item">
                                                 <i class="fas fa-edit"></i> {{ __('common.edit') }}
                                             </a>
+                                            <a href="{{ route('invoice.copy', [$invoice->id]) }}" class="dropdown-item">
+                                                <i class="fas fa-edit"></i> {{ __('common.copy') }}
+                                            </a>
                                             <a href="{{ route('invoice.pdf.preview', [$invoice->id]) }}" class="dropdown-item" target="_blank">
                                                 <i class="fas fa-file-pdf"></i> {{ __('common.preview_pdf') }}
                                             </a>

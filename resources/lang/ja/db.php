@@ -28,6 +28,7 @@ return [
         'organization' => [
             'id' => 'ID',
             'name' => '会社名、屋号など',
+            'type' => '組織形態',
             'created_at' => '登録日時',
             'updated_at' => '更新日時',
         ],

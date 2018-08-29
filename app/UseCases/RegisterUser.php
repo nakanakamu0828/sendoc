@@ -23,6 +23,7 @@ class RegisterUser
 
             $organization = Organization::create([
                 'name' => $data['organization_name'],
+                'type' => $data['organization_type'],
             ]);
 
             $user = User::create([

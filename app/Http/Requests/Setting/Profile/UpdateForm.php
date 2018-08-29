@@ -33,11 +33,7 @@ class UpdateForm extends FormRequest
 
     public function attributes()
     {
-        return [
-            'name'      => trans('db.attributes.user_profile.name'),
-            'birthday'  => trans('db.attributes.user_profile.birthday'),
-            'tel'       => trans('db.attributes.user_profile.tel'),
-            'url'       => trans('db.attributes.user_profile.url'),
-        ];
+        $keys = array_keys($this->rules());
+        return array_combine($keys, array_map(function($k) { return trans('db.attributes.user_profile.' . $k); }, $keys));
     }
 }

@@ -24,7 +24,7 @@
                         </div>
 
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.user_profile.name') }}</label>
+                            <label class="label is-small is-required">{{ __('db.attributes.user_profile.name') }}</label>
                             <div class="control">
                                 <input id="input" type="text" class="input {{ $errors->has('name') ? ' is-danger' : '' }}" name="name" placeholder="" value="{{ old('name', $profile->name) }}">
                                 @if ($errors->has('name'))

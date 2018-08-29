@@ -18,7 +18,7 @@
                         <input type="hidden" name="token" value="{{$token}}">
 
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
+                            <label class="label is-small is-required">{{ __('db.attributes.user.email') }}</label>
                             <div class="control  has-icons-left">
                                 <input id="input" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email') }}">
                                 <span class="icon is-small is-left">
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.user.password') }}</label>
+                            <label class="label is-small is-required">{{ __('db.attributes.user.password') }}</label>
                             <div class="control has-icons-left">
                                 <input type="password" class="input {{ $errors->has('password') ? ' is-danger' : '' }}" placeholder="{{ __('common.password') }}" name="password">
                                 <span class="icon is-small is-left">
@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.user.password_confirmation') }}</label>
+                            <label class="label is-small is-required">{{ __('db.attributes.user.password_confirmation') }}</label>
                             <div class="control has-icons-left">
                                 <input type="password" class="input {{ $errors->has('password_confirmation') ? ' is-danger' : '' }}" placeholder="{{ __('common.password_confirmation') }}" name="password_confirmation">
                                 <span class="icon is-small is-left">

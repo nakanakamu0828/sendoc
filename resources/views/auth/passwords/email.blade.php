@@ -26,7 +26,7 @@
 
                         @csrf
                         <div class="field">
-                            <label class="label is-small">{{ __('db.attributes.user.email') }}</label>
+                            <label class="label is-small is-required">{{ __('db.attributes.user.email') }}</label>
                             <div class="control  has-icons-left">
                                 <input id="input" type="email" class="input {{ $errors->has('email') ? ' is-danger' : '' }}" name="email" placeholder="{{ __('common.email') }}" value="{{ old('email') }}" required autofocus>
                                 <span class="icon is-small is-left">

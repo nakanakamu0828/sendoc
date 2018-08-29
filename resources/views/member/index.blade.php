@@ -33,7 +33,7 @@
                 <thead>
                     <tr>
                         <th>{{ __('db.attributes.member.id') }}</th>
-                        <th>{{ __('db.attributes.user.name') }}</th>
+                        <th>{{ __('db.attributes.user_profile.name') }}</th>
                         <th>{{ __('db.attributes.user.email') }}</th>
                         <th>{{ __('db.attributes.member.role') }}</th>
                         <th>{{ __('db.attributes.member.created_at') }}</th>
@@ -46,14 +46,14 @@
                     @foreach($members as $member)
                         <tr>
                             <td data-label="{{ __('db.attributes.member.id') }}">{{ $member->id }}</td>
-                            <td data-label="{{ __('db.attributes.user.name') }}">
-                                {{ $member->user->name }}
+                            <td data-label="{{ __('db.attributes.user_profile.name') }}">
+                                {{ $member->user->profile->name }}
                             </td>
                             <td data-label="{{ __('db.attributes.user.email') }}">
                                 {{ $member->user->email }}
                             </td>
                             <td data-label="{{ __('db.attributes.member.role') }}" class="has-text-centered">
-                                <span class="tag is-{{ $member->role }}">{{ $member->role }}</span>
+                                <span class="tag is-{{ $member->role }}">{{ $member->getRoleDescription() }}</span>
                             </td>
                             <td data-label="{{ __('db.attributes.member.created_at') }}">
                                 {{ $member->user->created_at->format('Y/m/d H:i:s')  }}
