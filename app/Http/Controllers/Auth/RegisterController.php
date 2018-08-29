@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\UseCases\RegisterUser;
+use App\UseCases\VerifyUser;
 use Lang;
 use Mail;
 
@@ -81,10 +82,8 @@ class RegisterController extends Controller
      */
     public function verify($token)
     {
-        $user = User::where('email_token', $token)->firstOrFail();
-        $user->verified = 1;
-        if($user->save()) {
-            return redirect($this->redirectTo)->with('success', Lang::get('common.authorized_email'));
-        }
+        $usecase = new VerifyUser();
+        $usecase($token);
+        return redirect($this->redirectTo)->with('success', Lang::get('common.authorized_email'));
     }
 }
