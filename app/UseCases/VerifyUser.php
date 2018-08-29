@@ -16,7 +16,7 @@ class VerifyUser
      */
     public function __invoke(string $token): User
     {
-        return DB::transaction(function () use($data) {
+        return DB::transaction(function () use($token) {
 
             $user = User::where('email_token', $token)->firstOrFail();
             $user->verified = 1;
