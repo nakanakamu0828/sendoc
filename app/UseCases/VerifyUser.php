@@ -20,7 +20,7 @@ class VerifyUser
 
             $user = User::where('email_token', $token)->firstOrFail();
             $user->verified = 1;
-            $user->save()
+            $user->save();
     
             return $user;
         });
