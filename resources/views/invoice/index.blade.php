@@ -112,8 +112,8 @@
                                     <small class="has-text-grey">{{ $invoice->client->name }}</small>
                                 </p>
                             </td>
-                            <td data-label="{{ __('db.attributes.invoice.total') }}">
-                                {{ $invoice->total }}
+                            <td data-label="{{ __('db.attributes.invoice.total') }}" class="has-text-right">
+                                {{ number_format($invoice->total) }}
                             </td>
                             <td data-label="{{ __('db.attributes.invoice.date') }}" class="has-text-centered">
                                 {{ $invoice->date->format('Y/m/d') }}

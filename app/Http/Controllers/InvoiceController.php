@@ -108,7 +108,7 @@ class InvoiceController extends Controller
             ->sources()
             ->pluck('name', 'id');
 
-        $invoice = $organization->invoices()->find($id);
+        $invoice = $this->invoiceRepository->find($id);
         return view('invoice.edit', [
             'invoice' => $invoice,
             'clientOptions' => $clientOptions,
@@ -157,7 +157,7 @@ class InvoiceController extends Controller
             ->sources()
             ->pluck('name', 'id');
 
-        $invoice = $organization->invoices()->find($id);
+        $invoice = $this->invoiceRepository->find($id);
         return view('invoice.create', [
             'invoice' => $invoice,
             'clientOptions' => $clientOptions,

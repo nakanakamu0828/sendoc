@@ -4,16 +4,27 @@ namespace App\Http\Controllers\Invoice;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Repositories\Interfaces\InvoiceRepositoryInterface;
 use Auth;
 use PDF;
 
 class PdfController extends Controller
 {
+
+    private $invoiceRepository;
+
+    public function __construct(InvoiceRepositoryInterface $invoiceRepository)
+    {
+        $this->invoiceRepository = $invoiceRepository;
+        $this->middleware(function ($request, $next) {
+            $this->invoiceRepository->setUser(Auth::user());
+            return $next($request);
+        });
+    }
+
     public function preview($id)
     {
-        $organization = Auth::user()->selectedOrganization();
-        $invoice = $organization->invoices()->find($id);
-
+        $invoice = $this->invoiceRepository->find($id);
         $pdf = PDF::loadView('invoice/pdf/template', [
             'invoice' => $invoice
         ])
@@ -25,9 +36,7 @@ class PdfController extends Controller
 
     public function download($id)
     {
-        $organization = Auth::user()->selectedOrganization();
-        $invoice = $organization->invoices()->find($id);
-
+        $invoice = $this->invoiceRepository->find($id);
         $pdf = PDF::loadView('invoice/pdf/template', [
             'invoice' => $invoice
         ])

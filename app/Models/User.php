@@ -66,7 +66,7 @@ class User extends Authenticatable
      */
     public function organizations()
     {
-        return $this->belongsToMany('App\Models\Organization', 'members', 'organization_id', 'user_id');
+        return $this->belongsToMany('App\Models\Organization', 'members', 'user_id', 'organization_id');
     }
 
     public function documents()

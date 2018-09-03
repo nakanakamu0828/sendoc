@@ -49,5 +49,9 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Interfaces\EstimateRepositoryInterface::class,
             \App\Repositories\EstimateRepository::class
         );
+        $this->app->bind(
+            \App\Repositories\Interfaces\Member\Invitation\LinkRepositoryInterface::class,
+            \App\Repositories\Member\Invitation\LinkRepository::class
+        );
     }
 }

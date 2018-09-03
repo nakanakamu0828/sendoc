@@ -10,55 +10,30 @@ use App\Models\Member;
 use App\Http\Requests\Invitation\Member\RegisterForm;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\UseCases\InvitedUser;
+use App\Repositories\Interfaces\Member\Invitation\LinkRepositoryInterface;
 
 class MemberController extends Controller
 {
+
+    private $linkRepository;
+
+    public function __construct(LinkRepositoryInterface $linkRepository)
+    {
+        $this->linkRepository = $linkRepository;
+    }
+
+
     public function create($token)
     {
-        $link = Link::where('token', $token)
-            ->where(function($query){
-                $query->where('expired_at', '>=', Carbon::now())->orWhereNull('expired_at');
-            })
-            ->first();
-        if (empty($link)) {
-            abort('404');
-            return;
-        }
-
         return view('invitation.member.register', [
-            'member_invitation_link' => $link
+            'member_invitation_link' => $this->linkRepository->findByToken($token)
         ]);
     }
 
-    public function store(RegisterForm $request, $token)
+    public function store(InvitedUser $usecase, RegisterForm $request, $token)
     {
-        $link = Link::where('token', $token)
-            ->where(function($query){
-                $query->where('expired_at', '>=', Carbon::now())->orWhereNull('expired_at');
-            })
-            ->first();
-        if (empty($link)) {
-            abort('404');
-            return;
-        }
-
-        $data = $request->only('name', 'email', 'password');
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'verified' => $link->email && $data['email']
-        ]);
-
-        Member::create([
-            'organization_id' => $link->organization->id,
-            'user_id' => $user->id,
-            'role' => 'user',
-            'selected' => true
-        ]);
-
-        if ($link->email) $link->delete();
-
+        $user = $usecase($token, $request->all());
         \Auth::login($user);
 
         return redirect()->route('dashboard');

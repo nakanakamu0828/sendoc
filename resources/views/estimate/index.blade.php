@@ -113,7 +113,7 @@
                                 </p>
                             </td>
                             <td data-label="{{ __('db.attributes.estimate.total') }}" class="has-text-right">
-                                {{ $estimate->total }}
+                                {{ number_format($estimate->total) }}
                             </td>
                             <td data-label="{{ __('db.attributes.estimate.date') }}" class="has-text-centered">
                                 {{ $estimate->date->format('Y/m/d') }}

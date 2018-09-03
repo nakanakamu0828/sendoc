@@ -107,7 +107,7 @@ class EstimateController extends Controller
             ->sources()
             ->pluck('name', 'id');
 
-        $estimate = $organization->estimates()->find($id);
+        $estimate = $this->estimateRepository->find($id);
         return view('estimate.edit', [
             'estimate' => $estimate,
             'clientOptions' => $clientOptions,
@@ -156,7 +156,7 @@ class EstimateController extends Controller
             ->sources()
             ->pluck('name', 'id');
 
-        $estimate = $organization->estimates()->find($id);
+        $estimate = $this->estimateRepository->find($id);
         $estimate->generateEstimateNo($organization->id);
 
         return view('estimate.create', [
