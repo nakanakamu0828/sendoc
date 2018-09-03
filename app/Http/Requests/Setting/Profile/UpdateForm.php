@@ -28,6 +28,7 @@ class UpdateForm extends FormRequest
             'birthday'  => 'nullable|date',
             'tel'       => 'nullable|string|max:20',
             'url'       => 'nullable|url',
+            'file'      => 'nullable|image|mimes:jpeg,jpg,png|max:5000',
         ];
     }
 

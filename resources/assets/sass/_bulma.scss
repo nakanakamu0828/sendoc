@@ -172,6 +172,12 @@ table.table {
   &.is-circle > img {
       border-radius: 50%;
   }
+
+  & > img {
+    &.is-border {
+      border: solid 0.05rem $grey;
+    }
+  }
 }
 
 .label {

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User\Profile;
 use Auth;
 use Lang;
+use Storage;
 
 class ProfileController extends Controller
 {
@@ -22,7 +23,19 @@ class ProfileController extends Controller
     public function update(UpdateForm $request)
     {
         $data = $request->all();
-        Auth::user()->profile->fill($data)->save();
+        $profile = Auth::user()->profile;
+
+        $file = $request->file('file');
+        if ($file) {
+            if ($profile->image) Storage::delete($profile->image);
+            $profile->image = $file->store('public/user/profile/image');
+        } else {
+            if($request->input('delete_image')) {
+                if ($profile->image) Storage::delete($profile->image);
+                $profile->image = null;
+            }
+        }
+        $profile->fill($data)->save();
 
         return redirect()->back()->with('success', Lang::get('common.update_has_been_completed'));
     }

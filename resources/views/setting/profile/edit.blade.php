@@ -12,15 +12,33 @@
                             <span class="logo">{{ __('common.setting.profile') }}</span>
                         </a>
                     </h1>
-                    <form method="POST" action="{{ route('setting.profile.update') }}" class="m-t-50">
+                    <form method="POST" action="{{ route('setting.profile.update') }}" class="m-t-50" enctype="multipart/form-data">
                         @csrf
                         {{ method_field('PUT') }}
                         @include('layouts.messages')
 
                         <div class="m-b-20" style="padding-left: 35%">
                             <figure class="image is-128x128">
-                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                                @if ($profile->image)
+                                    <input
+                                        type="checkbox"
+                                        name="delete_image"
+                                        class="tooltip"
+                                        style="position: absolute;"
+                                        data-tooltip="{{ __('common.delete') }}"
+                                    >
+                                @endif
+                                <img id="profile-image"
+                                    class="is-rounded is-border"
+                                    src="{{ $profile->image ? asset('storage/' . $profile->image) : asset('img/nouser.png') }}"
+                                >
                             </figure>
+                        </div>
+                        <div class="field has-text-centered">
+                            <input type="file" name="file" class="" data-targetid="profile-image">
+                            @if ($errors->has('file'))
+                                <p class="help is-danger">{{ $errors->first('file') }}</p>
+                            @endif
                         </div>
 
                         <div class="field">

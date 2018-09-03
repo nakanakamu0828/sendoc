@@ -177,6 +177,28 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
+    const $inputFiles = getAll('input[type="file"]');
+    if ($inputFiles.length > 0) {
+        $inputFiles.forEach($el => {
+            $el.onchange = () => {
+                const target = document.getElementById($el.dataset.targetid);
+                if (target) {
+                    const file = $el.files[0];
+                    const reader = new FileReader();
+                    reader.onload = (function(file){
+                        return function(e){
+                            target.setAttribute('src', e.target.result);
+                            target.setAttribute('title', file.name);
+                        };
+                    })(file);
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+    }
+
+    
+
 
     const $addfields = getAll("[data-addfiled='true']");
     if ($addfields.length > 0) {
