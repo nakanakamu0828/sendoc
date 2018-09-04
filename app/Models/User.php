@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Traits\Models\AuthorObservable;
 use Illuminate\Encryption\Encrypter;
+use App\Notifications\PasswordResetNotification;
 
 class User extends Authenticatable
 {
@@ -94,5 +95,14 @@ class User extends Authenticatable
         }
 
         return $token;
+    }
+
+    /**
+     * パスワードリセットメール送信
+     * @param string $token
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordResetNotification($token));
     }
 }
